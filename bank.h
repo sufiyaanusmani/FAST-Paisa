@@ -7,7 +7,7 @@ class User{
         int accountNumber;
         char name[40];
         char gender;
-        unsigned long long int cnic;
+        char cnic[14];
         char contactNumber[12];
         char email[30];
         char password[20];
