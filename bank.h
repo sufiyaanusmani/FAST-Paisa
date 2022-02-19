@@ -15,6 +15,7 @@ class User{
     protected:
         int accountNumber;
         char name[40];
+        int age;
         char gender;
         char cnic[14];
         char contactNumber[12];
@@ -33,13 +34,18 @@ class User{
         void setContactNumber();
         void setEmail();
         void setPassword();
-        void storeData();
+        virtual void storeData() = 0;
         void readData();
+        void setAge();
         virtual void login() = 0;
         virtual void viewMyInfo() = 0;
+        virtual void portal() = 0;
+        virtual int portalMenu() = 0;
 };
 
 class Customer: public User{
+    private:
+        unsigned long long int amount;
     public:
         void createNewAccount();
         void depositMoney();
@@ -49,6 +55,9 @@ class Customer: public User{
         void setAccountStatus(int);
         void login();
         void viewMyInfo();
+        void portal();
+        int portalMenu();
+        void storeData();
 };
 
 void Customer::createNewAccount(){
@@ -63,8 +72,49 @@ void Customer::createNewAccount(){
     system("cls");
     setContactNumber();
     system("cls");
-    setPassword(); 
-    storeData();
+    setPassword();
+    this->amount = 0;
+    system("color 0F");
+    system("cls");
+    TextColor(15);
+    cout << "Account Number  : ";
+    TextColor(9);
+    cout << this->accountNumber << endl;
+    TextColor(15);
+    cout << "Name            : ";
+    TextColor(10);
+    cout << this->name << endl;
+    TextColor(15);
+    cout << "Age             : ";
+    TextColor(10);
+    cout << this->age << endl;
+    TextColor(15);
+    cout << "Contact Number  : ";
+    TextColor(10);
+    cout << this->contactNumber << endl;
+    TextColor(15);
+    cout << "Account Balance : ";
+    TextColor(10);
+    cout << "Rs. " << this->amount << endl << endl;
+    cout << "\nAre your sure you want to create your account: [y/n]: ";
+    char ch, choice;
+    while (1)
+    {
+        ch = getch();
+        if (ch == 'y' || ch == 'Y' || ch == 'n' || ch == 'N')
+        {
+            choice = ch;
+            cout << ch << endl;
+            break;
+        }
+    }
+    system("color 0F");
+    if (choice == 'y' || choice == 'Y')
+    {
+        storeData();
+        printf("Account created successfully\n");
+        Sleep(1000);
+    }
 }
 
 int User::generateAccountNumber(){
@@ -116,6 +166,34 @@ void User::setName(){
         }
     }
     this->name[i] = '\0';
+}
+
+void User::setAge(){
+    char ch, a[3];
+    int i, backspaceCount;
+    backspaceCount = i = 0;
+    cout << "Enter your age : ";
+    while(1){
+        ch = getch();
+        if(ch >= '0' && ch <= '9'){
+            a[i] = ch;
+            cout << ch;
+            i++;
+            backspaceCount++;
+        }else if(ch == 8 && backspaceCount > 0){
+            cout << "\b \b";
+            i--;
+            backspaceCount--;
+        }else if(ch == 13 && i == 2){
+            break;
+        }
+    }
+    a[3] = '\0';
+    this->age = (a[0] * 10) + a[1];
+    if(this->age < 18){
+        cout << "Age must be greater than or equal to 18" << endl;
+        setAge();
+    } 
 }
 
 void User::setGender(){
@@ -223,7 +301,7 @@ void User::setPassword(){
     this->password[i] = '\0';
 }
 
-void User::storeData(){
+void Customer::storeData(){
     ofstream fout;
     fout.open("./data/customer.bank", ios::app|ios::binary);
     fout.write((char*)this, sizeof(*this));
@@ -257,6 +335,7 @@ void Customer::login(){
         cout << "ERROR, file does not exist" << endl;
     }else{
         cout << "Enter account number: ";
+        fflush(stdin);
         cin >> id;
         fin.read((char*)this, sizeof(*this));
         while(fin.eof() == 0){
@@ -268,6 +347,7 @@ void Customer::login(){
                     passFound = true;
                     fin.close();
                     loadingAnimation();
+                    Customer::portal();
                     cout << "Welcome " << this->name << endl; // customer portal
                     Sleep(1000);
                 }else{
@@ -308,8 +388,149 @@ void User::inputPassword(char pass[20]){
 }
 
 void Customer::viewMyInfo(){
+    system("color 0B");
+    system("cls");
+    system("title MY INFO");
+    cout << "Name: ";
+    cout << this->name << endl;
+    cout << "Account No: " << this->accountNumber << endl;
+    cout << "Age: " << this->age << endl;
+    cout << "Gender: " << (this->gender == 'm'? "Male":"Female") << endl;
+    cout << "Contact Number: " << this->contactNumber << endl;
+    cout << "Email: " << this->email << endl;
+    cout << "CNIC: " << this->cnic << endl << endl;
+    cout << "Current Balance: " << this->amount << endl;
+
+    cout << "Press any key to go to your portal\n";
+    getch();
+    system("color 0F");
+}
+
+void Customer::portal()
+{
+    system("cls");
+    int customerPortalChoice, accNo;
+    accNo = accountNumber;
     ifstream fin;
 
+    while (1)
+    {
+        fin.open("./data/customer.bank", ios::in|ios::binary);
+        if (!fin);
+        {
+            system("cls");
+            perror("Error");
+            cout << "\nProgram will exit\n";
+            Sleep(2000);
+            exit(1);
+        }
+        fin.read((char*)this, sizeof(*this));
+        while(fin.eof() == 0){
+            if(accNo == accountNumber){
+                break;
+            }
+        }
+        fin.close();
+        customerPortalChoice = Customer::portalMenu();
+        switch (customerPortalChoice)
+        {
+        case 1:
+            Customer::viewMyInfo();
+            // customerPortal();
+            break;
+        case 2:
+            system("cls");
+            system("title DEPOSIT AMOUNT");
+            // depositMoney();
+            break;
+        case 3:
+            system("cls");
+            system("title WITHDRAW AMOUNT");
+            // withdrawAmount();
+            break;
+        case 4:
+            system("cls");
+            system("title TRANSFER AMOUNT");
+            // transferAmount();
+            break;
+        case 5:
+            system("cls");
+            system("title VIEW TRANSACTION HISTORY");
+            // viewMyTransactionHistory();
+            break;
+        case 6:
+            system("cls");
+            system("title DELETE ACCOUNT");
+            // deleteAccount();
+            break;
+        case 7:
+            break;
+        default:
+            system("cls");
+            system("title ERROR");
+            CursorPosition(0, 0);
+            system("color 4F");
+            cout << "\aWrong choice entered, try again! \a";
+            Sleep(1500);
+            system("color 0F");
+            break;
+        }
+    }
+}
+
+int Customer::portalMenu()
+{
+    int choice, i;
+    system("color 0F");
+    system("cls");
+    system("title MY PORTAL");
+    CursorPosition(0, 0);
+    TextColor(10);
+    currentDateAndTime();
+    CursorPosition(0, 2);
+    TextColor(9);
+    cout << "Welcome, " << this->name << endl;
+    cout << "Current Balance: PKR " << this->amount << endl;
+    CursorPosition(32, 5);
+    TextColor(11);
+    cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
+    for (i = 1; i <= 14; i++)
+    {
+        CursorPosition(31, 5 + i);
+        cout << "|";
+    }
+    for (i = 1; i <= 14; i++)
+    {
+        CursorPosition(91, 5 + i);
+        cout << "|";
+    }
+    for (i = 1; i <= 60; i++)
+    {
+        CursorPosition(31 + i, 20);
+        cout << "-";
+    }
+    TextColor(15);
+    CursorPosition(33, 7);
+    cout << "1. View my information";
+    CursorPosition(33, 9);
+    cout << "2. Deposit Money";
+    CursorPosition(33, 11);
+    cout << "3. Withdraw Money";
+    CursorPosition(33, 13);
+    cout << "4. Transfer Money";
+    CursorPosition(33, 15);
+    cout << "5. View My Transaction History";
+    CursorPosition(33, 17);
+    cout << "6. Delete Account";
+    CursorPosition(33, 19);
+    cout << "7. Logout";
+    CursorPosition(32, 22);
+    TextColor(5);
+    cout << "Enter your choice: ";
+    fflush(stdin);
+    cin >> choice;
+    system("color 0F");
+    return choice;
 }
 
 #endif // !BANK_H

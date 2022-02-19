@@ -25,7 +25,7 @@ int main(){
         case 3:
             system("cls");
             system("title Create New Account");
-            // createNewAccount();
+            c.createNewAccount();
             break;
         case 4:
             system("cls");

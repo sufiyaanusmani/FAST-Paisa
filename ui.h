@@ -60,8 +60,6 @@ void TextColor(int ForgC)
     }
 }
 
-
-
 void currentDateAndTime()
 {
     time_t t; // not a primitive datatype
@@ -69,5 +67,7 @@ void currentDateAndTime()
 
     cout << ctime(&t);
 }
+
+
 
 #endif
