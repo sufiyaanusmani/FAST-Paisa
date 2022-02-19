@@ -443,7 +443,7 @@ void Customer::portal()
         case 2:
             system("cls");
             system("title DEPOSIT AMOUNT");
-            // depositMoney();
+            depositMoney();
             break;
         case 3:
             system("cls");
@@ -536,6 +536,37 @@ int Customer::portalMenu()
     cin >> choice;
     system("color 0F");
     return choice;
+}
+
+void Customer::depositMoney(){
+    int amountToDeposit = 0;
+    int accNo = this->accountNumber;
+    cout << "Enter amount to deposit  (-1 to go back): ";
+    cin >> amountToDeposit;
+    if(amountToDeposit == -1){
+        goto amountToDepositEnd;
+    }else if(amountToDeposit < 0){
+        cout << "Amount can not be zero" << endl;
+    }else{
+        fstream file;
+        file.open("./data/customer.bank", ios::in|ios::out|ios::ate|ios::binary);
+        file.seekg(0);
+        file.read((char*)this, sizeof(*this));
+        while(file.eof() == 0){
+            if(this->accountNumber == accNo){
+                this->amount = this->amount + amountToDeposit;
+                file.seekp(file.tellp() - sizeof(*this));
+                file.write((char*)this, sizeof(*this));
+            }
+            file.read((char*)this, sizeof(*this));
+        }
+        file.close();
+        // SetColor();
+        cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
+        Sleep(2000);
+    }
+    amountToDepositEnd:
+        system("cls");
 }
 
 #endif // !BANK_H
