@@ -34,14 +34,13 @@ class User{
 };
 
 class Customer: public User{
-    private:
-        bool accountStatus;
     public:
         void createNewAccount();
         void depositMoney();
         void withdrawMoney();
         void transferMoney();
         void viewTransactionHistory();
+        void setAccountStatus(int);
 };
 
 void Customer::createNewAccount(){
