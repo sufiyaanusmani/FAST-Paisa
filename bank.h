@@ -192,7 +192,7 @@ void User::setAge(){
         }
     }
     a[3] = '\0';
-    this->age = (a[0] * 10) + a[1];
+    this->age = ((a[0]-48) * 10) + (a[1] - 48);
     if(this->age < 18){
         cout << "Age must be greater than or equal to 18" << endl;
         setAge();
