@@ -1,10 +1,7 @@
 #include <ctype.h>
 #include "bank.h"
 
-void TextColor(int);
-void CursorPosition(int x, int y);
 int mainMenu();
-void currentDateAndTime();
 void loginAsCustomer();
 
 int main(){
@@ -61,40 +58,6 @@ int main(){
         }
     }
     return 0;
-}
-
-void TextColor(int ForgC)
-{
-    WORD wColor;
-
-    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    CONSOLE_SCREEN_BUFFER_INFO csbi;
-
-    // We use csbi for the wAttributes word.
-    if (GetConsoleScreenBufferInfo(hStdOut, &csbi))
-    {
-        // Mask out all but the background attribute, and add in the forgournd     color
-        wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
-        SetConsoleTextAttribute(hStdOut, wColor);
-    }
-}
-
-void CursorPosition(int x, int y)
-{
-
-    COORD c;
-    c.X = x;
-    c.Y = y;
-
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
-
-void currentDateAndTime()
-{
-    time_t t; // not a primitive datatype
-    time(&t);
-
-    printf("%s", ctime(&t));
 }
 
 int mainMenu()

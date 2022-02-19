@@ -7,6 +7,7 @@
 #include <time.h>
 #include <conio.h>
 #include <fstream>
+#include "ui.h"
 #include <windows.h>
 using namespace std;
 
@@ -266,6 +267,7 @@ void Customer::login(){
                 if(strcmp(password, pass) == 0){
                     passFound = true;
                     fin.close();
+                    loadingAnimation();
                     cout << "Welcome " << this->name << endl; // customer portal
                     Sleep(1000);
                 }else{
@@ -307,7 +309,7 @@ void User::inputPassword(char pass[20]){
 
 void Customer::viewMyInfo(){
     ifstream fin;
-    
+
 }
 
 #endif // !BANK_H
