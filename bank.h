@@ -31,6 +31,8 @@ class User{
         void setContactNumber();
         void setEmail();
         void setPassword();
+        void storeData();
+        void readData();
 };
 
 class Customer: public User{
@@ -56,6 +58,7 @@ void Customer::createNewAccount(){
     setContactNumber();
     system("cls");
     setPassword(); 
+    storeData();
 }
 
 int User::generateAccountNumber(){
@@ -106,7 +109,7 @@ void User::setName(){
             break;
         }
     }
-    this->name[i+1] = '\0';
+    this->name[i] = '\0';
 }
 
 void User::setGender(){
@@ -142,7 +145,7 @@ void User::setCNIC(){
             break;
         }
     }
-    this->cnic[14] = '\0';
+    this->cnic[13] = '\0';
 }
 
 void User::setContactNumber(){
@@ -165,7 +168,7 @@ void User::setContactNumber(){
             break;
         }
     }
-    this->contactNumber[12] = '\0';
+    this->contactNumber[11] = '\0';
 }
 
 void User::setEmail(){
@@ -188,7 +191,7 @@ void User::setEmail(){
             break;
         }
     }
-    this->email[i+1] = '\0';
+    this->email[i] = '\0';
 }
 
 void User::setPassword(){
@@ -211,7 +214,29 @@ void User::setPassword(){
             break;
         }
     }
-    this->password[i+1] = '\0';
+    this->password[i] = '\0';
+}
+
+void User::storeData(){
+    ofstream fout;
+    fout.open("./data/customer.bank", ios::app|ios::binary);
+    fout.write((char*)this, sizeof(*this));
+    fout.close();
+}
+
+void User::readData(){
+    ifstream fin;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    fin.read((char*)this, sizeof(*this));
+    while(fin.eof() == 0){
+        cout << "Acc No: " << this->accountNumber << endl;
+        cout << "Name: " << this->name << endl;
+        cout << "Email: " << this->email << endl;
+        cout << "CNIC: " << this->cnic << endl;
+        cout << endl;
+        fin.read((char*)this, sizeof(*this));
+    }
+    fin.close();
 }
 
 #endif // !BANK_H
