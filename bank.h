@@ -20,6 +20,7 @@ class User{
         char email[30];
         char password[20];
         int generateAccountNumber();
+        void inputPassword(char [20]);
     public:
         virtual void createNewAccount() = 0;
         // virtual void viewMyInfo() = 0;
@@ -33,6 +34,8 @@ class User{
         void setPassword();
         void storeData();
         void readData();
+        virtual void login() = 0;
+        virtual void viewMyInfo() = 0;
 };
 
 class Customer: public User{
@@ -43,6 +46,8 @@ class Customer: public User{
         void transferMoney();
         void viewTransactionHistory();
         void setAccountStatus(int);
+        void login();
+        void viewMyInfo();
 };
 
 void Customer::createNewAccount(){
@@ -239,5 +244,66 @@ void User::readData(){
     }
     fin.close();
 }
+
+void Customer::login(){
+    int id;
+    char pass[20];
+    bool idFound = false;
+    bool passFound = false;
+    ifstream fin;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    if(!fin){
+        cout << "ERROR, file does not exist" << endl;
+    }else{
+        cout << "Enter account number: ";
+        cin >> id;
+        fin.read((char*)this, sizeof(*this));
+        while(fin.eof() == 0){
+            if(id == this->accountNumber){
+                idFound = true;
+                cout << "Enter your password: ";
+                inputPassword(pass);
+                if(strcmp(password, pass) == 0){
+                    passFound = true;
+                    fin.close();
+                    cout << "Welcome " << this->name << endl; // customer portal
+                    Sleep(1000);
+                }else{
+                    cout << "Wrong password" << endl;
+                    Sleep(1000);
+                }
+                break;
+            }
+            fin.read((char*)this, sizeof(*this));
+        }
+        if(idFound == false){
+            cout << "This ID does not exists" << endl;
+        }
+        fin.close();
+    }
+}
+
+void User::inputPassword(char pass[20]){
+    char ch;
+    int i, backspaceCount;
+    backspaceCount = i = 0;
+    while(1){
+        ch = getch();
+        if((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch == 32) || (ch == '@') || (ch == '.') || (ch >= '0' && ch <= '9')){
+            pass[i] = ch;
+            cout << '*';
+            i++;
+            backspaceCount++;
+        }else if(ch == 8 && backspaceCount > 0){
+            cout << "\b \b";
+            i--;
+            backspaceCount--;
+        }else if(ch == 13){
+            break;
+        }
+    }
+    pass[i] = '\0';
+}
+
 
 #endif // !BANK_H
