@@ -226,6 +226,7 @@ void User::storeData(){
 
 void User::readData(){
     ifstream fin;
+    system("cls");
     fin.open("./data/customer.bank", ios::in|ios::binary);
     fin.read((char*)this, sizeof(*this));
     while(fin.eof() == 0){

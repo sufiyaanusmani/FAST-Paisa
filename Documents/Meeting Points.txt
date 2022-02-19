@@ -1,0 +1,26 @@
+Banking System
+Customer Portal and Admin Portal
+Customer: transactions(withdraw, deposit, transfer), view transaction history, delete account, edit account info
+Admin: View all accounts, manage accounts, delete accounts, data backup
+Password Masking
+Create new account with proper error checking
+data in binary form, only program can access it
+
+Covering all concepts of OOP:
+Inheritance: Abstract Classes and child classes
+Polymorphism: Abstract Class with pure virtual function and then method overriding
+Encapsulation: Grouping data and its methods together and restricting direct access to data members
+Abstraction: Hiding unnecessary data from customer and admin
+
+Collaborate using:
+Git/GitHub
+VS Code live share
+
+Extra Features:
+Data Science: Python(Pandas)
+Sending Email: socket.h socket2.h or POCO library
+User Manual
+Documentation
+Report
+
+Group Code: c
