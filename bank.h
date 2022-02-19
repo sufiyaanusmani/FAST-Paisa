@@ -67,6 +67,8 @@ void Customer::createNewAccount(){
     system("cls");
     setGender();
     system("cls");
+    setAge();
+    system("cls");
     setCNIC();
     system("cls");
     setEmail();
