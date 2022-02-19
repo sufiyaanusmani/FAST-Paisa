@@ -9,6 +9,7 @@
 #include <fstream>
 #include "ui.h"
 #include <windows.h>
+#include <ctype.h>
 using namespace std;
 
 class User{
@@ -348,8 +349,6 @@ void Customer::login(){
                     fin.close();
                     loadingAnimation();
                     Customer::portal();
-                    cout << "Welcome " << this->name << endl; // customer portal
-                    Sleep(1000);
                 }else{
                     cout << "Wrong password" << endl;
                     Sleep(1000);
@@ -416,7 +415,7 @@ void Customer::portal()
     while (1)
     {
         fin.open("./data/customer.bank", ios::in|ios::binary);
-        if (!fin);
+        if (!fin)
         {
             system("cls");
             perror("Error");
@@ -429,6 +428,7 @@ void Customer::portal()
             if(accNo == accountNumber){
                 break;
             }
+            fin.read((char*)this, sizeof(*this));
         }
         fin.close();
         customerPortalChoice = Customer::portalMenu();
@@ -464,6 +464,7 @@ void Customer::portal()
             // deleteAccount();
             break;
         case 7:
+            goto customerPortalEnd;
             break;
         default:
             system("cls");
@@ -476,6 +477,8 @@ void Customer::portal()
             break;
         }
     }
+    customerPortalEnd:
+        system("cls");
 }
 
 int Customer::portalMenu()
