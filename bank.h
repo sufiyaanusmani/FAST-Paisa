@@ -305,5 +305,9 @@ void User::inputPassword(char pass[20]){
     pass[i] = '\0';
 }
 
+void Customer::viewMyInfo(){
+    ifstream fin;
+    
+}
 
 #endif // !BANK_H
