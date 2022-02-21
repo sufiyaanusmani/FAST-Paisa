@@ -1,4 +1,3 @@
-#include <ctype.h>
 #include "bank.h"
 
 int mainMenu();

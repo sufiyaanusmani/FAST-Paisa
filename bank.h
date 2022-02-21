@@ -49,7 +49,7 @@ public:
 class Customer : public User
 {
 private:
-    int amount;
+    unsigned long long int amount;
 
 public:
     void createNewAccount();
@@ -62,7 +62,7 @@ public:
     void viewMyInfo();
     void portal();
     int portalMenu();
-    void storeData();
+    void storeCustomerData();
 };
 
 void Customer::createNewAccount()
@@ -101,13 +101,16 @@ void Customer::createNewAccount()
     TextColor(10);
     cout << this->contactNumber << endl;
     TextColor(15);
+    cout << "CNIC: ";
+    TextColor(10);
+    cout << this->cnic << endl;
+    TextColor(15);
+    cout << "Email: ";
+    TextColor(10);
+    cout << this->email << endl;
     cout << "Account Balance : ";
     TextColor(10);
-    cout << "Rs. " << this->amount << endl
-         << endl;
-    cout << "CNIC: " << this->cnic << endl;
-    cout << "Email: " << this->email << endl;
-    cout << "Password: " << this->password << endl;
+    cout << "Rs. " << this->amount << endl << endl;
     cout << "\nAre your sure you want to create your account: [y/n]: ";
     char ch, choice;
     while (1)
@@ -123,7 +126,7 @@ void Customer::createNewAccount()
     system("color 0F");
     if (choice == 'y' || choice == 'Y')
     {
-        storeData();
+        storeCustomerData();
         printf("Account created successfully\n");
         Sleep(1000);
     }
@@ -367,7 +370,7 @@ void User::setPassword()
     this->password[i] = '\0';
 }
 
-void Customer::storeData()
+void Customer::storeCustomerData()
 {
     ofstream fout;
     fout.open("./data/customer.bank", ios::app | ios::binary);
@@ -545,7 +548,7 @@ void Customer::portal()
         case 4:
             system("cls");
             system("title TRANSFER AMOUNT");
-            // transferAmount();
+            transferAmount();
             break;
         case 5:
             system("cls");
@@ -632,7 +635,7 @@ int Customer::portalMenu()
 
 void Customer::depositAmount()
 {
-    int amountToDeposit = 0;
+    unsigned long long int amountToDeposit = 0;
     int accNo = this->accountNumber;
     cout << "Enter amount to deposit  (-1 to go back): ";
     cin >> amountToDeposit;
@@ -671,7 +674,7 @@ amountToDepositEnd:
 
 void Customer::withdrawAmount()
 {
-    int amountToWithdraw;
+    unsigned long long int amountToWithdraw;
     int accNo = this->accountNumber;
     cout << "Enter amount to withdraw (-1 to go back): ";
     cin >> amountToWithdraw;
@@ -719,10 +722,11 @@ void Customer::transferAmount()
     int senderAccount = this->accountNumber;
     char receiverName[40];
     int receiverAccount;
-    int amountToTransfer, senderAmount;
+    unsigned long long int amountToTransfer, senderAmount;
     senderAmount = this->amount;
     bool receiverFound = false;
     cout << "Enter receiver's account number: ";
+    fflush(stdin);
     cin >> receiverAccount;
     ifstream fin;
     fin.open("./data/customer.bank", ios::in | ios::binary);
@@ -733,7 +737,6 @@ void Customer::transferAmount()
         {
             receiverFound = true;
             strcpy(receiverName, name);
-            fin.close();
             break;
         }
         fin.read((char *)this, sizeof(*this));
@@ -742,13 +745,14 @@ void Customer::transferAmount()
     if (receiverFound == true)
     {
         cout << "Enter amount to transfer: ";
+        fflush(stdin);
         cin >> amountToTransfer;
         if (amountToTransfer <= senderAmount)
         {
             fstream file;
             file.open("./data/customer.bank", ios::in | ios::out | ios::ate | ios::binary);
             file.seekg(0);
-            fin.read((char *)this, sizeof(*this));
+            file.read((char *)this, sizeof(*this));
             while (file.eof() == 0)
             {
                 if (this->accountNumber == senderAccount)
@@ -763,6 +767,7 @@ void Customer::transferAmount()
                     file.seekp(file.tellp() - sizeof(*this));
                     file.write((char *)this, sizeof(*this));
                 }
+                file.read((char *)this, sizeof(*this));
             }
             file.close();
             cout << "Rs. " << amountToTransfer << " transferred successfully to " << receiverName << endl;
