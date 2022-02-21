@@ -49,8 +49,8 @@ class Customer: public User{
         unsigned long long int amount;
     public:
         void createNewAccount();
-        void depositMoney();
-        void withdrawMoney();
+        void depositAmount();
+        void withdrawAmount();
         void transferMoney();
         void viewTransactionHistory();
         void setAccountStatus(int);
@@ -443,12 +443,12 @@ void Customer::portal()
         case 2:
             system("cls");
             system("title DEPOSIT AMOUNT");
-            depositMoney();
+            depositAmount();
             break;
         case 3:
             system("cls");
             system("title WITHDRAW AMOUNT");
-            // withdrawAmount();
+            withdrawAmount();
             break;
         case 4:
             system("cls");
@@ -538,15 +538,15 @@ int Customer::portalMenu()
     return choice;
 }
 
-void Customer::depositMoney(){
-    int amountToDeposit = 0;
+void Customer::depositAmount(){
+    unsigned long long int amountToDeposit = 0;
     int accNo = this->accountNumber;
     cout << "Enter amount to deposit  (-1 to go back): ";
     cin >> amountToDeposit;
     if(amountToDeposit == -1){
         goto amountToDepositEnd;
     }else if(amountToDeposit < 0){
-        cout << "Amount can not be zero" << endl;
+        cout << "Amount can not be negative" << endl;
     }else{
         fstream file;
         file.open("./data/customer.bank", ios::in|ios::out|ios::ate|ios::binary);
@@ -566,6 +566,41 @@ void Customer::depositMoney(){
         Sleep(2000);
     }
     amountToDepositEnd:
+        system("cls");
+}
+
+void Customer::withdrawAmount(){
+    unsigned long long int amountToWithdraw;
+    int accNo = this->accountNumber;
+    cout << "Enter amount to withdraw (-1 to go back): ";
+    cin >> amountToWithdraw;
+    if(amountToWithdraw == -1){
+        goto amountToWithdrawEnd;
+    }else if(amountToWithdraw < 0){
+        cout << "Amount can not be negative";
+        Sleep(1500);
+    }else if(amountToWithdraw > this->amount){
+        cout << "You don't have enough balance" << endl;
+        Sleep(1500);
+    }else{
+        fstream file;
+        file.open("./data/customer.bank", ios::ate|ios::in|ios::out|ios::binary);
+        file.seekg(0);
+        file.read((char*)this, sizeof(*this));
+        while(file.eof() == 0){
+            if(this->accountNumber == accNo){
+                this->amount = this->amount - amountToWithdraw;
+                file.seekp(file.tellp() - sizeof(*this));
+                file.write((char*)this, sizeof(*this));
+            }
+            file.read((char*)this, sizeof(*this));
+        }
+        file.close();
+        // SetColor();
+        cout << "\nRs. " << amountToWithdraw << " withdrawn successfully" << endl;
+        Sleep(2000);
+    }
+    amountToWithdrawEnd:
         system("cls");
 }
 
