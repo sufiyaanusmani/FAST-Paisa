@@ -902,3 +902,31 @@ void Customer::deleteAccount(){
         main();
     }
 }
+
+void Admin::storeData(){
+    
+}
+
+void Admin::login(){
+
+}
+
+void Admin::createNewAccount(){
+
+}
+
+void Admin::deleteAccount(){
+
+}
+
+void Admin::viewMyInfo(){
+
+}
+
+void Admin::portal(){
+
+}
+
+int Admin::portalMenu(){
+
+}
