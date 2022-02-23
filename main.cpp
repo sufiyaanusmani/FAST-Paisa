@@ -91,7 +91,7 @@ int main(){
         case 1:
             system("cls");
             system("title Admin Login");
-            // loginAsAdmin();
+            a.login();
             break;
         case 2:
             system("cls");
@@ -904,11 +904,63 @@ void Customer::deleteAccount(){
 }
 
 void Admin::storeData(){
-    
+    ofstream fout;
+    fout.open("./data/admin.bank", ios::app|ios::binary);
+    if(!fout){
+        perror("Error");
+        Sleep(2500);
+        exit(1);
+    }
+    fout.write((char*)this, sizeof(*this));
+    fout.close();
 }
 
 void Admin::login(){
-
+int id;
+    char pass[20];
+    bool idFound = false;
+    bool passFound = false;
+    ifstream fin;
+    fin.open("./data/admin.bank", ios::in | ios::binary);
+    if (!fin)
+    {
+        cout << "ERROR, file does not exist" << endl;
+    }
+    else
+    {
+        cout << "Enter account number: ";
+        fflush(stdin);
+        cin >> id;
+        fin.read((char *)this, sizeof(*this));
+        while (fin.eof() == 0)
+        {
+            if (id == this->accountNumber)
+            {
+                idFound = true;
+                cout << "Enter your password: ";
+                inputPassword(pass);
+                if (strcmp(password, pass) == 0)
+                {
+                    passFound = true;
+                    fin.close();
+                    loadingAnimation();
+                    Admin::portal();
+                }
+                else
+                {
+                    cout << "Wrong password" << endl;
+                    Sleep(1000);
+                }
+                break;
+            }
+            fin.read((char *)this, sizeof(*this));
+        }
+        if (idFound == false)
+        {
+            cout << "This ID does not exists" << endl;
+        }
+        fin.close();
+    }
 }
 
 void Admin::createNewAccount(){
@@ -924,9 +976,138 @@ void Admin::viewMyInfo(){
 }
 
 void Admin::portal(){
+    system("cls");
+    int adminPortalChoice, accNo;
+    accNo = this->accountNumber;
+    ifstream fin;
 
+    while (1)
+    {
+        fin.open("./data/admin.bank", ios::in | ios::binary);
+        if (!fin)
+        {
+            system("cls");
+            perror("Error");
+            cout << "\nProgram will exit\n";
+            Sleep(2000);
+            exit(1);
+        }
+        fin.read((char *)this, sizeof(*this));
+         while (fin.eof() == 0)
+        {
+            if (accNo == accountNumber)
+            {
+                break;
+            }
+            fin.read((char *)this, sizeof(*this));
+        }
+        fin.close();
+        adminPortalChoice = Admin::portalMenu();
+        switch (adminPortalChoice)
+        {
+        case 1:
+            system("title MY INFO");
+            system("color 0B");
+            system("cls");
+            // 
+            break;
+        case 2:
+            system("cls");
+            system("title CUSTOMER ACCOUNTS INFO");
+            // viewCurrentAccInfo();
+            break;
+        case 3:
+            system("cls");
+            system("title TRANSACTION HISTORY");
+            // viewTransactionHistory();
+            break;
+        case 4:
+            system("cls");
+            system("title DELETE ACCOUNT");
+            // adminDeleteAccount();
+            break;
+        case 5:
+            system("cls");
+            system("title UPDATE CURRENCY RATES");
+            // updateCurrencyRates();
+            break;
+        case 6:
+            system("cls");
+            system("title SEARCH");
+            // searchCustomer();
+            break;
+        case 7:
+            system("cls");
+            system("title CREATING DATABASES BACKUP");
+            // createCustomerDataBaseBackupAnimation();
+            // createCustomerDataBaseBackup();
+            break;
+        case 8:
+            main();
+            break;
+        default:
+            system("cls");
+            system("title ERROR");
+            CursorPosition(0, 0);
+            system("color 4F");
+            printf("\aWrong choice entered, try again! \a");
+            Sleep(1500);
+            system("color 0F");
+            break;
+        }
+    }
 }
 
 int Admin::portalMenu(){
-
+    int choice;
+    system("color 0F");
+    int i;
+    system("cls");
+    system("title ADMIN PORTAL");
+    CursorPosition(0, 0);
+    TextColor(10);
+    currentDateAndTime();
+    CursorPosition(0, 2);
+    TextColor(9);
+    cout << "Welcome, " << this->name << endl;
+    CursorPosition(32, 5);
+    TextColor(3);
+    printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+    for (i = 1; i <= 16; i++)
+    {
+        CursorPosition(31, 5 + i);
+        cout << "|";
+    }
+    for (i = 1; i <= 16; i++)
+    {
+        CursorPosition(91, 5 + i);
+        cout << "|";
+    }
+    for (i = 1; i <= 60; i++)
+    {
+        CursorPosition(31 + i, 22);
+        cout << "-";
+    }
+    TextColor(15);
+    CursorPosition(33, 7);
+    cout << "1. View my information";
+    CursorPosition(33, 9);
+    cout << "2. View current accounts information";
+    CursorPosition(33, 11);
+    cout << "3. View Transaction History";
+    CursorPosition(33, 13);
+    cout << "4. Delete Account";
+    CursorPosition(33, 15);
+    cout << "5. Update Currency Rates";
+    CursorPosition(33, 17);
+    cout << "6. Search and Sort Customers";
+    CursorPosition(33, 19);
+    cout << "7. Create Customer Database Backup";
+    CursorPosition(33, 21);
+    cout << "8. Logout";
+    CursorPosition(32, 24);
+    cout << "Enter your choice: ";
+    fflush(stdin);
+    cin >> choice;
+    return choice;
 }
