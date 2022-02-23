@@ -68,9 +68,21 @@ public:
     void deleteAccount();
 };
 
+class Admin : public User{
+    public:
+        void storeData();
+        void login();
+        void viewMyInfo();
+        void portal();
+        int portalMenu();
+        void deleteAccount();
+        void createNewAccount();
+};
+
 int main(){
     int mainMenuChoice;
     Customer c;
+    Admin a;
     while (1)
     {
         mainMenuChoice = mainMenu();
