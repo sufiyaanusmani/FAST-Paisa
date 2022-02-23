@@ -117,7 +117,7 @@ int main(){
             system("cls");
             CursorPosition(40, 10);
             system("title Good Bye");
-            printf("Thankyou for using our service, :)");
+            cout << "Thankyou for using our service, :)";
             Sleep(2000);
             exit(0);
             break;
@@ -126,7 +126,7 @@ int main(){
             system("title ERROR :(");
             CursorPosition(0, 0);
             system("color 4F");
-            printf("Wrong choice entered, try again!");
+            cout << "Wrong choice entered, try again!";
             Beep(1000, 300);
             Sleep(2000);
             system("color 0F");
@@ -199,7 +199,7 @@ void Customer::createNewAccount()
     if (choice == 'y' || choice == 'Y')
     {
         Customer::storeData();
-        printf("Account created successfully\n");
+        cout << "Account created successfully\n";
         Sleep(1000);
     }
 }
@@ -1050,7 +1050,7 @@ void Admin::portal(){
             system("title ERROR");
             CursorPosition(0, 0);
             system("color 4F");
-            printf("\aWrong choice entered, try again! \a");
+            cout << "\aWrong choice entered, try again! \a";
             Sleep(1500);
             system("color 0F");
             break;
@@ -1072,7 +1072,7 @@ int Admin::portalMenu(){
     cout << "Welcome, " << this->name << endl;
     CursorPosition(32, 5);
     TextColor(3);
-    printf("\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2");
+    cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
     for (i = 1; i <= 16; i++)
     {
         CursorPosition(31, 5 + i);
