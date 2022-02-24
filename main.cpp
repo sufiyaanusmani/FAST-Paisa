@@ -4,10 +4,12 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+#include <stdio.h>
 #include <fstream>
 #include "ui.h"
 #include <windows.h>
 #include <ctype.h>
+#include <iomanip>
 using namespace std;
 
 int mainMenu();
@@ -59,11 +61,11 @@ public:
     void withdrawAmount();
     void transferAmount();
     void viewTransactionHistory();
-    void setAccountStatus(int);
     void login();
     void viewMyInfo();
     void portal();
     int portalMenu();
+    void viewCustomerAccounts();
     void storeData();
     void deleteAccount();
 };
@@ -999,6 +1001,7 @@ void Admin::portal(){
         }
         fin.close();
         adminPortalChoice = Admin::portalMenu();
+        Customer c;
         switch (adminPortalChoice)
         {
         case 1:
@@ -1010,7 +1013,7 @@ void Admin::portal(){
         case 2:
             system("cls");
             system("title CUSTOMER ACCOUNTS INFO");
-            // viewCurrentAccInfo();
+            c.viewCustomerAccounts();
             break;
         case 3:
             system("cls");
@@ -1124,4 +1127,25 @@ void Admin::viewMyInfo(){
     cout << "Press any key to go to your portal\n";
     getch();
     system("color 0F");
+}
+
+void Customer::viewCustomerAccounts(){
+    ifstream fin;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    if(!fin){
+        perror("Error");
+        exit(1);
+    }
+    fin.read((char*)this, sizeof(*this));
+    TextColor(4);
+    cout << "Account No  " << setw(40) << "  Name  " << endl;
+    TextColor(0);
+    while(fin.eof() == 0){
+        cout << this->accountNumber << "      " << setw(40) <<  this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << this->email << "  " << this->amount << endl;
+        fin.read((char*)this, sizeof(*this));
+    }
+    fin.close();
+    TextColor(13);
+    cout << "Press any key to continue..." << endl;
+    getch();
 }
