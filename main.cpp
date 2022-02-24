@@ -91,6 +91,8 @@ class Transaction{
         int generateTransactionID();
     public:
         void storeTransaction(int, char [40], unsigned long long int, char [9]);
+        void viewTransactionHistoryAdmin();
+        void viewTransactionHistoryCustomer();
 };
 
 int main(){
@@ -1041,6 +1043,7 @@ void Admin::portal(){
         fin.close();
         adminPortalChoice = Admin::portalMenu();
         Customer c;
+        Transaction t;
         switch (adminPortalChoice)
         {
         case 1:
@@ -1057,7 +1060,7 @@ void Admin::portal(){
         case 3:
             system("cls");
             system("title TRANSACTION HISTORY");
-            // viewTransactionHistory();
+            t.viewTransactionHistoryAdmin();
             break;
         case 4:
             system("cls");
@@ -1239,4 +1242,24 @@ void Transaction::storeTransaction(int accountNumber, char name[40], unsigned lo
     strcpy(transactionType, type);
     fout.write((char*)this, sizeof(*this));
     fout.close();
+}
+
+void Transaction::viewTransactionHistoryAdmin(){
+    ifstream fin;
+    fin.open("./data/transaction.bank", ios::in|ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(2000);
+        exit(1);
+    }
+    cout << "Transaction ID  Name  Account No  Amount  Transaction Type" << endl;
+    fin.read((char*)this, sizeof(*this));
+    while(fin.eof() == 0){
+        cout << this->transactionID << "  " << this->customerName << "  " << this->accountNumber << "  " << this->amount << "  " << this->transactionType << endl;
+        fin.read((char*)this, sizeof(*this));
+    }
+    fin.close();
+    TextColor(5);
+    cout << "\nPress any key to continue...";
+    getch();
 }
