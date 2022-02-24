@@ -971,10 +971,6 @@ void Admin::deleteAccount(){
 
 }
 
-void Admin::viewMyInfo(){
-
-}
-
 void Admin::portal(){
     system("cls");
     int adminPortalChoice, accNo;
@@ -1009,7 +1005,7 @@ void Admin::portal(){
             system("title MY INFO");
             system("color 0B");
             system("cls");
-            // 
+            Admin::viewMyInfo();
             break;
         case 2:
             system("cls");
@@ -1110,4 +1106,22 @@ int Admin::portalMenu(){
     fflush(stdin);
     cin >> choice;
     return choice;
+}
+
+void Admin::viewMyInfo(){
+    system("color 0B");
+    system("cls");
+    system("title MY INFO");
+    cout << "Name: ";
+    cout << this->name << endl;
+    cout << "Account No: " << this->accountNumber << endl;
+    cout << "Age: " << this->age << endl;
+    cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
+    cout << "Contact Number: " << this->contactNumber << endl;
+    cout << "Email: " << this->email << endl;
+    cout << "CNIC: " << this->cnic << endl << endl;
+
+    cout << "Press any key to go to your portal\n";
+    getch();
+    system("color 0F");
 }
