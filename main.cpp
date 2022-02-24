@@ -92,7 +92,7 @@ class Transaction{
     public:
         void storeTransaction(int, char [40], unsigned long long int, char [9]);
         void viewTransactionHistoryAdmin();
-        void viewTransactionHistoryCustomer();
+        void viewTransactionHistoryCustomer(int);
 };
 
 int main(){
@@ -594,6 +594,7 @@ void Customer::portal()
     int customerPortalChoice, accNo;
     accNo = accountNumber;
     ifstream fin;
+    Transaction t;
 
     while (1)
     {
@@ -641,7 +642,7 @@ void Customer::portal()
         case 5:
             system("cls");
             system("title VIEW TRANSACTION HISTORY");
-            // viewMyTransactionHistory();
+            t.viewTransactionHistoryCustomer(accNo);
             break;
         case 6:
             system("cls");
@@ -1235,8 +1236,8 @@ void Transaction::storeTransaction(int accountNumber, char name[40], unsigned lo
         Sleep(3000);
         exit(1);
     }
-    this->accountNumber = accountNumber;
     this->transactionID = generateTransactionID();
+    this->accountNumber = accountNumber;
     strcpy(customerName, name);
     this->amount = amount;
     strcpy(transactionType, type);
@@ -1261,5 +1262,26 @@ void Transaction::viewTransactionHistoryAdmin(){
     fin.close();
     TextColor(5);
     cout << "\nPress any key to continue...";
+    getch();
+}
+
+void Transaction::viewTransactionHistoryCustomer(int accNo){
+    ifstream fin;
+    fin.open("./data/transaction.bank", ios::in|ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(2000);
+        exit(1);
+    }
+    cout << "Transaction ID  Amount  Transaction Type" << endl;
+    fin.read((char*)this, sizeof(*this));
+    while(fin.eof() == 0){
+        if(this->accountNumber == accNo){
+            cout << this->transactionID << "  " << "  " << this->amount << "  " << this->transactionType << endl;
+        }
+        fin.read((char*)this, sizeof(*this));
+    }
+    fin.close();
+    cout << "Press any key to continue..." << endl;
     getch();
 }
