@@ -1139,7 +1139,7 @@ void Customer::viewCustomerAccounts(){
     fin.read((char*)this, sizeof(*this));
     TextColor(4);
     cout << "Account No  " << setw(40) << "  Name  " << endl;
-    TextColor(0);
+    TextColor(15);
     while(fin.eof() == 0){
         cout << this->accountNumber << "      " << setw(40) <<  this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << this->email << "  " << this->amount << endl;
         fin.read((char*)this, sizeof(*this));
