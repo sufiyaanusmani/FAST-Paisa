@@ -81,6 +81,18 @@ class Admin : public User{
         void createNewAccount();
 };
 
+class Transaction{
+    private:
+        int transactionID;
+        int accountNumber;
+        char customerName[40];
+        unsigned long long int amount;
+        char transactionType[9];
+        int generateTransactionID();
+    public:
+        void storeTransaction(int, char [40], unsigned long long int, char [9]);
+};
+
 int main(){
     int mainMenuChoice;
     Customer c;
@@ -709,8 +721,13 @@ int Customer::portalMenu()
 
 void Customer::depositAmount()
 {
+    Transaction t;
     unsigned long long int amountToDeposit = 0;
     int accNo = this->accountNumber;
+    char n[40];
+    strcpy(n, name);
+    char type[9];
+    strcpy(type, "Deposit");
     cout << "Enter amount to deposit  (-1 to go back): ";
     cin >> amountToDeposit;
     if (amountToDeposit == -1)
@@ -740,6 +757,7 @@ void Customer::depositAmount()
         file.close();
         // SetColor();
         cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
+        t.storeTransaction(accNo, n, amountToDeposit, type);
         Sleep(2000);
     }
 amountToDepositEnd:
@@ -1148,4 +1166,56 @@ void Customer::viewCustomerAccounts(){
     TextColor(13);
     cout << "Press any key to continue..." << endl;
     getch();
+}
+
+int Transaction::generateTransactionID(){
+    ifstream fin;
+    int num;
+    bool isFound = false;
+    srand(time(0));
+    fin.open("./data/transaction.bank", ios::in | ios::binary);
+    if (!fin)
+    {
+        cout << "File does not exists" << endl;
+    }
+    else
+    {
+        while (1)
+        {
+            num = (rand() % 10000) + 100000;
+            fin.read((char *)this, sizeof(*this));
+            while (fin.eof() == 0)
+            {
+                if (this->transactionID == num)
+                {
+                    isFound = true;
+                    break;
+                }
+                fin.read((char *)this, sizeof(*this));
+            }
+            if (isFound == false)
+            {
+                break;
+            }
+        }
+    }
+    fin.close();
+    return num;
+}
+
+void Transaction::storeTransaction(int accountNumber, char name[40], unsigned long long int amount, char type[9]){
+    ofstream fout;
+    fout.open("./data/transaction.bank", ios::app|ios::binary);
+    if(!fout){
+        perror("Error");
+        Sleep(3000);
+        exit(1);
+    }
+    this->accountNumber = accountNumber;
+    this->transactionID = generateTransactionID();
+    strcpy(customerName, name);
+    this->amount = amount;
+    strcpy(transactionType, type);
+    fout.write((char*)this, sizeof(*this));
+    fout.close();
 }
