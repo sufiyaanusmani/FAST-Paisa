@@ -757,7 +757,7 @@ void Customer::depositAmount()
         file.close();
         // SetColor();
         cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
-        t.storeTransaction(accNo, n, amountToDeposit, type);
+        t.storeTransaction(accNo, n, amountToDeposit, "Deposit");
         Sleep(2000);
     }
 amountToDepositEnd:
@@ -768,6 +768,9 @@ void Customer::withdrawAmount()
 {
     unsigned long long int amountToWithdraw;
     int accNo = this->accountNumber;
+    Transaction t;
+    char n[40];
+    strcpy(n, name);
     cout << "Enter amount to withdraw (-1 to go back): ";
     cin >> amountToWithdraw;
     if (amountToWithdraw == -1)
@@ -803,6 +806,7 @@ void Customer::withdrawAmount()
         file.close();
         // SetColor();
         cout << "\nRs. " << amountToWithdraw << " withdrawn successfully" << endl;
+        t.storeTransaction(accNo, n, amountToWithdraw, "Withdraw");
         Sleep(2000);
     }
 amountToWithdrawEnd:
@@ -813,14 +817,28 @@ void Customer::transferAmount()
 {
     int senderAccount = this->accountNumber;
     char receiverName[40];
+    ifstream fin;
+    Transaction t;
+    char n[40];
+    strcpy(n, name);
     int receiverAccount;
     unsigned long long int amountToTransfer, senderAmount;
     senderAmount = this->amount;
     bool receiverFound = false;
-    cout << "Enter receiver's account number: ";
-    fflush(stdin);
-    cin >> receiverAccount;
-    ifstream fin;
+    while(1){
+        cout << "Enter receiver's account number (-1 to go back): ";
+        fflush(stdin);
+        cin >> receiverAccount;
+        system("cls");
+        if(receiverAccount == senderAccount){
+            cout << "You can not transfer to yourself" << endl;
+        }
+        if(receiverAccount == -1){
+            goto transferAmountEnd;
+        }else{
+            break;
+        }
+    }
     fin.open("./data/customer.bank", ios::in | ios::binary);
     fin.read((char *)this, sizeof(*this));
     while (fin.eof() == 0)
@@ -863,6 +881,7 @@ void Customer::transferAmount()
             }
             file.close();
             cout << "Rs. " << amountToTransfer << " transferred successfully to " << receiverName << endl;
+            t.storeTransaction(senderAccount, n, amountToTransfer, "Transfer");
             Sleep(2000);
         }
         else
@@ -876,6 +895,8 @@ void Customer::transferAmount()
         cout << "This account does not exists" << endl;
         Sleep(1500);
     }
+    transferAmountEnd:
+        system("cls");
 }
 
 void Customer::deleteAccount(){
