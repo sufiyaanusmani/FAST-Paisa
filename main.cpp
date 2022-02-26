@@ -40,6 +40,7 @@ public:
     void setContactNumber();
     void setEmail();
     void setPassword();
+    int getAccountNumber();
     virtual void storeData() = 0;
     void readData();
     void setAge();
@@ -1011,10 +1012,6 @@ void Admin::createNewAccount(){
 
 }
 
-void Admin::deleteAccount(){
-
-}
-
 void Admin::portal(){
     system("cls");
     int adminPortalChoice, accNo;
@@ -1066,7 +1063,7 @@ void Admin::portal(){
         case 4:
             system("cls");
             system("title DELETE ACCOUNT");
-            // adminDeleteAccount();
+            Admin::deleteAccount();
             break;
         case 5:
             system("cls");
@@ -1284,4 +1281,74 @@ void Transaction::viewTransactionHistoryCustomer(int accNo){
     fin.close();
     cout << "Press any key to continue..." << endl;
     getch();
+}
+
+int User::getAccountNumber(){
+    return accountNumber;
+}
+
+void Admin::deleteAccount(){
+    int accountToDelete;
+    char ch, choice;
+    ofstream fout;
+    Customer c;
+    bool accountFound = false;
+    cout << "Enter account number to delete: ";
+    fflush(stdin);
+    cin >> accountToDelete;
+    ifstream fin;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(2000);
+        exit(1);
+    }
+    fin.read((char*)&c, sizeof(c));
+    while(fin.eof() == 0){
+        if(accountToDelete == c.getAccountNumber()){
+            c.viewMyInfo();
+            accountFound = true;
+            break;
+        }
+        fin.read((char*)&c, sizeof(c));
+    }
+    fin.close();
+
+    if(accountFound == true){
+        cout << "Are you sure you want to delete this account? [y/n]: ";
+        while(1){
+            ch = getch();
+            if(ch == 'y' || ch == 'Y' || ch == 'n' || ch == 'N'){
+                cout << ch;
+                choice = ch;
+                break;
+            }
+        }
+        if(choice == 'y' || choice == 'Y'){
+            fout.open("./data/temp.bank", ios::out|ios::binary);
+            fin.open("./data/customer.bank", ios::in|ios::binary);
+        if(!fin){
+            perror("Error");
+            Sleep(2000);
+            exit(1);
+        }else{
+            fin.read((char*)&c, sizeof(c));
+            while(fin.eof() == 0){
+                if(c.getAccountNumber() != accountToDelete){
+                    fout.write((char*)&c, sizeof(c));
+                }
+                fin.read((char*)&c, sizeof(c));
+            }
+        }
+        fin.close();
+        fout.close();
+        remove("./data/customer.bank");
+        rename("./data/temp.bank", "./data/customer.bank");
+        cout << "Account deleted successfully" << endl;
+        Sleep(2500);
+        }
+    }else{
+        cout << "This account does not exists" << endl;
+        Sleep(2000);
+    }
 }
