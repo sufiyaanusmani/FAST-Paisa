@@ -80,6 +80,7 @@ class Admin : public User{
         int portalMenu();
         void deleteAccount();
         void createNewAccount();
+        void createCustomerDatabaseBackup();
 };
 
 class Transaction{
@@ -1352,3 +1353,16 @@ void Admin::deleteAccount(){
         Sleep(2000);
     }
 }
+
+// void Customer::createNewAccount(){
+//     string fileName;
+//     fileName = "./data/backup/";
+//     char fname[16];
+//     char date[50];
+//     time_t t;
+//     time(&t);
+//     strcpy(date, ctime(&t));
+//     fileName += date[0];
+//     fileName += date[1];
+//     fileName += date[2];
+// }
