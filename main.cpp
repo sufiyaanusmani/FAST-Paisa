@@ -81,6 +81,7 @@ class Admin : public User{
         void deleteAccount();
         void createNewAccount();
         void createCustomerDatabaseBackup();
+        void createCustomerDatabaseBackupAnimation();
 };
 
 class Transaction{
@@ -1079,8 +1080,7 @@ void Admin::portal(){
         case 7:
             system("cls");
             system("title CREATING DATABASES BACKUP");
-            // createCustomerDataBaseBackupAnimation();
-            // createCustomerDataBaseBackup();
+            createCustomerDatabaseBackup();
             break;
         case 8:
             main();
@@ -1354,15 +1354,70 @@ void Admin::deleteAccount(){
     }
 }
 
-// void Customer::createNewAccount(){
-//     string fileName;
-//     fileName = "./data/backup/";
-//     char fname[16];
-//     char date[50];
-//     time_t t;
-//     time(&t);
-//     strcpy(date, ctime(&t));
-//     fileName += date[0];
-//     fileName += date[1];
-//     fileName += date[2];
-// }
+void Admin::createCustomerDatabaseBackup(){
+    string fileName;
+    Customer c;
+    ifstream fin;
+    ofstream fout;
+    fileName = "./data/backup/";
+    char fname[16];
+    char date[50];
+    time_t t;
+    time(&t);
+    strcpy(date, ctime(&t));
+    fileName += date[0];
+    fileName += date[1];
+    fileName += date[2];
+    fileName += " ";
+    fileName += date[4];
+    fileName += date[5];
+    fileName += date[6];
+    fileName += " ";
+    fileName += date[8];
+    fileName += date[9];
+    fileName += " ";
+    fileName += date[20];
+    fileName += date[21];
+    fileName += date[22];
+    fileName += date[23];
+    fileName += ".bank";
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    fout.open(fileName, ios::out|ios::binary);
+    fin.read((char*)&c, sizeof(c));
+    while(fin.eof() == 0){
+        fout.write((char*)this, sizeof(*this));
+        fin.read((char*)&c, sizeof(c));
+    }
+    fin.close();
+    fout.close();
+    createCustomerDatabaseBackupAnimation();
+}
+
+void Admin::createCustomerDatabaseBackupAnimation(){
+    int i;
+    system("cls");
+    system("color 09");
+    CursorPosition(50, 10);
+    printf("Creating Backup");
+    CursorPosition(40, 12);
+    printf("[");
+    CursorPosition(78, 12);
+    printf("]");
+    CursorPosition(41, 12);
+    for (i = 1; i <= 37; i++)
+    {
+        printf("%c", 177);
+    }
+    CursorPosition(41, 12);
+    for (i = 1; i <= 37; i++)
+    {
+        Sleep(35);
+        printf("%c", 219);
+    }
+    CursorPosition(0, 0);
+    system("cls");
+    system("color 0A");
+    printf("Backup Created Successfully");
+    Sleep(2000);
+    system("cls");
+}
