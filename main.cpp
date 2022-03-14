@@ -100,9 +100,11 @@ class Transaction{
 
 class Currency{
     private:
+        int code;
         char name[25];
-        char code[4];
+        char symbol[4];
         float rate;
+        int generateCurrencyCode();
     public:
         void addCurrency();
         void updateCurrencyRate();
