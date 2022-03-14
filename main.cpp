@@ -98,6 +98,17 @@ class Transaction{
         void viewTransactionHistoryCustomer(int);
 };
 
+class Currency{
+    private:
+        char name[25];
+        char code[4];
+        float rate;
+    public:
+        void addCurrency();
+        void updateCurrencyRate();
+        void viewCurrencyRates();
+};
+
 int main(){
     int mainMenuChoice;
     Customer c;
