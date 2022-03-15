@@ -1057,6 +1057,7 @@ void Admin::portal(){
         adminPortalChoice = Admin::portalMenu();
         Customer c;
         Transaction t;
+        Currency cur;
         switch (adminPortalChoice)
         {
         case 1:
@@ -1083,7 +1084,7 @@ void Admin::portal(){
         case 5:
             system("cls");
             system("title UPDATE CURRENCY RATES");
-            // updateCurrencyRates();
+            cur.addCurrency();
             break;
         case 6:
             system("cls");
@@ -1433,4 +1434,62 @@ void Admin::createCustomerDatabaseBackupAnimation(){
     printf("Backup Created Successfully");
     Sleep(2000);
     system("cls");
+}
+
+int Currency::generateCurrencyCode(){
+    ifstream fin;
+    int num;
+    bool isFound = false;
+    srand(time(0));
+    fin.open("./data/currency.bank", ios::in | ios::binary);
+    if (!fin)
+    {
+        cout << "File does not exists" << endl;
+    }
+    else
+    {
+        while (1)
+        {
+            num = (rand() % 90) + 10;
+            fin.read((char *)this, sizeof(*this));
+            while (fin.eof() == 0)
+            {
+                if (this->code == num)
+                {
+                    isFound = true;
+                    break;
+                }
+                fin.read((char *)this, sizeof(*this));
+            }
+            if (isFound == false)
+            {
+                break;
+            }
+        }
+    }
+    fin.close();
+    return num;
+}
+
+void Currency::addCurrency(){
+    ofstream fout;
+    this->code = generateCurrencyCode();
+    cout << "Enter currency name: ";
+    fflush(stdin);
+    gets(name);
+    symbol[0] = toupper(name[0]);
+    symbol[1] = toupper(name[1]);
+    symbol[2] = toupper(name[2]);
+    system("cls");
+    cout << "Enter rate of " << name << ": ";
+    fflush(stdin);
+    cin >> this->rate;
+    if(this->rate < 0){
+        this->rate = 0.0;
+    }
+    fout.open("./data/currency.bank", ios::app|ios::binary);
+    fout.write((char*)this, sizeof(*this));
+    fout.close();
+    cout << "Currency added successfully" << endl;
+    Sleep(1500);
 }
