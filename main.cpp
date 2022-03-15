@@ -71,47 +71,54 @@ public:
     void deleteAccount();
 };
 
-class Admin : public User{
-    public:
-        void storeData();
-        void login();
-        void viewMyInfo();
-        void portal();
-        int portalMenu();
-        void deleteAccount();
-        void createNewAccount();
-        void createCustomerDatabaseBackup();
-        void createCustomerDatabaseBackupAnimation();
+class Admin : public User
+{
+public:
+    void storeData();
+    void login();
+    void viewMyInfo();
+    void portal();
+    int portalMenu();
+    void deleteAccount();
+    void createNewAccount();
+    void createCustomerDatabaseBackup();
+    void createCustomerDatabaseBackupAnimation();
 };
 
-class Transaction{
-    private:
-        int transactionID;
-        int accountNumber;
-        char customerName[40];
-        unsigned long long int amount;
-        char transactionType[9];
-        int generateTransactionID();
-    public:
-        void storeTransaction(int, char [40], unsigned long long int, char [9]);
-        void viewTransactionHistoryAdmin();
-        void viewTransactionHistoryCustomer(int);
+class Transaction
+{
+private:
+    int transactionID;
+    int accountNumber;
+    char customerName[40];
+    unsigned long long int amount;
+    char transactionType[9];
+    int generateTransactionID();
+
+public:
+    void storeTransaction(int, char[40], unsigned long long int, char[9]);
+    void viewTransactionHistoryAdmin();
+    void viewTransactionHistoryCustomer(int);
 };
 
-class Currency{
-    private:
-        int code;
-        char name[25];
-        char symbol[4];
-        float rate;
-        int generateCurrencyCode();
-    public:
-        void addCurrency();
-        void updateCurrencyRate();
-        void viewCurrencyRates();
+class Currency
+{
+private:
+    int code;
+    char name[25];
+    char symbol[4];
+    float rate;
+    int generateCurrencyCode();
+
+public:
+    void addCurrency();
+    void updateCurrencyRate();
+    void viewCurrencyRates();
+    void setRate(float);
 };
 
-int main(){
+int main()
+{
     int mainMenuChoice;
     Customer c;
     Admin a;
@@ -169,7 +176,6 @@ int main(){
     return 0;
 }
 
-
 void Customer::createNewAccount()
 {
     this->accountNumber = generateAccountNumber();
@@ -215,7 +221,8 @@ void Customer::createNewAccount()
     cout << this->email << endl;
     cout << "Account Balance : ";
     TextColor(10);
-    cout << "Rs. " << this->amount << endl << endl;
+    cout << "Rs. " << this->amount << endl
+         << endl;
     cout << "\nAre your sure you want to create your account: [y/n]: ";
     char ch, choice;
     while (1)
@@ -479,7 +486,8 @@ void Customer::storeData()
 {
     ofstream fout;
     fout.open("./data/customer.bank", ios::app | ios::binary);
-    if(!fout){
+    if (!fout)
+    {
         perror("Error");
         Sleep(2000);
         exit(1);
@@ -845,17 +853,22 @@ void Customer::transferAmount()
     unsigned long long int amountToTransfer, senderAmount;
     senderAmount = this->amount;
     bool receiverFound = false;
-    while(1){
+    while (1)
+    {
         cout << "Enter receiver's account number (-1 to go back): ";
         fflush(stdin);
         cin >> receiverAccount;
         system("cls");
-        if(receiverAccount == senderAccount){
+        if (receiverAccount == senderAccount)
+        {
             cout << "You can not transfer to yourself" << endl;
         }
-        if(receiverAccount == -1){
+        if (receiverAccount == -1)
+        {
             goto transferAmountEnd;
-        }else{
+        }
+        else
+        {
             break;
         }
     }
@@ -915,11 +928,12 @@ void Customer::transferAmount()
         cout << "This account does not exists" << endl;
         Sleep(1500);
     }
-    transferAmountEnd:
-        system("cls");
+transferAmountEnd:
+    system("cls");
 }
 
-void Customer::deleteAccount(){
+void Customer::deleteAccount()
+{
     int accNo = this->accountNumber;
     char ch, choice;
     system("cls");
@@ -939,19 +953,24 @@ void Customer::deleteAccount(){
     {
         ifstream fin;
         ofstream fout;
-        fout.open("./data/temp.bank", ios::out|ios::binary);
-        fin.open("./data/customer.bank", ios::in|ios::binary);
-        if(!fin){
+        fout.open("./data/temp.bank", ios::out | ios::binary);
+        fin.open("./data/customer.bank", ios::in | ios::binary);
+        if (!fin)
+        {
             perror("Error");
             Sleep(2000);
             exit(1);
-        }else{
-            fin.read((char*)this, sizeof(*this));
-            while(fin.eof() == 0){
-                if(this->accountNumber != accNo){
-                    fout.write((char*)this, sizeof(*this));
+        }
+        else
+        {
+            fin.read((char *)this, sizeof(*this));
+            while (fin.eof() == 0)
+            {
+                if (this->accountNumber != accNo)
+                {
+                    fout.write((char *)this, sizeof(*this));
                 }
-                fin.read((char*)this, sizeof(*this));
+                fin.read((char *)this, sizeof(*this));
             }
         }
         fin.close();
@@ -964,20 +983,23 @@ void Customer::deleteAccount(){
     }
 }
 
-void Admin::storeData(){
+void Admin::storeData()
+{
     ofstream fout;
-    fout.open("./data/admin.bank", ios::app|ios::binary);
-    if(!fout){
+    fout.open("./data/admin.bank", ios::app | ios::binary);
+    if (!fout)
+    {
         perror("Error");
         Sleep(2500);
         exit(1);
     }
-    fout.write((char*)this, sizeof(*this));
+    fout.write((char *)this, sizeof(*this));
     fout.close();
 }
 
-void Admin::login(){
-int id;
+void Admin::login()
+{
+    int id;
     char pass[20];
     bool idFound = false;
     bool passFound = false;
@@ -1024,11 +1046,12 @@ int id;
     }
 }
 
-void Admin::createNewAccount(){
-
+void Admin::createNewAccount()
+{
 }
 
-void Admin::portal(){
+void Admin::portal()
+{
     system("cls");
     int adminPortalChoice, accNo;
     accNo = this->accountNumber;
@@ -1046,7 +1069,7 @@ void Admin::portal(){
             exit(1);
         }
         fin.read((char *)this, sizeof(*this));
-         while (fin.eof() == 0)
+        while (fin.eof() == 0)
         {
             if (accNo == accountNumber)
             {
@@ -1085,7 +1108,7 @@ void Admin::portal(){
         case 5:
             system("cls");
             system("title UPDATE CURRENCY RATES");
-            cur.addCurrency();
+            cur.updateCurrencyRate();
             break;
         case 6:
             system("cls");
@@ -1113,7 +1136,8 @@ void Admin::portal(){
     }
 }
 
-int Admin::portalMenu(){
+int Admin::portalMenu()
+{
     int choice;
     system("color 0F");
     int i;
@@ -1167,7 +1191,8 @@ int Admin::portalMenu(){
     return choice;
 }
 
-void Admin::viewMyInfo(){
+void Admin::viewMyInfo()
+{
     system("color 0B");
     system("cls");
     system("title MY INFO");
@@ -1178,27 +1203,31 @@ void Admin::viewMyInfo(){
     cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
     cout << "Contact Number: " << this->contactNumber << endl;
     cout << "Email: " << this->email << endl;
-    cout << "CNIC: " << this->cnic << endl << endl;
+    cout << "CNIC: " << this->cnic << endl
+         << endl;
 
     cout << "Press any key to go to your portal\n";
     getch();
     system("color 0F");
 }
 
-void Customer::viewCustomerAccounts(){
+void Customer::viewCustomerAccounts()
+{
     ifstream fin;
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    if(!fin){
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    if (!fin)
+    {
         perror("Error");
         exit(1);
     }
-    fin.read((char*)this, sizeof(*this));
+    fin.read((char *)this, sizeof(*this));
     TextColor(4);
     cout << "Account No  " << setw(40) << "  Name  " << endl;
     TextColor(15);
-    while(fin.eof() == 0){
-        cout << this->accountNumber << "      " << setw(40) <<  this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << this->email << "  " << this->amount << endl;
-        fin.read((char*)this, sizeof(*this));
+    while (fin.eof() == 0)
+    {
+        cout << this->accountNumber << "      " << setw(40) << this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << this->email << "  " << this->amount << endl;
+        fin.read((char *)this, sizeof(*this));
     }
     fin.close();
     TextColor(13);
@@ -1206,7 +1235,8 @@ void Customer::viewCustomerAccounts(){
     getch();
 }
 
-int Transaction::generateTransactionID(){
+int Transaction::generateTransactionID()
+{
     ifstream fin;
     int num;
     bool isFound = false;
@@ -1241,10 +1271,12 @@ int Transaction::generateTransactionID(){
     return num;
 }
 
-void Transaction::storeTransaction(int accountNumber, char name[40], unsigned long long int amount, char type[9]){
+void Transaction::storeTransaction(int accountNumber, char name[40], unsigned long long int amount, char type[9])
+{
     ofstream fout;
-    fout.open("./data/transaction.bank", ios::app|ios::binary);
-    if(!fout){
+    fout.open("./data/transaction.bank", ios::app | ios::binary);
+    if (!fout)
+    {
         perror("Error");
         Sleep(3000);
         exit(1);
@@ -1254,23 +1286,26 @@ void Transaction::storeTransaction(int accountNumber, char name[40], unsigned lo
     strcpy(customerName, name);
     this->amount = amount;
     strcpy(transactionType, type);
-    fout.write((char*)this, sizeof(*this));
+    fout.write((char *)this, sizeof(*this));
     fout.close();
 }
 
-void Transaction::viewTransactionHistoryAdmin(){
+void Transaction::viewTransactionHistoryAdmin()
+{
     ifstream fin;
-    fin.open("./data/transaction.bank", ios::in|ios::binary);
-    if(!fin){
+    fin.open("./data/transaction.bank", ios::in | ios::binary);
+    if (!fin)
+    {
         perror("Error");
         Sleep(2000);
         exit(1);
     }
     cout << "Transaction ID  Name  Account No  Amount  Transaction Type" << endl;
-    fin.read((char*)this, sizeof(*this));
-    while(fin.eof() == 0){
+    fin.read((char *)this, sizeof(*this));
+    while (fin.eof() == 0)
+    {
         cout << this->transactionID << "  " << this->customerName << "  " << this->accountNumber << "  " << this->amount << "  " << this->transactionType << endl;
-        fin.read((char*)this, sizeof(*this));
+        fin.read((char *)this, sizeof(*this));
     }
     fin.close();
     TextColor(5);
@@ -1278,32 +1313,39 @@ void Transaction::viewTransactionHistoryAdmin(){
     getch();
 }
 
-void Transaction::viewTransactionHistoryCustomer(int accNo){
+void Transaction::viewTransactionHistoryCustomer(int accNo)
+{
     ifstream fin;
-    fin.open("./data/transaction.bank", ios::in|ios::binary);
-    if(!fin){
+    fin.open("./data/transaction.bank", ios::in | ios::binary);
+    if (!fin)
+    {
         perror("Error");
         Sleep(2000);
         exit(1);
     }
     cout << "Transaction ID  Amount  Transaction Type" << endl;
-    fin.read((char*)this, sizeof(*this));
-    while(fin.eof() == 0){
-        if(this->accountNumber == accNo){
-            cout << this->transactionID << "  " << "  " << this->amount << "  " << this->transactionType << endl;
+    fin.read((char *)this, sizeof(*this));
+    while (fin.eof() == 0)
+    {
+        if (this->accountNumber == accNo)
+        {
+            cout << this->transactionID << "  "
+                 << "  " << this->amount << "  " << this->transactionType << endl;
         }
-        fin.read((char*)this, sizeof(*this));
+        fin.read((char *)this, sizeof(*this));
     }
     fin.close();
     cout << "Press any key to continue..." << endl;
     getch();
 }
 
-int User::getAccountNumber(){
+int User::getAccountNumber()
+{
     return accountNumber;
 }
 
-void Admin::deleteAccount(){
+void Admin::deleteAccount()
+{
     int accountToDelete;
     char ch, choice;
     ofstream fout;
@@ -1313,63 +1355,78 @@ void Admin::deleteAccount(){
     fflush(stdin);
     cin >> accountToDelete;
     ifstream fin;
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    if(!fin){
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    if (!fin)
+    {
         perror("Error");
         Sleep(2000);
         exit(1);
     }
-    fin.read((char*)&c, sizeof(c));
-    while(fin.eof() == 0){
-        if(accountToDelete == c.getAccountNumber()){
+    fin.read((char *)&c, sizeof(c));
+    while (fin.eof() == 0)
+    {
+        if (accountToDelete == c.getAccountNumber())
+        {
             c.viewMyInfo();
             accountFound = true;
             break;
         }
-        fin.read((char*)&c, sizeof(c));
+        fin.read((char *)&c, sizeof(c));
     }
     fin.close();
 
-    if(accountFound == true){
+    if (accountFound == true)
+    {
         cout << "Are you sure you want to delete this account? [y/n]: ";
-        while(1){
+        while (1)
+        {
             ch = getch();
-            if(ch == 'y' || ch == 'Y' || ch == 'n' || ch == 'N'){
+            if (ch == 'y' || ch == 'Y' || ch == 'n' || ch == 'N')
+            {
                 cout << ch;
                 choice = ch;
                 break;
             }
         }
-        if(choice == 'y' || choice == 'Y'){
-            fout.open("./data/temp.bank", ios::out|ios::binary);
-            fin.open("./data/customer.bank", ios::in|ios::binary);
-        if(!fin){
-            perror("Error");
-            Sleep(2000);
-            exit(1);
-        }else{
-            fin.read((char*)&c, sizeof(c));
-            while(fin.eof() == 0){
-                if(c.getAccountNumber() != accountToDelete){
-                    fout.write((char*)&c, sizeof(c));
-                }
-                fin.read((char*)&c, sizeof(c));
+        if (choice == 'y' || choice == 'Y')
+        {
+            fout.open("./data/temp.bank", ios::out | ios::binary);
+            fin.open("./data/customer.bank", ios::in | ios::binary);
+            if (!fin)
+            {
+                perror("Error");
+                Sleep(2000);
+                exit(1);
             }
+            else
+            {
+                fin.read((char *)&c, sizeof(c));
+                while (fin.eof() == 0)
+                {
+                    if (c.getAccountNumber() != accountToDelete)
+                    {
+                        fout.write((char *)&c, sizeof(c));
+                    }
+                    fin.read((char *)&c, sizeof(c));
+                }
+            }
+            fin.close();
+            fout.close();
+            remove("./data/customer.bank");
+            rename("./data/temp.bank", "./data/customer.bank");
+            cout << "Account deleted successfully" << endl;
+            Sleep(2500);
         }
-        fin.close();
-        fout.close();
-        remove("./data/customer.bank");
-        rename("./data/temp.bank", "./data/customer.bank");
-        cout << "Account deleted successfully" << endl;
-        Sleep(2500);
-        }
-    }else{
+    }
+    else
+    {
         cout << "This account does not exists" << endl;
         Sleep(2000);
     }
 }
 
-void Admin::createCustomerDatabaseBackup(){
+void Admin::createCustomerDatabaseBackup()
+{
     string fileName;
     Customer c;
     ifstream fin;
@@ -1396,19 +1453,21 @@ void Admin::createCustomerDatabaseBackup(){
     fileName += date[22];
     fileName += date[23];
     fileName += ".bank";
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    fout.open(fileName, ios::out|ios::binary);
-    fin.read((char*)&c, sizeof(c));
-    while(fin.eof() == 0){
-        fout.write((char*)this, sizeof(*this));
-        fin.read((char*)&c, sizeof(c));
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    fout.open(fileName, ios::out | ios::binary);
+    fin.read((char *)&c, sizeof(c));
+    while (fin.eof() == 0)
+    {
+        fout.write((char *)this, sizeof(*this));
+        fin.read((char *)&c, sizeof(c));
     }
     fin.close();
     fout.close();
     createCustomerDatabaseBackupAnimation();
 }
 
-void Admin::createCustomerDatabaseBackupAnimation(){
+void Admin::createCustomerDatabaseBackupAnimation()
+{
     int i;
     system("cls");
     system("color 09");
@@ -1437,7 +1496,8 @@ void Admin::createCustomerDatabaseBackupAnimation(){
     system("cls");
 }
 
-int Currency::generateCurrencyCode(){
+int Currency::generateCurrencyCode()
+{
     ifstream fin;
     int num;
     bool isFound = false;
@@ -1472,7 +1532,8 @@ int Currency::generateCurrencyCode(){
     return num;
 }
 
-void Currency::addCurrency(){
+void Currency::addCurrency()
+{
     ofstream fout;
     this->code = generateCurrencyCode();
     cout << "Enter currency name: ";
@@ -1485,26 +1546,91 @@ void Currency::addCurrency(){
     system("cls");
     cout << "Enter rate of " << name << ": ";
     fflush(stdin);
-    cin >> this->rate;
-    if(this->rate < 0){
-        this->rate = 0.0;
-    }
-    fout.open("./data/currency.bank", ios::app|ios::binary);
-    fout.write((char*)this, sizeof(*this));
+    float r;
+    cin >> r;
+    setRate(r);
+    fout.open("./data/currency.bank", ios::app | ios::binary);
+    fout.write((char *)this, sizeof(*this));
     fout.close();
     cout << "Currency added successfully" << endl;
     Sleep(1500);
 }
 
-void Currency::viewCurrencyRates(){
+void Currency::viewCurrencyRates()
+{
     ifstream fin;
-    fin.open("./data/currency.bank", ios::in|ios::binary);
-    fin.read((char*)this, sizeof(*this));
-    while(fin.eof() == 0){
+    fin.open("./data/currency.bank", ios::in | ios::binary);
+    fin.read((char *)this, sizeof(*this));
+    while (fin.eof() == 0)
+    {
         cout << this->code << " " << this->name << " " << this->symbol << " " << this->rate << endl;
-        fin.read((char*)this, sizeof(*this));
+        fin.read((char *)this, sizeof(*this));
     }
     fin.close();
-    cout << endl << "Press any key to continue...";
+    cout << endl
+         << "Press any key to continue...";
     getch();
+}
+
+void Currency::updateCurrencyRate()
+{
+    system("cls");
+    int code1;
+    viewCurrencyRates();
+    cout << "\nEnter currency code to update: ";
+    cin >> code1;
+    bool found = false;
+    fstream file;
+    ifstream fin;
+    float r1;
+    fin.open("./data/currency.bank", ios::in | ios::binary);
+    fin.read((char *)this, sizeof(*this));
+    while (fin.eof() == 0)
+    {
+        if (this->code == code1)
+        {
+            found = true;
+            break;
+        }
+        fin.read((char *)this, sizeof(*this));
+    }
+    fin.close();
+    if (found == true)
+    {
+        cout << "Enter new rate: ";
+        cin >> r1;
+        file.open("./data/currency.bank", ios::in | ios::out | ios::ate | ios::binary);
+        while (file.eof() == 0)
+        {
+            if (this->code == code1)
+            {
+                setRate(r1);
+                file.seekp(file.tellp() - sizeof(*this));
+                file.write((char *)this, sizeof(*this));
+                found = true;
+            }
+            file.read((char *)this, sizeof(*this));
+        }
+        file.close();
+        system("cls");
+        cout << "Rate update successfully" << endl;
+    }
+    else
+    {
+        system("cls");
+        cout << "This currency does not exists, enter valid code" << endl;
+    }
+    Sleep(1500);
+}
+
+void Currency::setRate(float rate)
+{
+    if (rate < 0)
+    {
+        this->rate = 0.0;
+    }
+    else
+    {
+        this->rate = rate;
+    }
 }
