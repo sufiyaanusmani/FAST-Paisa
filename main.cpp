@@ -115,6 +115,7 @@ int main(){
     int mainMenuChoice;
     Customer c;
     Admin a;
+    Currency cur;
     while (1)
     {
         mainMenuChoice = mainMenu();
@@ -138,7 +139,7 @@ int main(){
         case 4:
             system("cls");
             system("title Today's Currency Rates");
-            // viewCurrencyRates();
+            cur.viewCurrencyRates();
             break;
         case 5:
             system("cls");
@@ -1477,9 +1478,10 @@ void Currency::addCurrency(){
     cout << "Enter currency name: ";
     fflush(stdin);
     gets(name);
-    symbol[0] = toupper(name[0]);
-    symbol[1] = toupper(name[1]);
-    symbol[2] = toupper(name[2]);
+    system("cls");
+    cout << "Enter symbol (3 characters): ";
+    fflush(stdin);
+    gets(symbol);
     system("cls");
     cout << "Enter rate of " << name << ": ";
     fflush(stdin);
@@ -1492,4 +1494,17 @@ void Currency::addCurrency(){
     fout.close();
     cout << "Currency added successfully" << endl;
     Sleep(1500);
+}
+
+void Currency::viewCurrencyRates(){
+    ifstream fin;
+    fin.open("./data/currency.bank", ios::in|ios::binary);
+    fin.read((char*)this, sizeof(*this));
+    while(fin.eof() == 0){
+        cout << this->code << " " << this->name << " " << this->symbol << " " << this->rate << endl;
+        fin.read((char*)this, sizeof(*this));
+    }
+    fin.close();
+    cout << endl << "Press any key to continue...";
+    getch();
 }
