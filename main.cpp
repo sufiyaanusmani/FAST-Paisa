@@ -83,6 +83,9 @@ public:
     void createNewAccount();
     void createCustomerDatabaseBackup();
     void createCustomerDatabaseBackupAnimation();
+    void searchCustomer();
+    void searchByAccountNumber();
+    void searchByName();
 };
 
 class Transaction
@@ -1113,7 +1116,7 @@ void Admin::portal()
         case 6:
             system("cls");
             system("title SEARCH");
-            // searchCustomer();
+            searchCustomer();
             break;
         case 7:
             system("cls");
@@ -1633,4 +1636,63 @@ void Currency::setRate(float rate)
     {
         this->rate = rate;
     }
+}
+
+void Admin::searchCustomer(){
+    int choice;
+    cout << "1. Search by Account Number" << endl;
+    cout << "2. Search by Name" << endl;
+    cout << "3. Sort by amount (ASCENDING)" << endl;
+    cout << "4. Sort by amount (DESCENDING)" << endl;
+    cout << "5. Go back" << endl << endl;;
+    TextColor(10);
+    cout << "Enter your choice: ";
+    fflush(stdin);
+    TextColor(15);
+    cin >> choice;
+
+    switch(choice){
+        case 1:
+            searchByAccountNumber();
+            break;
+        case 2:
+            searchByName();
+            break;
+        
+    }
+}
+
+void Admin::searchByAccountNumber(){
+    int accountNumberToSearch;
+    ifstream fin;
+    bool accountFound = false;
+    Customer c;
+    system("cls");
+    while(1){
+        cout << "Enter account number to search: ";
+        fflush(stdin);
+        cin >> accountNumberToSearch;
+        fin.open("./data/customer.bank", ios::in|ios::binary);
+        fin.read((char*)&c, sizeof(c));
+        while(fin.eof() == 0){
+            if(accountNumberToSearch == c.getAccountNumber()){
+                accountFound = true;
+                c.viewMyInfo();
+                goto searchByAccountNumberEnd;
+            }
+            fin.read((char*)&c, sizeof(c));
+        }
+        if(accountFound == false){
+            system("cls");
+            cout << "This account does not exists" << endl;
+            Sleep(2000);
+            goto searchByAccountNumberEnd;
+        }
+    }
+    searchByAccountNumberEnd:
+        fin.close();
+}
+
+void Admin::searchByName(){
+
 }
