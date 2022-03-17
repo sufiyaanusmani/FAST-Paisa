@@ -40,6 +40,7 @@ public:
     void setContactNumber();
     void setEmail();
     void setPassword();
+    char * getName();
     int getAccountNumber();
     virtual void storeData() = 0;
     void readData();
@@ -128,6 +129,7 @@ int main()
     Currency cur;
     while (1)
     {
+        system("cls");
         mainMenuChoice = mainMenu();
         switch (mainMenuChoice)
         {
@@ -1559,6 +1561,10 @@ void Currency::addCurrency()
     Sleep(1500);
 }
 
+char * User::getName(){
+    return name;
+}
+
 void Currency::viewCurrencyRates()
 {
     ifstream fin;
@@ -1694,5 +1700,46 @@ void Admin::searchByAccountNumber(){
 }
 
 void Admin::searchByName(){
-
+    char name[40];
+    bool found = false;
+    int total = 0;
+    ifstream fin;
+    Customer c;
+    system("cls");
+    cout << "Enter full name: ";
+    fflush(stdin);
+    gets(name);
+    system("cls");
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    fin.read((char*)&c, sizeof(c));
+    while(1){
+        while(fin.eof() == 0){
+            if(strcmp(name, c.getName()) == 0){
+                found = true;
+                system("color 0B");
+                system("title MY INFO");
+                cout << "Name: ";
+                cout << this->name << endl;
+                cout << "Account No: " << this->accountNumber << endl;
+                cout << "Age: " << this->age << endl;
+                cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
+                cout << "Contact Number: " << this->contactNumber << endl;
+                cout << "Email: " << this->email << endl;
+                cout << "CNIC: " << this->cnic << endl << endl;
+                total++;
+                cout << endl;
+            }
+            fin.read((char*)&c, sizeof(c));
+        }
+        if(found == true){
+            cout << "There are currently " << total << " account(s) with this name" << endl;
+            cout << "\nPress any key to continue..." << endl;
+            getch();
+        }else{
+            cout << "There are no account with this name" << endl;
+            Sleep(2000);
+        }
+    }
+    searchByNameEnd:
+        fin.close();
 }
