@@ -42,6 +42,11 @@ public:
     void setPassword();
     char * getName();
     int getAccountNumber();
+    char getGender();
+    int getAge();
+    char * getCNIC();
+    char * getContactNumber();
+    char * getEmail();
     virtual void storeData() = 0;
     void readData();
     void setAge();
@@ -70,6 +75,7 @@ public:
     void viewCustomerAccounts();
     void storeData();
     void deleteAccount();
+    unsigned long long int getAmount();
 };
 
 class Admin : public User
@@ -87,6 +93,8 @@ public:
     void searchCustomer();
     void searchByAccountNumber();
     void searchByName();
+    void sortAscending();
+    // void sortDescending();
 };
 
 class Transaction
@@ -499,6 +507,10 @@ void Customer::storeData()
     }
     fout.write((char *)this, sizeof(*this));
     fout.close();
+}
+
+unsigned long long int Customer::getAmount(){
+    return amount;
 }
 
 void User::readData()
@@ -1657,6 +1669,7 @@ void Admin::searchCustomer(){
     TextColor(15);
     cin >> choice;
 
+    system("cls");
     switch(choice){
         case 1:
             searchByAccountNumber();
@@ -1664,7 +1677,16 @@ void Admin::searchCustomer(){
         case 2:
             searchByName();
             break;
-        
+        case 3:
+            sortAscending();
+            break;
+        case 4:
+            // sortDescending();
+            break;
+        default:
+            cout << "Wrong choice entered, please enter a correct choice" << endl;
+            Sleep(1500);
+            break;
     }
 }
 
@@ -1742,4 +1764,69 @@ void Admin::searchByName(){
     }
     searchByNameEnd:
         fin.close();
+}
+
+void Admin::sortAscending(){
+    int size, i, j;
+    size = 0;
+    Customer *cust;
+    Customer c, temp;
+    ifstream fin;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    fin.read((char*)&c, sizeof(c));
+    while(fin.eof() == 0){
+        size++;
+        fin.read((char*)&c, sizeof(c));
+    }
+    fin.close();
+    if(size != 0){
+        cust = new Customer[size];
+        i = 0;
+        fin.open("./data/customer.bank", ios::in|ios::binary);
+        fin.read((char*)&c, sizeof(c));
+        while(fin.eof() == 0){
+            *(cust + i) = c;
+            i++;
+            fin.read((char*)&c, sizeof(c));
+        }
+        fin.close();
+        for(i=1;i<size;i++){
+            for(j=0;j<size-i;j++){
+                if(cust[j].getAmount() > cust[j+1].getAmount()){
+                    temp = cust[j];
+                    cust[j] = cust[j+1];
+                    cust[j+1] = temp;
+                }
+            }
+        }
+        for(i=0;i<size;i++){
+            cout << cust[i].getAccountNumber() << "      " << setw(40) << cust[i].getName() << "  " << cust[i].getAge() << "  " << (cust[i].getGender() == 'm' ? "Male" : "Female") << "  " << cust[i].getContactNumber() << "  " << cust[i].getCNIC() << "  " << cust[i].getEmail() << "  " << cust[i].getAmount() << endl;
+        }
+        cout << "\nPress any to continue..." << endl;
+        getch();
+    }else{
+        cout << "Empty" << endl;
+    }
+    delete [] cust;
+    cust = NULL;
+}
+
+int User::getAge(){
+    return age;
+}
+
+char User::getGender(){
+    return gender;
+}
+
+char * User::getContactNumber(){
+    return contactNumber;
+}
+
+char * User::getCNIC(){
+    return cnic;
+}
+
+char * User::getEmail(){
+    return email;
 }
