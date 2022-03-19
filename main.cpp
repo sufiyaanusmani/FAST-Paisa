@@ -55,6 +55,9 @@ public:
     virtual void portal() = 0;
     virtual int portalMenu() = 0;
     virtual void deleteAccount() = 0;
+    virtual void accountSetting() = 0;
+    virtual void updateEmail(int) = 0;
+    virtual void updateInfo(int) = 0;
 };
 
 class Customer : public User
@@ -76,6 +79,9 @@ public:
     void storeData();
     void deleteAccount();
     unsigned long long int getAmount();
+    void accountSetting();
+    void updateEmail(int);
+    void updateInfo(int);
 };
 
 class Admin : public User
@@ -95,6 +101,9 @@ public:
     void searchByName();
     void sortAscending();
     void sortDescending();
+    void accountSetting();
+    void updateEmail(int);
+    void updateInfo(int);
 };
 
 class Transaction
@@ -689,7 +698,7 @@ void Customer::portal()
         case 6:
             system("cls");
             system("title DELETE ACCOUNT");
-            Customer::deleteAccount();
+            Customer::accountSetting();
             break;
         case 7:
             goto customerPortalEnd;
@@ -752,7 +761,7 @@ int Customer::portalMenu()
     CursorPosition(33, 15);
     cout << "5. View My Transaction History";
     CursorPosition(33, 17);
-    cout << "6. Delete Account";
+    cout << "6. Account Settings";
     CursorPosition(33, 19);
     cout << "7. Logout";
     CursorPosition(32, 22);
@@ -1124,20 +1133,25 @@ void Admin::portal()
             break;
         case 5:
             system("cls");
+            system("title ADD NEW CURRENCY");
+            cur.addCurrency();
+            break;
+        case 6:
+            system("cls");
             system("title UPDATE CURRENCY RATES");
             cur.updateCurrencyRate();
             break;
-        case 6:
+        case 7:
             system("cls");
             system("title SEARCH");
             searchCustomer();
             break;
-        case 7:
+        case 8:
             system("cls");
-            system("title CREATING DATABASES BACKUP");
+            system("title CREATING DATABASE BACKUP...");
             createCustomerDatabaseBackup();
             break;
-        case 8:
+        case 9:
             main();
             break;
         default:
@@ -1194,14 +1208,16 @@ int Admin::portalMenu()
     CursorPosition(33, 13);
     cout << "4. Delete Account";
     CursorPosition(33, 15);
-    cout << "5. Update Currency Rates";
+    cout << "5. Add new currency";
     CursorPosition(33, 17);
-    cout << "6. Search and Sort Customers";
+    cout << "6. Update Currency Rates";
     CursorPosition(33, 19);
-    cout << "7. Create Customer Database Backup";
+    cout << "7. Search and Sort Customers";
     CursorPosition(33, 21);
-    cout << "8. Logout";
-    CursorPosition(32, 24);
+    cout << "8. Create Customer Database Backup";
+    CursorPosition(33, 23);
+    cout << "9. Logout";
+    CursorPosition(32, 26);
     cout << "Enter your choice: ";
     fflush(stdin);
     cin >> choice;
@@ -1551,6 +1567,9 @@ int Currency::generateCurrencyCode()
 
 void Currency::addCurrency()
 {
+    char ch;
+    int i;
+    i = 0;
     ofstream fout;
     this->code = generateCurrencyCode();
     cout << "Enter currency name: ";
@@ -1559,7 +1578,21 @@ void Currency::addCurrency()
     system("cls");
     cout << "Enter symbol (3 characters): ";
     fflush(stdin);
-    gets(symbol);
+    while(1){
+        ch = getch();
+        if(ch >= 'A' && ch <= 'Z' && i < 3){
+            cout << ch;
+            symbol[i] = ch;
+            i++;
+        }else if(ch >= 'a' && ch <= 'z' && i < 3){
+            ch = ch - 32;
+            cout << ch;
+            symbol[i] = ch;
+            i++;
+        }else if(i == 3 && ch == 13){
+            break;
+        }
+    }
     system("cls");
     cout << "Enter rate of " << name << ": ";
     fflush(stdin);
@@ -1876,4 +1909,81 @@ void Admin::sortDescending(){
     }
     delete [] cust;
     cust = NULL;
+}
+
+void Customer::accountSetting(){
+    int choice;
+    while(1){
+        system("cls");
+        cout << "1. Update my email" << endl;
+        cout << "2. Update my contact number" << endl;
+        cout << "3. Change my password" << endl;
+        cout << "4. Delete my account" << endl;
+        cout << "5. Go back" << endl;
+        cout << endl << "Enter your choice: " << endl;
+        fflush(stdin);
+        cin >> choice;
+        switch(choice){
+            case 1:
+                Customer::updateEmail(this->accountNumber);
+                break;
+            case 2:
+                // updateContactNumber(this->accountNumber);
+                break;
+            case 3:
+                // changePassword(this->accountNumber);
+                break;
+            case 4:
+                Customer::deleteAccount();
+                break;
+            case 5:
+                goto accountSettingEnd;
+                break;
+            default:
+                cout << "Enter a valid choice" << endl;
+                break;
+        }
+    }
+    accountSettingEnd:
+        system("cls");
+}
+
+void Customer::updateInfo(int accNo){
+    fstream file;
+    Customer c;
+    file.open("./data/customer.bank", ios::in|ios::out|ios::ate|ios::binary);
+    file.seekg(0);
+    file.read((char*)&c, sizeof(c));
+    while(file.eof() == 0){
+        if(c.accountNumber == accNo){
+            file.seekp(file.tellp() - sizeof(c));
+            file.write((char*)this, sizeof(*this));
+            break;
+        }
+        file.read((char*)&c, sizeof(c));
+    }
+    file.close();
+}
+
+void Customer::updateEmail(int accNo){
+    setEmail();
+    system("cls");
+    cout << "Enter your password to confirm: ";
+    char passToConfirm[20];
+    Customer::inputPassword(passToConfirm);
+    if(strcmp(password, passToConfirm) == 0){
+        Customer::updateInfo(accNo);
+    }
+}
+
+void Admin::accountSetting(){
+
+}
+
+void Admin::updateEmail(int accNo){
+
+}
+
+void Admin::updateInfo(int accNo){
+
 }
