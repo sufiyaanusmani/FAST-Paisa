@@ -59,6 +59,7 @@ public:
     virtual void updateEmail(int) = 0;
     virtual void updateInfo(int) = 0;
     virtual void updateContactNumber(int) = 0;
+    virtual void changePassword(int) = 0;
 };
 
 class Customer : public User
@@ -84,6 +85,7 @@ public:
     void updateEmail(int);
     void updateInfo(int);
     void updateContactNumber(int);
+    void changePassword(int);
 };
 
 class Admin : public User
@@ -107,6 +109,7 @@ public:
     void updateEmail(int);
     void updateInfo(int);
     void updateContactNumber(int);
+    void changePassword(int);
 };
 
 class Transaction
@@ -1923,7 +1926,7 @@ void Customer::accountSetting(){
         cout << "3. Change my password" << endl;
         cout << "4. Delete my account" << endl;
         cout << "5. Go back" << endl;
-        cout << endl << "Enter your choice: " << endl;
+        cout << endl << "Enter your choice: ";
         fflush(stdin);
         cin >> choice;
         switch(choice){
@@ -1934,7 +1937,7 @@ void Customer::accountSetting(){
                 Customer::updateContactNumber(this->accountNumber);
                 break;
             case 3:
-                // changePassword(this->accountNumber);
+                Customer::changePassword(this->accountNumber);
                 break;
             case 4:
                 Customer::deleteAccount();
@@ -1984,8 +1987,20 @@ void Customer::updateContactNumber(int accNo){
     system("cls");
     cout << "Enter your password to confirm: ";
     char passToConfirm[20];
-    Customer::inputPassword(passToConfirm);
+    inputPassword(passToConfirm);
     if(strcmp(password, passToConfirm) == 0){
+        Customer::updateInfo(accNo);
+    }
+}
+
+void Customer::changePassword(int accNo){
+    char passToConfirm[20];
+    cout << "Enter your password to confirm: ";
+    inputPassword(passToConfirm);
+    if(strcmp(password, passToConfirm) == 0){
+        system("cls");
+        system("title ENTER NEW PASSWORD");
+        setPassword();
         Customer::updateInfo(accNo);
     }
 }
@@ -2003,5 +2018,9 @@ void Admin::updateEmail(int accNo){
 }
 
 void Admin::updateContactNumber(int accNo){
+
+}
+
+void Admin::changePassword(int accNo){
 
 }
