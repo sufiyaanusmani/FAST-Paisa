@@ -127,6 +127,10 @@ public:
     void storeTransaction(int, char[40], unsigned long long int, char[9]);
     void viewTransactionHistoryAdmin();
     void viewTransactionHistoryCustomer(int);
+    char * getName();
+    int getAccountNumber();
+    unsigned long long int getAmount();
+    char * getTransactionType();
 };
 
 class Currency
@@ -2103,15 +2107,31 @@ void Admin::changePassword(int accNo){
 void Admin::generateReport(){
     ifstream fin;
     ofstream fout;
-    Customer c;
-    fin.open("./data/customer.bank", ios::in|ios::binary);
+    Transaction t;
+    fin.open("./data/transaction.bank", ios::in|ios::binary);
     fout.open("a.csv", ios::out);
-    fout << "Account Number,Name,Age,Gender,Contact Number,Email,Amount" << endl;
-    fin.read((char*)&c, sizeof(c));
+    fout << "Name,Account_Number,Amount,Type" << endl;
+    fin.read((char*)&t, sizeof(t));
     while(fin.eof() == 0){
-        fout << c.getAccountNumber() << "," << c.getName() << "," << c.getAge() << "," << c.getGender() << "," << c.getContactNumber() << "," << c.getEmail() << "," << c.getAmount() << endl;
-        fin.read((char*)&c, sizeof(c));
+        fout << t.getName() << "," << t.getAccountNumber() << "," << t.getAmount() << "," << t.getTransactionType() << "," << endl;
+        fin.read((char*)&t, sizeof(t));
     }
     fin.close();
     fout.close();
+}
+
+int Transaction::getAccountNumber(){
+    return accountNumber;
+}
+
+char * Transaction::getName(){
+    return customerName;
+}
+
+unsigned long long int Transaction::getAmount(){
+    return amount;
+}
+
+char * Transaction::getTransactionType(){
+    return transactionType;
 }
