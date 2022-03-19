@@ -1158,6 +1158,11 @@ void Admin::portal()
             createCustomerDatabaseBackup();
             break;
         case 9:
+            system("cls");
+            system("title ACCOUNT SETTING");
+            Admin::accountSetting();
+            break;
+        case 10:
             main();
             break;
         default:
@@ -1222,8 +1227,10 @@ int Admin::portalMenu()
     CursorPosition(33, 21);
     cout << "8. Create Customer Database Backup";
     CursorPosition(33, 23);
-    cout << "9. Logout";
-    CursorPosition(32, 26);
+    cout << "9. Account Settings";
+    CursorPosition(33, 25);
+    cout << "10. Logout";
+    CursorPosition(32, 28);
     cout << "Enter your choice: ";
     fflush(stdin);
     cin >> choice;
@@ -1943,14 +1950,14 @@ void Customer::accountSetting(){
                 Customer::deleteAccount();
                 break;
             case 5:
-                goto accountSettingEnd;
+                goto customerAccountSettingEnd;
                 break;
             default:
                 cout << "Enter a valid choice" << endl;
                 break;
         }
     }
-    accountSettingEnd:
+    customerAccountSettingEnd:
         system("cls");
 }
 
@@ -1976,7 +1983,7 @@ void Customer::updateEmail(int accNo){
     system("cls");
     cout << "Enter your password to confirm: ";
     char passToConfirm[20];
-    Customer::inputPassword(passToConfirm);
+    inputPassword(passToConfirm);
     if(strcmp(password, passToConfirm) == 0){
         Customer::updateInfo(accNo);
     }
@@ -2006,21 +2013,85 @@ void Customer::changePassword(int accNo){
 }
 
 void Admin::accountSetting(){
-
+    int choice;
+    while(1){
+        system("cls");
+        cout << "1. Update my email" << endl;
+        cout << "2. Update my contact number" << endl;
+        cout << "3. Change my password" << endl;
+        cout << "4. Go back" << endl;
+        cout << endl << "Enter your choice: ";
+        fflush(stdin);
+        cin >> choice;
+        switch(choice){
+            case 1:
+                Admin::updateEmail(this->accountNumber);
+                break;
+            case 2:
+                Admin::updateContactNumber(this->accountNumber);
+                break;
+            case 3:
+                Admin::changePassword(this->accountNumber);
+                break;
+            case 4:
+                goto adminAccountSettingEnd;
+                break;
+            default:
+                cout << "Enter a valid choice" << endl;
+                break;
+        }
+    }
+    adminAccountSettingEnd:
+        system("cls");
 }
 
 void Admin::updateInfo(int accNo){
-
+    fstream file;
+    Admin a;
+    file.open("./data/admin.bank", ios::in|ios::out|ios::ate|ios::binary);
+    file.seekg(0);
+    file.read((char*)&a, sizeof(a));
+    while(file.eof() == 0){
+        if(a.accountNumber == accNo){
+            file.seekp(file.tellp() - sizeof(a));
+            file.write((char*)this, sizeof(*this));
+            break;
+        }
+        file.read((char*)&a, sizeof(a));
+    }
+    file.close();
 }
 
 void Admin::updateEmail(int accNo){
-
+    setEmail();
+    system("cls");
+    cout << "Enter your password to confirm: ";
+    char passToConfirm[20];
+    inputPassword(passToConfirm);
+    if(strcmp(password, passToConfirm) == 0){
+        Admin::updateInfo(accNo);
+    }
 }
 
 void Admin::updateContactNumber(int accNo){
-
+    setContactNumber();
+    system("cls");
+    cout << "Enter your password to confirm: ";
+    char passToConfirm[20];
+    inputPassword(passToConfirm);
+    if(strcmp(password, passToConfirm) == 0){
+        Admin::updateInfo(accNo);
+    }
 }
 
 void Admin::changePassword(int accNo){
-
+    char passToConfirm[20];
+    cout << "Enter your password to confirm: ";
+    inputPassword(passToConfirm);
+    if(strcmp(password, passToConfirm) == 0){
+        system("cls");
+        system("title ENTER NEW PASSWORD");
+        setPassword();
+        Admin::updateInfo(accNo);
+    }
 }
