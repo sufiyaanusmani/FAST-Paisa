@@ -58,6 +58,7 @@ public:
     virtual void accountSetting() = 0;
     virtual void updateEmail(int) = 0;
     virtual void updateInfo(int) = 0;
+    virtual void updateContactNumber(int) = 0;
 };
 
 class Customer : public User
@@ -82,6 +83,7 @@ public:
     void accountSetting();
     void updateEmail(int);
     void updateInfo(int);
+    void updateContactNumber(int);
 };
 
 class Admin : public User
@@ -104,6 +106,7 @@ public:
     void accountSetting();
     void updateEmail(int);
     void updateInfo(int);
+    void updateContactNumber(int);
 };
 
 class Transaction
@@ -1928,7 +1931,7 @@ void Customer::accountSetting(){
                 Customer::updateEmail(this->accountNumber);
                 break;
             case 2:
-                // updateContactNumber(this->accountNumber);
+                Customer::updateContactNumber(this->accountNumber);
                 break;
             case 3:
                 // changePassword(this->accountNumber);
@@ -1976,7 +1979,22 @@ void Customer::updateEmail(int accNo){
     }
 }
 
+void Customer::updateContactNumber(int accNo){
+    setContactNumber();
+    system("cls");
+    cout << "Enter your password to confirm: ";
+    char passToConfirm[20];
+    Customer::inputPassword(passToConfirm);
+    if(strcmp(password, passToConfirm) == 0){
+        Customer::updateInfo(accNo);
+    }
+}
+
 void Admin::accountSetting(){
+
+}
+
+void Admin::updateInfo(int accNo){
 
 }
 
@@ -1984,6 +2002,6 @@ void Admin::updateEmail(int accNo){
 
 }
 
-void Admin::updateInfo(int accNo){
+void Admin::updateContactNumber(int accNo){
 
 }
