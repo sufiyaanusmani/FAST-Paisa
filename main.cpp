@@ -110,6 +110,7 @@ public:
     void updateInfo(int);
     void updateContactNumber(int);
     void changePassword(int);
+    void generateReport();
 };
 
 class Transaction
@@ -1165,6 +1166,9 @@ void Admin::portal()
         case 10:
             main();
             break;
+        case 11: 
+            generateReport();
+            break;
         default:
             system("cls");
             system("title ERROR");
@@ -2094,4 +2098,20 @@ void Admin::changePassword(int accNo){
         setPassword();
         Admin::updateInfo(accNo);
     }
+}
+
+void Admin::generateReport(){
+    ifstream fin;
+    ofstream fout;
+    Customer c;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    fout.open("a.csv", ios::out);
+    fout << "Account Number,Name,Age,Gender,Contact Number,Email,Amount" << endl;
+    fin.read((char*)&c, sizeof(c));
+    while(fin.eof() == 0){
+        fout << c.getAccountNumber() << "," << c.getName() << "," << c.getAge() << "," << c.getGender() << "," << c.getContactNumber() << "," << c.getEmail() << "," << c.getAmount() << endl;
+        fin.read((char*)&c, sizeof(c));
+    }
+    fin.close();
+    fout.close();
 }
