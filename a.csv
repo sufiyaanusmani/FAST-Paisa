@@ -1,4 +1,12 @@
-Name,Account_Number,Amount,Type
-Sufiyaan Usmani,102829,10000,Deposit,
-Sufiyaan Usmani,102829,99000,Deposit,
-Sufiyaan Usmani,102829,1000,Transfer,
+Account_Number,Amount,Type
+102829,10000,Deposit
+102829,99000,Deposit
+102829,1000,Transfer
+103077,12312,Deposit
+103077,123123,Deposit
+103077,34325,Withdraw
+103077,43214,Withdraw
+103250,200000,Deposit
+103250,50000,Deposit
+103250,40000,Withdraw
+103250,40000,Transfer

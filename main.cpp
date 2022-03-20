@@ -732,6 +732,7 @@ customerPortalEnd:
 int Customer::portalMenu()
 {
     int choice, i;
+    char ch;
     system("color 0F");
     system("cls");
     system("title MY PORTAL");
@@ -779,7 +780,14 @@ int Customer::portalMenu()
     TextColor(5);
     cout << "Enter your choice: ";
     fflush(stdin);
-    cin >> choice;
+    while(1){
+        ch = getch();
+        if(ch >= '1' && ch <= '7'){
+            cout << ch;
+            choice = ch - '0';
+            break;
+        }
+    }
     system("color 0F");
     return choice;
 }
@@ -1614,6 +1622,7 @@ void Currency::addCurrency()
             break;
         }
     }
+    symbol[3] = '\0';
     system("cls");
     cout << "Enter rate of " << name << ": ";
     fflush(stdin);
@@ -2113,7 +2122,7 @@ void Admin::generateReport(){
     fout << "Name,Account_Number,Amount,Type" << endl;
     fin.read((char*)&t, sizeof(t));
     while(fin.eof() == 0){
-        fout << t.getName() << "," << t.getAccountNumber() << "," << t.getAmount() << "," << t.getTransactionType() << "," << endl;
+        fout << t.getName() << "," << t.getAccountNumber() << "," << t.getAmount() << "," << t.getTransactionType() << endl;
         fin.read((char*)&t, sizeof(t));
     }
     fin.close();

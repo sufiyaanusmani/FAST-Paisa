@@ -71,6 +71,7 @@ void currentDateAndTime()
 int mainMenu()
 {
     int choice, i;
+    char ch;
     system("color 0F");
     system("cls");
     system("title FAST NUCES BANK - MAIN MENU");
@@ -111,7 +112,15 @@ int mainMenu()
     CursorPosition(32, 15);
     cout << "Enter your choice: ";
     fflush(stdin);
-    cin >> choice;
+    i = 0;
+    while(1){
+        ch = getch();
+        if(ch >= '1' && ch <= '6'){
+            cout << ch;
+            choice = ch - '0';
+            break;
+        }
+    }
     return choice;
 }
 
