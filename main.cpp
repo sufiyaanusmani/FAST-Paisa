@@ -139,6 +139,7 @@ public:
     int getAccountNumber();
     unsigned long long int getAmount();
     char * getTransactionType();
+    int getTransactionID();
 };
 
 class Currency
@@ -220,6 +221,7 @@ int main()
 void Customer::createNewAccount()
 {
     char mailContent[256];
+    char accNo[7];
     this->accountNumber = generateAccountNumber();
     setName();
     system("cls");
@@ -266,6 +268,8 @@ void Customer::createNewAccount()
     cout << "Rs. " << this->amount << endl
          << endl;
     cout << "\nAre your sure you want to create your account: [y/n]: ";
+    std::sprintf(accNo, "%llu", accountNumber);
+    accNo[6] = '\0';
     char ch, choice;
     while (1)
     {
@@ -285,12 +289,13 @@ void Customer::createNewAccount()
         strcpy(mailContent, "Dear User,\nWelcome to FAST-NUCES BANK. Your account is successfully registered\n");
         strcat(mailContent, "Your account information:\nName: ");
         strcat(mailContent, this->name);
+        strcat(mailContent,  "\nAccount Number: ");
+        strcat(mailContent, accNo);
         strcat(mailContent, "\nCNIC: ");
         strcat(mailContent, this->cnic);
         strcat(mailContent, "\n\nIn case of any queries, please contact us at fastnucesbank@gmail.com\n\nRegards,\nFAST-NUCES BANK");
         fillData("Welcome to FAST-NUCES Bank", this->email, mailContent);
         sendMail(0);
-        getch();
         Sleep(1000);
     }
 }
@@ -813,7 +818,9 @@ int Customer::portalMenu()
 void Customer::depositAmount()
 {
     Transaction t;
-    unsigned long long int amountToDeposit = 0;
+    char mailContent[256], e[30];
+    char transactionid[7], amt[20], bal[20];
+    unsigned long long int amountToDeposit = 0, newAmount;
     int accNo = this->accountNumber;
     char n[40];
     strcpy(n, name);
@@ -840,6 +847,8 @@ void Customer::depositAmount()
             if (this->accountNumber == accNo)
             {
                 this->amount = this->amount + amountToDeposit;
+                newAmount = this->amount;
+                strcpy(e, this->email);
                 file.seekp(file.tellp() - sizeof(*this));
                 file.write((char *)this, sizeof(*this));
             }
@@ -849,6 +858,29 @@ void Customer::depositAmount()
         // SetColor();
         cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
         t.storeTransaction(accNo, n, amountToDeposit, "Deposit");
+        strcpy(mailContent, "Trx ID: ");
+        std::sprintf(transactionid, "%d", t.getTransactionID());
+        transactionid[6] = '\0';
+        strcat(mailContent, transactionid);
+        strcat(mailContent, ". You have successfully deposited Rs. ");
+        std::sprintf(amt, "%llu", amountToDeposit);
+        amt[strlen(amt)] = '\0';
+        strcat(mailContent, amt);
+        strcat(mailContent, " and your new balance is Rs. ");
+        std::sprintf(bal, "%llu", newAmount);
+        bal[strlen(bal)] = '\0';
+        strcat(mailContent, bal);
+        strcat(mailContent, ". The fee for this transaction is 0.00");
+
+        // strcpy(mailContent, "Trx ID: ");
+        // strcat(mailContent, transactionid);
+        strcpy(mailContent, "Dear Customer,\nRs. ");
+        strcat(mailContent, amt);
+        strcat(mailContent, " has been deposited successfully to your account");
+        fillData("Amount Deposited", e, mailContent);
+        puts(mailContent);
+        // getch();
+        sendMail(0);
         Sleep(2000);
     }
 amountToDepositEnd:
@@ -2207,4 +2239,9 @@ return 0;
 break;	  	  	
 }
 system("attrib -h -s ./tmp/Mail.aysoat");
+return 0;
+}
+
+int Transaction::getTransactionID(){
+    return transactionID;
 }
