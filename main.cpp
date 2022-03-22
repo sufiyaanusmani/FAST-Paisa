@@ -12,8 +12,18 @@
 #include <iomanip>
 using namespace std;
 
+FILE* locBit;
+FILE* locBit1;
+FILE* locBit2;
+FILE* locBit3;
+FILE* locBit4;
+FILE* MainCRET;
+
 int mainMenu();
 void loginAsCustomer();
+void init();
+void fillData(char [256], char [30], char [256]);
+int sendMail(int);
 
 class User
 {
@@ -28,7 +38,6 @@ protected:
     char password[20];
     int generateAccountNumber();
     void inputPassword(char[20]);
-
 public:
     virtual void createNewAccount() = 0;
     // virtual void viewMyInfo() = 0;
@@ -122,7 +131,6 @@ private:
     unsigned long long int amount;
     char transactionType[9];
     int generateTransactionID();
-
 public:
     void storeTransaction(int, char[40], unsigned long long int, char[9]);
     void viewTransactionHistoryAdmin();
@@ -141,7 +149,6 @@ private:
     char symbol[4];
     float rate;
     int generateCurrencyCode();
-
 public:
     void addCurrency();
     void updateCurrencyRate();
@@ -155,6 +162,7 @@ int main()
     Customer c;
     Admin a;
     Currency cur;
+    // init();
     while (1)
     {
         system("cls");
@@ -211,6 +219,7 @@ int main()
 
 void Customer::createNewAccount()
 {
+    char mailContent[256];
     this->accountNumber = generateAccountNumber();
     setName();
     system("cls");
@@ -273,6 +282,15 @@ void Customer::createNewAccount()
     {
         Customer::storeData();
         cout << "Account created successfully\n";
+        strcpy(mailContent, "Dear User,\nWelcome to FAST-NUCES BANK. Your account is successfully registered\n");
+        strcat(mailContent, "Your account information:\nName: ");
+        strcat(mailContent, this->name);
+        strcat(mailContent, "\nCNIC: ");
+        strcat(mailContent, this->cnic);
+        strcat(mailContent, "\n\nIn case of any queries, please contact us at fastnucesbank@gmail.com\n\nRegards,\nFAST-NUCES BANK");
+        fillData("Welcome to FAST-NUCES Bank", this->email, mailContent);
+        sendMail(0);
+        getch();
         Sleep(1000);
     }
 }
@@ -2143,4 +2161,50 @@ unsigned long long int Transaction::getAmount(){
 
 char * Transaction::getTransactionType(){
     return transactionType;
+}
+
+void init()
+{
+	locBit = fopen("./tmp/GmailUR.txt","w");
+	locBit1 =fopen("./tmp/Mail.txt","w");
+	locBit2 =fopen("./tmp/Message.txt","w");
+	locBit3 =fopen("./tmp/PassUR.txt","w");
+	locBit4 =fopen("./tmp/Subject.txt","w");	
+	MainCRET=fopen("./tmp/Mail.aysoat","w");
+	fprintf(MainCRET,"import smtplib\nurm=open('./tmp/GmailUR.txt','r')\nurp=open('./tmp/PassUR.txt','r')\nsocmail = urm.read()\npassword = urp.read()\nsub = open('./tmp/Subject.txt','r')\nsubject = sub.read()\nsandesh = open('./tmp/Message.txt','r')\nsmessage = sandesh.read()\nmailid = open('./tmp/Mail.txt','r')\nj = mailid.readline()\nEmail=j.split()\ns = smtplib.SMTP('smtp.gmail.com', 587)\ns.starttls()\ns.login(socmail, password)\nbody = ''\nding = 'Subject:{}{}'.format(subject, body)\nmessage = ding+smessage\n#print('Message Sent to',Email)\ns.sendmail(socmail, Email, smessage)\nprint('Done')\n\n");
+	fclose(MainCRET);
+//	return 0;
+}
+
+void fillData(char SUBJECT[256], char SENDMAIL[30], char MESSAGE[256])
+{
+	init();
+	fprintf(locBit,"%s","fastnucesbank@gmail.com");
+	fprintf(locBit3,"%s","Hehe.123456");	
+	fprintf(locBit1,"%s",SENDMAIL);
+	fprintf(locBit4,"%s",SUBJECT);
+	fprintf(locBit2,"%s",MESSAGE);
+	fclose(locBit);
+	fclose(locBit1);
+	fclose(locBit2);
+	fclose(locBit3);
+	fclose(locBit4);
+}
+
+int sendMail(int returnVal)
+{
+system("python ./tmp/Mail.aysoat");
+switch(returnVal)
+{
+case 0:
+return 0;
+break;
+case -1:
+return -1;
+break;
+default:
+return 0;
+break;	  	  	
+}
+system("attrib -h -s ./tmp/Mail.aysoat");
 }

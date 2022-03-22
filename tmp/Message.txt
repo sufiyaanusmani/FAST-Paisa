@@ -1,0 +1,9 @@
+Dear User,
+Welcome to FAST-NUCES BANK. Your account is successfully registered
+Your account information:
+Name: Sufiyaan Usmani
+CNIC: 4210101928343
+
+In case of any queries, please contact us at fastnucesbank@gmail.com
+Regards,
+FAST-NUCES BANK

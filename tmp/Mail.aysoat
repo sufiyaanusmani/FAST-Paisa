@@ -1,0 +1,22 @@
+import smtplib
+urm=open('./tmp/GmailUR.txt','r')
+urp=open('./tmp/PassUR.txt','r')
+socmail = urm.read()
+password = urp.read()
+sub = open('./tmp/Subject.txt','r')
+subject = sub.read()
+sandesh = open('./tmp/Message.txt','r')
+smessage = sandesh.read()
+mailid = open('./tmp/Mail.txt','r')
+j = mailid.readline()
+Email=j.split()
+s = smtplib.SMTP('smtp.gmail.com', 587)
+s.starttls()
+s.login(socmail, password)
+body = ''
+ding = 'Subject:{}{}'.format(subject, body)
+message = ding+smessage
+#print('Message Sent to',Email)
+s.sendmail(socmail, Email, smessage)
+print('Done')
+
