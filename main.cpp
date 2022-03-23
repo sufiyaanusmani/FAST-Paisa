@@ -159,6 +159,7 @@ public:
 
 int main()
 {
+    system("mode 134, 32");
     int mainMenuChoice;
     Customer c;
     Admin a;
@@ -808,7 +809,10 @@ int Customer::portalMenu()
         if(ch >= '1' && ch <= '7'){
             cout << ch;
             choice = ch - '0';
+        }else if(ch == 13){
             break;
+        }else if(ch == 8){
+            cout << "\b \b";
         }
     }
     system("color 0F");
@@ -1268,19 +1272,19 @@ int Admin::portalMenu()
     CursorPosition(32, 5);
     TextColor(3);
     cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
-    for (i = 1; i <= 16; i++)
+    for (i = 1; i <= 21; i++)
     {
         CursorPosition(31, 5 + i);
         cout << "|";
     }
-    for (i = 1; i <= 16; i++)
+    for (i = 1; i <= 21; i++)
     {
         CursorPosition(91, 5 + i);
         cout << "|";
     }
     for (i = 1; i <= 60; i++)
     {
-        CursorPosition(31 + i, 22);
+        CursorPosition(31 + i, 27);
         cout << "-";
     }
     TextColor(15);
@@ -1346,7 +1350,7 @@ void Customer::viewCustomerAccounts()
     TextColor(15);
     while (fin.eof() == 0)
     {
-        cout << this->accountNumber << "      " << setw(40) << this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << this->email << "  " << this->amount << endl;
+        cout << this->accountNumber << "      " << setw(40) << this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << setw(30) << this->email << "  " << this->amount << endl;
         fin.read((char *)this, sizeof(*this));
     }
     fin.close();
@@ -1742,6 +1746,7 @@ void Currency::updateCurrencyRate()
         cout << "Enter new rate: ";
         cin >> r1;
         file.open("./data/currency.bank", ios::in | ios::out | ios::ate | ios::binary);
+        file.seekg(0);
         while (file.eof() == 0)
         {
             if (this->code == code1)

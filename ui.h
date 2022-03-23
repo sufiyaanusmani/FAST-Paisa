@@ -115,10 +115,15 @@ int mainMenu()
     i = 0;
     while(1){
         ch = getch();
-        if(ch >= '1' && ch <= '6'){
+        if(ch >= '1' && ch <= '6' && i == 0){
             cout << ch;
             choice = ch - '0';
+            i++;
+        }else if(ch == 13 && i == 1){
             break;
+        }else if(ch == 8 && i != 0){
+            i--;
+            cout << "\b \b";
         }
     }
     return choice;
