@@ -878,7 +878,7 @@ void Customer::depositAmount()
         strcat(mailContent, amt);
         strcat(mailContent, " has been deposited successfully to your account");
         fillData("Amount Deposited", e, mailContent);
-        puts(mailContent);
+        // puts(mailContent);
         // getch();
         sendMail(0);
         Sleep(2000);
@@ -890,6 +890,7 @@ amountToDepositEnd:
 void Customer::withdrawAmount()
 {
     unsigned long long int amountToWithdraw;
+    char mailContent[256], amt[20], e[30];
     int accNo = this->accountNumber;
     Transaction t;
     char n[40];
@@ -921,6 +922,7 @@ void Customer::withdrawAmount()
             if (this->accountNumber == accNo)
             {
                 this->amount = this->amount - amountToWithdraw;
+                strcpy(e, this->email);
                 file.seekp(file.tellp() - sizeof(*this));
                 file.write((char *)this, sizeof(*this));
             }
@@ -930,6 +932,12 @@ void Customer::withdrawAmount()
         // SetColor();
         cout << "\nRs. " << amountToWithdraw << " withdrawn successfully" << endl;
         t.storeTransaction(accNo, n, amountToWithdraw, "Withdraw");
+        std::sprintf(amt, "%llu", amountToWithdraw);
+        strcpy(mailContent, "Dear Customer,\nRs. ");
+        strcat(mailContent, amt);
+        strcat(mailContent, " has been withdrawn successfully from your account");
+        fillData("Amount Withdrawn", e, mailContent);
+        sendMail(0);
         Sleep(2000);
     }
 amountToWithdrawEnd:
