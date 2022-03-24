@@ -159,7 +159,7 @@ public:
 
 int main()
 {
-    system("mode 134, 32");
+    // system("mode 134, 32");
     int mainMenuChoice;
     Customer c;
     Admin a;
@@ -1425,16 +1425,19 @@ void Transaction::viewTransactionHistoryAdmin()
         Sleep(2000);
         exit(1);
     }
-    cout << "Transaction ID  Name  Account No  Amount  Transaction Type" << endl;
+    TextColor(4);
+    cout << "Trx ID                  Name  Acc No      Amount  Transaction Type" << endl;
+    TextColor(15);
     fin.read((char *)this, sizeof(*this));
     while (fin.eof() == 0)
     {
-        cout << this->transactionID << "  " << this->customerName << "  " << this->accountNumber << "  " << this->amount << "  " << this->transactionType << endl;
+        cout << this->transactionID << "  " << setw(20) << this->customerName << "  " << this->accountNumber << "  " << setw(10) << this->amount << "  " << this->transactionType << endl;
         fin.read((char *)this, sizeof(*this));
     }
     fin.close();
     TextColor(5);
     cout << "\nPress any key to continue...";
+    CursorPosition(0,0);
     getch();
 }
 
