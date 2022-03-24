@@ -155,6 +155,7 @@ public:
     void updateCurrencyRate();
     void viewCurrencyRates();
     void setRate(float);
+    void addCurrency(int, char [25], char [4], float);
 };
 
 int main()
@@ -2261,4 +2262,15 @@ return 0;
 
 int Transaction::getTransactionID(){
     return transactionID;
+}
+
+void Currency::addCurrency(int code, char n[25], char s[4], float rate){
+    this->code = code;
+    strcpy(name, n);
+    strcpy(symbol, s);
+    this->rate = rate;
+    ofstream fout;
+    fout.open("./data/currency.bank", ios::app|ios::binary);
+    fout.write((char*)this, sizeof(*this));
+    fout.close();
 }
