@@ -86,7 +86,6 @@ public:
     void viewMyInfo();
     void portal();
     int portalMenu();
-    void viewCustomerAccounts();
     void storeData();
     void deleteAccount();
     unsigned long long int getAmount();
@@ -120,6 +119,7 @@ public:
     void updateContactNumber(int);
     void changePassword(int);
     void generateReport();
+    void viewCustomerAccounts();
 };
 
 class Transaction
@@ -1200,7 +1200,7 @@ void Admin::portal()
         case 2:
             system("cls");
             system("title CUSTOMER ACCOUNTS INFO");
-            c.viewCustomerAccounts();
+            viewCustomerAccounts();
             break;
         case 3:
             system("cls");
@@ -1335,23 +1335,24 @@ void Admin::viewMyInfo()
     system("color 0F");
 }
 
-void Customer::viewCustomerAccounts()
+void Admin::viewCustomerAccounts()
 {
     ifstream fin;
+    Customer c;
     fin.open("./data/customer.bank", ios::in | ios::binary);
     if (!fin)
     {
         perror("Error");
         exit(1);
     }
-    fin.read((char *)this, sizeof(*this));
+    fin.read((char *)&c, sizeof(c));
     TextColor(4);
     cout << "Account No  " << setw(40) << "  Name  " << endl;
     TextColor(15);
     while (fin.eof() == 0)
     {
-        cout << this->accountNumber << "      " << setw(40) << this->name << "  " << this->age << "  " << (this->gender == 'm' ? "Male" : "Female") << "  " << this->contactNumber << "  " << this->cnic << "  " << setw(30) << this->email << "  " << this->amount << endl;
-        fin.read((char *)this, sizeof(*this));
+        cout << c.getAccountNumber() << "      " << setw(40) << c.getName() << "  " << c.getAge() << "  " << (c.getGender() == 'm' ? "Male" : "Female") << "  " << c.getContactNumber() << "  " << c.getCNIC() << "  " << setw(30) << c.getEmail() << "  " << c.getAmount() << endl;
+        fin.read((char *)&c, sizeof(c));
     }
     fin.close();
     TextColor(13);
