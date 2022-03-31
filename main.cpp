@@ -518,6 +518,7 @@ void User::setPassword()
     int i, backspaceCount;
     backspaceCount = i = 0;
     cout << "Enter your password: ";
+    TextColor(4);
     while (1)
     {
         ch = getch();
@@ -540,6 +541,7 @@ void User::setPassword()
         }
     }
     this->password[i] = '\0';
+    TextColor(15);
 }
 
 void Customer::storeData()
@@ -632,6 +634,7 @@ void User::inputPassword(char pass[20])
     char ch;
     int i, backspaceCount;
     backspaceCount = i = 0;
+    TextColor(4);
     while (1)
     {
         ch = getch();
@@ -653,6 +656,7 @@ void User::inputPassword(char pass[20])
             break;
         }
     }
+    TextColor(15);
     pass[i] = '\0';
 }
 
