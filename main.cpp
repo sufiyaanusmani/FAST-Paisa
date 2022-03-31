@@ -24,6 +24,7 @@ void loginAsCustomer();
 void init();
 void fillData(char [256], char [30], char [256]);
 int sendMail(int);
+void bankPolicy();
 
 class User
 {
@@ -222,6 +223,7 @@ int main()
 
 void Customer::createNewAccount()
 {
+    bankPolicy();
     char mailContent[256];
     char accNo[7];
     this->accountNumber = generateAccountNumber();
@@ -2273,4 +2275,50 @@ void Currency::addCurrency(int code, char n[25], char s[4], float rate){
     fout.open("./data/currency.bank", ios::app|ios::binary);
     fout.write((char*)this, sizeof(*this));
     fout.close();
+}
+
+void bankPolicy()
+{
+    system("cls");
+    system("title Bank Policy");
+    system("color F0");
+    TextColor(0);
+    printf("By signing, you, the individual(s) named in this form are:\n\n");
+    TextColor(1);
+    printf("1. Confirming you are applying to the Bank for banking services;\n");
+    printf("2. Confirming that any details you have supplied to us are true and complete;\n");
+    printf("3. Authorizing us to:\n");
+    printf("        i.  Make credit reference and other inquiries in connection with this application in accordance with our\n");
+    printf("            normal procedures; and\n");
+    printf("        ii. Disclose information to licensed credit reference agencies and otherwise in accordance with\n");
+    printf("            conditions 94-105 of General Terms and Conditions.\n");
+    printf("4. Confirming that you understand that credit reference agencies record information and the information they\n");
+    printf("   record may be used by other organizations to help make decisions about credit and credit-related services and\n");
+    printf("   to manage accounts for customers and for fraud prevention.\n");
+    printf("5. Agreeing to be bound by the terms of the application and the Bank's General Terms and Conditions which contain\n");
+    printf("   your obligations to us and our obligations to you which may be altered from time to time;\n");
+    printf("6. Understanding that the Bank may decline your account without stating a reason.\n");
+    printf("7. Contact the admin directly in case of any issues\n");
+    printf("\nPress any key to continue...");
+    getch();
+    system("cls");
+    system("color F4");
+    TextColor(4);
+    printf("Before proceeding further:\n");
+    TextColor(0);
+    printf("1.	Make sure to record your account number\n");
+    printf("2.	In case you forgot your account number, contact the admin, and provide your full information for authentication\n");
+    printf("3.	Make sure to log out of your account after use.\n");
+    printf("4.	Make sure to read the user guide before using Banking System\n\n");
+
+    TextColor(4);
+    printf("The Bank will not be responsible if:\n");
+    TextColor(0);
+    printf("1.	User forgets to log out of his/her account\n");
+    printf("2.	User edits, modifies or deletes the database files\n\n");
+    TextColor(2);
+    printf("Press any key to continue...");
+    getch();
+    system("cls");
+    system("color 0F");
 }
