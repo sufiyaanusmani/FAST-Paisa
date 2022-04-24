@@ -977,7 +977,7 @@ void Customer::transferAmount()
         {
             cout << "You can not transfer to yourself" << endl;
         }
-        if (receiverAccount == -1)
+        else if (receiverAccount == -1)
         {
             goto transferAmountEnd;
         }
