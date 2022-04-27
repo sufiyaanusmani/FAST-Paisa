@@ -24,6 +24,7 @@ void loginAsCustomer();
 void init();
 void fillData(char [256], char [30], char [256]);
 int sendMail(int);
+void aboutUs();
 void bankPolicy();
 
 class User
@@ -174,31 +175,37 @@ int main()
         switch (mainMenuChoice)
         {
         case 1:
+        	loadingAnimation();
             system("cls");
             system("title Admin Login");
             a.login();
             break;
         case 2:
+        	loadingAnimation();
             system("cls");
             system("title Customer Login");
             c.login();
             break;
         case 3:
+        	loadingAnimation();
             system("cls");
             system("title Create New Account");
             c.createNewAccount();
             break;
         case 4:
+        	loadingAnimation();
             system("cls");
             system("title Today's Currency Rates");
             cur.viewCurrencyRates();
             break;
         case 5:
+        	loadingAnimation();
             system("cls");
             system("title About Us");
-            // aboutUs();
+            aboutUs();
             break;
         case 6:
+        	loadingAnimation();
             system("cls");
             CursorPosition(40, 10);
             system("title Good Bye");
@@ -207,6 +214,7 @@ int main()
             exit(0);
             break;
         default:
+        	loadingAnimation();
             system("cls");
             system("title ERROR :(");
             CursorPosition(0, 0);
@@ -271,6 +279,7 @@ void Customer::createNewAccount()
     TextColor(10);
     cout << "Rs. " << this->amount << endl
          << endl;
+    TextColor(1);
     cout << "\nAre your sure you want to create your account: [y/n]: ";
     std::sprintf(accNo, "%llu", accountNumber);
     accNo[6] = '\0';
@@ -285,11 +294,16 @@ void Customer::createNewAccount()
             break;
         }
     }
+    cout << "\n";
     system("color 0F");
     if (choice == 'y' || choice == 'Y')
     {
         Customer::storeData();
-        cout << "Account created successfully\n";
+        TextColor(2);
+        cout << "\t\t\t\t\t\tAccount created successfully\n";
+        TextColor(1);
+        cout << "\nYou are redirected to the mainmenu\n";
+        TextColor(0);
         strcpy(mailContent, "Dear User,\nWelcome to FAST-NUCES BANK. Your account is successfully registered\n");
         strcat(mailContent, "Your account information:\nName: ");
         strcat(mailContent, this->name);
@@ -301,6 +315,8 @@ void Customer::createNewAccount()
         fillData("Welcome to FAST-NUCES Bank", this->email, mailContent);
         sendMail(0);
         Sleep(1000);
+        loadingAnimation();
+        
     }
 }
 
@@ -623,7 +639,14 @@ void Customer::login()
         }
         if (idFound == false)
         {
+  	        cout << "\n\t\t\t\t\t\t";
+        	TextColor(4);
             cout << "This ID does not exists" << endl;
+            Sleep(1000);
+            TextColor(1);
+            cout << "\nYou are redirected to the mainmenu";
+            Sleep(1000);
+            loadingAnimation();
         }
         fin.close();
     }
@@ -1151,12 +1174,20 @@ void Admin::login()
                 break;
             }
             fin.read((char *)this, sizeof(*this));
-        }
+        
         if (idFound == false)
         {
+        	cout << "\n\t\t\t\t\t\t";
+        	TextColor(4);
             cout << "This ID does not exists" << endl;
+            Sleep(1000);
+            TextColor(1);
+            cout << "\nYou are redirected to the mainmenu";
+            Sleep(1000);
+            loadingAnimation();
         }
         fin.close();
+        }
     }
 }
 
@@ -2279,6 +2310,14 @@ void Currency::addCurrency(int code, char n[25], char s[4], float rate){
     fout.open("./data/currency.bank", ios::app|ios::binary);
     fout.write((char*)this, sizeof(*this));
     fout.close();
+}
+
+void aboutUs(){
+	cout << "This banking system is created by\n" << endl;
+	cout << "Sufiyan Usmani\nAhsan Ashraf\nQasim Hasan" << endl;
+	cout << "We are the students of Fast National University." << endl;
+	cout << "This is our 2nd Semester project developed under the supervision of our beloved teacher Sir Sudais.";
+	Sleep(1000);
 }
 
 void bankPolicy()

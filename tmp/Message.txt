@@ -1,2 +1,11 @@
-Dear Customer,
-Rs. 10000 has been deposited successfully to your account
+Dear User,
+Welcome to FAST-NUCES BANK. Your account is successfully registered
+Your account information:
+Name: 
+Account Number: 100872
+CNIC: 4554444444444
+
+In case of any queries, please contact us at fastnucesbank@gmail.com
+
+Regards,
+FAST-NUCES BANK
