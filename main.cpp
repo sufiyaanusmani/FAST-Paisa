@@ -2587,13 +2587,23 @@ void SuperAdmin::manageAdmins(){
     int choice;
     while(1){
         system("cls");
-        cout << "1. Add new admin" << endl;
-        cout << "2. Delete admin" << endl;
-        cout << "3. Go Back" << endl;
+        cout << "1. View admins" << endl;
+        cout << "2. Add new admin" << endl;
+        cout << "3. Delete admin" << endl;
+        cout << "4. Go Back" << endl;
         cout << endl << "Enter your choice: ";
         cin >> choice;
         if(choice == 1){
+            viewAdmins();
+        }else if(choice == 2){
             addAdmin();
+        }else if(choice == 3){
+            deleteAdmin();
+        }else if(choice == 4){
+            SuperAdmin::portal();
+        }else{
+            cout << "Wrong choice entered, enter a valid choice";
+            Sleep(1500);
         }
     }
 }
@@ -2602,4 +2612,78 @@ void SuperAdmin::addAdmin(){
     Admin temp;
     system("cls");
     temp.createNewAccount();
+}
+
+void SuperAdmin::viewAdmins(){
+    Admin temp;
+    ifstream fin;
+    fin.open("data/admin.bank", ios::in | ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(2000);
+        exit(1);
+    }
+    fin.read((char*)&temp, sizeof(temp));
+    while (fin.eof() == 0)
+    {
+        cout << temp.getAccountNumber() << "      " << setw(40) << temp.getName() << "  " << temp.getAge() << "  " << (temp.getGender() == 'm' ? "Male" : "Female") << "  " << temp.getContactNumber() << "  " << temp.getCNIC() << "  " << temp.getEmail() << endl;
+        fin.read((char *)&temp, sizeof(temp));
+    }
+    fin.close();
+    TextColor(13);
+    cout << endl << "Press any key to continue..." << endl;
+    getch();
+}
+
+void SuperAdmin::deleteAdmin(){
+    bool found = false;
+    Admin temp;
+    ifstream fin;
+    ofstream fout;
+    viewAdmins();
+    int accToDelete;
+    string name1;
+    cout << "Enter account number to delete: ";
+    cin >> accToDelete;
+    fin.open("data/admin.bank", ios::in | ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(2000);
+        exit(1);
+    }
+    fin.read((char*)&temp, sizeof(temp));
+    while(fin.eof() == 0){
+        if(accToDelete == temp.getAccountNumber()){
+            found = true;
+            break;
+        }
+        fin.read((char*)&temp, sizeof(temp));
+    }
+    fin.close();
+    if(found == true){
+        fin.open("data/admin.bank", ios::in | ios::binary);
+        fout.open("data/temp.bank", ios::out | ios::binary);
+        if(!fin){
+        perror("Error");
+        Sleep(2000);
+        exit(1);
+        }
+        fin.read((char*)&temp, sizeof(temp));
+        while(fin.eof() == 0){
+            if(temp.getAccountNumber() != accToDelete){
+                fout.write((char*)&temp, sizeof(temp));
+            }   
+            fin.read((char*)&temp, sizeof(temp));
+        }
+    }else{
+        cout << "This account does not exists" << endl;
+        Sleep(2000);
+    }
+    fin.close();
+    fout.close();
+    remove("./data/admin.bank");
+    rename("./data/temp.bank", "./data/admin.bank");
+    cout << "Account deleted successfully" << endl;
+    Sleep(2500);
+    SuperAdmin::portal();
 }
