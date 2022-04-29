@@ -37,7 +37,7 @@ protected:
     char contactNumber[12];
     char email[30];
     char password[20];
-    int generateAccountNumber();
+    virtual int generateAccountNumber() = 0;
     void inputPassword(char[20]);
 public:
     virtual void createNewAccount() = 0;
@@ -76,7 +76,7 @@ class Customer : public User
 {
 private:
     unsigned long long int amount;
-
+    int generateAccountNumber();
 public:
     void createNewAccount();
     void depositAmount();
@@ -99,6 +99,8 @@ public:
 
 class Admin : public User
 {
+private:
+    int generateAccountNumber();
 public:
     void storeData();
     void login();
@@ -121,6 +123,17 @@ public:
     void changePassword(int);
     void generateReport();
     void viewCustomerAccounts();
+};
+
+class SuperAdmin: public Admin{
+    public:
+        void addAdmin();
+        void deleteAdmin();
+        void portal();
+        int portalMenu();
+        void viewCurrentRevenue();
+        void viewAdmins();
+        void manageAdmins();
 };
 
 class Transaction
@@ -158,6 +171,7 @@ public:
     void setRate(float);
     void addCurrency(int, char [25], char [4], float);
 };
+
 
 int main()
 {
@@ -304,7 +318,7 @@ void Customer::createNewAccount()
     }
 }
 
-int User::generateAccountNumber()
+int Customer::generateAccountNumber()
 {
     ifstream fin;
     int num;
@@ -1114,6 +1128,7 @@ void Admin::storeData()
 void Admin::login()
 {
     int id;
+    SuperAdmin superAdmin;
     char pass[20];
     bool idFound = false;
     bool passFound = false;
@@ -1128,6 +1143,15 @@ void Admin::login()
         cout << "Enter account number: ";
         fflush(stdin);
         cin >> id;
+        if(id == 213195){
+            cout << "Enter your password: ";
+            inputPassword(pass);
+            if(strcmp(pass, "sufiyaan") == 0){
+                fin.close();
+                loadingAnimation();
+                superAdmin.portal();
+            }
+        }else{
         fin.read((char *)this, sizeof(*this));
         while (fin.eof() == 0)
         {
@@ -1157,11 +1181,71 @@ void Admin::login()
             cout << "This ID does not exists" << endl;
         }
         fin.close();
+        }
     }
 }
 
-void Admin::createNewAccount()
+void Admin::createNewAccount()  // this will only be accessed by SuperAdmin
 {
+    this->accountNumber = generateAccountNumber();
+    setName();
+    system("cls");
+    setGender();
+    system("cls");
+    setAge();
+    system("cls");
+    setCNIC();
+    system("cls");
+    setEmail();
+    system("cls");
+    setContactNumber();
+    system("cls");
+    setPassword();
+    system("color 0F");
+    system("cls");
+    TextColor(15);
+    cout << "Account Number  : ";
+    TextColor(9);
+    cout << this->accountNumber << endl;
+    TextColor(15);
+    cout << "Name            : ";
+    TextColor(10);
+    cout << this->name << endl;
+    TextColor(15);
+    cout << "Age             : ";
+    TextColor(10);
+    cout << this->age << endl;
+    TextColor(15);
+    cout << "Contact Number  : ";
+    TextColor(10);
+    cout << this->contactNumber << endl;
+    TextColor(15);
+    cout << "CNIC: ";
+    TextColor(10);
+    cout << this->cnic << endl;
+    TextColor(15);
+    cout << "Email: ";
+    TextColor(10);
+    cout << this->email << endl;
+    cout << "\nAre your sure you want to create your account: [y/n]: ";
+    char ch, choice;
+    while (1)
+    {
+        ch = getch();
+        if (ch == 'y' || ch == 'Y' || ch == 'n' || ch == 'N')
+        {
+            choice = ch;
+            cout << ch << endl;
+            break;
+        }
+    }
+    system("color 0F");
+    if (choice == 'y' || choice == 'Y')
+    {
+        Admin::storeData();
+        cout << "Account created successfully\n";
+        Sleep(1000);
+    }
 }
 
 void Admin::portal()
@@ -2325,4 +2409,197 @@ void bankPolicy()
     getch();
     system("cls");
     system("color 0F");
+}
+
+void SuperAdmin::portal(){
+    system("cls");
+    int adminPortalChoice, accNo;
+    accNo = this->accountNumber;
+    ifstream fin;
+
+    while (1)
+    {
+        adminPortalChoice = SuperAdmin::portalMenu();
+        Customer c;
+        Transaction t;
+        Currency cur;
+        switch (adminPortalChoice)
+        {
+        case 1:
+            system("title MY INFO");
+            system("color 0B");
+            system("cls");
+            Admin::viewMyInfo();
+            break;
+        case 2:
+            system("cls");
+            system("title CUSTOMER ACCOUNTS INFO");
+            viewCustomerAccounts();
+            break;
+        case 3:
+            system("cls");
+            system("title TRANSACTION HISTORY");
+            t.viewTransactionHistoryAdmin();
+            break;
+        case 4:
+            system("cls");
+            system("title DELETE ACCOUNT");
+            Admin::deleteAccount();
+            break;
+        case 5:
+            system("cls");
+            system("title ADD NEW CURRENCY");
+            cur.addCurrency();
+            break;
+        case 6:
+            system("cls");
+            system("title UPDATE CURRENCY RATES");
+            cur.updateCurrencyRate();
+            break;
+        case 7:
+            system("cls");
+            system("title SEARCH");
+            searchCustomer();
+            break;
+        case 8:
+            system("cls");
+            system("title CREATING DATABASE BACKUP...");
+            createCustomerDatabaseBackup();
+            break;
+        case 9:
+            system("cls");
+            system("title MANAGE ADMINS");
+            manageAdmins();
+            break;
+        case 10:
+            main();
+            break;
+        case 11: 
+            generateReport();
+            break;
+        default:
+            system("cls");
+            system("title ERROR");
+            CursorPosition(0, 0);
+            system("color 4F");
+            cout << "\aWrong choice entered, try again! \a";
+            Sleep(1500);
+            system("color 0F");
+            break;
+        }
+    }
+}
+
+int SuperAdmin::portalMenu(){
+    int choice;
+    system("color 1F");
+    int i;
+    system("cls");
+    system("title ADMIN PORTAL");
+    CursorPosition(0, 0);
+    TextColor(15);
+    currentDateAndTime();
+    CursorPosition(0, 2);
+    TextColor(15);
+    cout << "Welcome, Mr. Sufiyaan Usmani" << endl;
+    CursorPosition(32, 5);
+    TextColor(4);
+    cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
+    for (i = 1; i <= 21; i++)
+    {
+        CursorPosition(31, 5 + i);
+        cout << "|";
+    }
+    for (i = 1; i <= 21; i++)
+    {
+        CursorPosition(91, 5 + i);
+        cout << "|";
+    }
+    for (i = 1; i <= 60; i++)
+    {
+        CursorPosition(31 + i, 27);
+        cout << "-";
+    }
+    TextColor(15);
+    CursorPosition(33, 7);
+    cout << "1. View my information";
+    CursorPosition(33, 9);
+    cout << "2. View current accounts information";
+    CursorPosition(33, 11);
+    cout << "3. View Transaction History";
+    CursorPosition(33, 13);
+    cout << "4. Delete Account";
+    CursorPosition(33, 15);
+    cout << "5. Add new currency";
+    CursorPosition(33, 17);
+    cout << "6. Update Currency Rates";
+    CursorPosition(33, 19);
+    cout << "7. Search and Sort Customers";
+    CursorPosition(33, 21);
+    cout << "8. Create Customer Database Backup";
+    CursorPosition(33, 23);
+    cout << "9. Manage Admins";
+    CursorPosition(33, 25);
+    cout << "10. Logout";
+    CursorPosition(32, 28);
+    cout << "Enter your choice: ";
+    fflush(stdin);
+    cin >> choice;
+    return choice;
+}
+
+int Admin::generateAccountNumber(){
+    ifstream fin;
+    int num;
+    bool isFound = false;
+    srand(time(0));
+    fin.open("./data/admin.bank", ios::in | ios::binary);
+    if (!fin)
+    {
+        cout << "File does not exists" << endl;
+    }
+    else
+    {
+        while (1)
+        {
+            num = (rand() % 10000) + 100000;
+            fin.read((char *)this, sizeof(*this));
+            while (fin.eof() == 0)
+            {
+                if (this->accountNumber == num)
+                {
+                    isFound = true;
+                    break;
+                }
+                fin.read((char *)this, sizeof(*this));
+            }
+            if (isFound == false)
+            {
+                break;
+            }
+        }
+    }
+    fin.close();
+    return num;
+}
+
+void SuperAdmin::manageAdmins(){
+    int choice;
+    while(1){
+        system("cls");
+        cout << "1. Add new admin" << endl;
+        cout << "2. Delete admin" << endl;
+        cout << "3. Go Back" << endl;
+        cout << endl << "Enter your choice: ";
+        cin >> choice;
+        if(choice == 1){
+            addAdmin();
+        }
+    }
+}
+
+void SuperAdmin::addAdmin(){
+    Admin temp;
+    system("cls");
+    temp.createNewAccount();
 }
