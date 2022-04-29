@@ -129,5 +129,107 @@ int mainMenu()
     return choice;
 }
 
+void aboutUs(){
+    system("cls");
+    int j;
+    for (j = 21; j >= 0; j--)
+    {
+        if (j == 21)
+        {
+            system("color 01");
+        }
+        if (j == 19)
+        {
+            system("color 02");
+        }
+        if (j == 18)
+        {
+            system("color 03");
+        }
+        if (j == 17)
+        {
+            system("color 04");
+        }
+        if (j == 16)
+        {
+            system("color 05");
+        }
+        if (j == 15)
+        {
+            system("color 06");
+        }
+        if (j == 14)
+        {
+            system("color 07");
+        }
+        if (j == 13)
+        {
+            system("color 08");
+        }
+        if (j == 12)
+        {
+            system("color 09");
+        }
+        if (j == 11)
+        {
+            system("color 0A");
+        }
+        if (j == 10)
+        {
+            system("color 0B");
+        }
+        if (j == 9)
+        {
+            system("color 0C");
+        }
+        if (j == 8)
+        {
+            system("color 0D");
+        }
+        if (j == 7)
+        {
+            system("color 0E");
+        }
+        if (j == 6)
+        {
+            system("color 0F");
+        }
+        if (j == 5)
+        {
+            system("color 01");
+        }
+        if (j == 4)
+        {
+            system("color 02");
+        }
+        if (j == 3)
+        {
+            system("color 03");
+        }
+        if (j == 2)
+        {
+            system("color 0C");
+        }
+        if (j == 1)
+        {
+            system("color 0E");
+        }
+        if (j == 0)
+        {
+            system("color 0F");
+        }
+        system("cls");
+        CursorPosition(46, j - 1);
+        printf("THIS SYSTEM IS DESIGNED BY");
+        CursorPosition(46, j + 1);
+        printf("Sufiyaan Usmani  (21K-3195)");
+        CursorPosition(46, j + 2);
+        printf("Ahsan Ashraf     (21K-3186)");
+        CursorPosition(46, j + 3);
+        printf("Qasim Hasan      (21K-3210)");
+        CursorPosition(0, 0);
+        Sleep(600);
+    }
+}
 
 #endif

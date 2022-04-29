@@ -210,7 +210,7 @@ int main()
         case 5:
             system("cls");
             system("title About Us");
-            // aboutUs();
+            aboutUs();
             break;
         case 6:
             system("cls");
