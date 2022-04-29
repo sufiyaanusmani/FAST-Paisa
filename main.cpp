@@ -2472,10 +2472,10 @@ void SuperAdmin::portal(){
             manageAdmins();
             break;
         case 10:
-            main();
+            viewCurrentRevenue();
             break;
         case 11: 
-            generateReport();
+            main();
             break;
         default:
             system("cls");
@@ -2540,8 +2540,10 @@ int SuperAdmin::portalMenu(){
     CursorPosition(33, 23);
     cout << "9. Manage Admins";
     CursorPosition(33, 25);
-    cout << "10. Logout";
-    CursorPosition(32, 28);
+    cout << "10. View Revenue";
+    CursorPosition(33, 27);
+    cout << "11. Logout";
+    CursorPosition(32, 30);
     cout << "Enter your choice: ";
     fflush(stdin);
     cin >> choice;
@@ -2686,4 +2688,29 @@ void SuperAdmin::deleteAdmin(){
     cout << "Account deleted successfully" << endl;
     Sleep(2500);
     SuperAdmin::portal();
+}
+
+void SuperAdmin::viewCurrentRevenue(){
+    Customer temp;
+    int count = 0;
+    ifstream fin;
+    unsigned long long int total = 0;
+    fin.open("data/customer.bank", ios::in | ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(1500);
+        exit(1);
+    }
+    fin.read((char*)&temp, sizeof(temp));
+    while(fin.eof() == 0){
+        count++;
+        total += temp.getAmount();
+        fin.read((char*)&temp, sizeof(temp));
+    }
+    fin.close();
+    system("cls");
+    cout << "Total number of accounts: " << count << endl;
+    cout << "Total Amount in bank: Rs. " << total << endl;
+    cout << endl << "Press any key to continue..." << endl;
+    getch();
 }
