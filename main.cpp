@@ -27,6 +27,7 @@ int sendMail(int);
 void bankPolicy();
 
 class Customer; // formal declaration for use in class: Bank
+class TaxationDepartment;
 class Bank
 {
 private:
@@ -37,9 +38,11 @@ public:
     Bank() : name("FAST NUCES BANK")
     {
         totalAmountInBank = calculateTotalAmount();
+        totalAccounts = calculateTotalAccounts();
     }
     unsigned long long int calculateTotalAmount();
     int calculateTotalAccounts();
+    friend class TaxationDepartment;
 };
 
 class User
@@ -197,11 +200,13 @@ public:
 class TaxationDepartment{
     private:
         const float taxRate;
+        Bank bank;
     public:
         TaxationDepartment():taxRate(0.15){
 
         }
         double calculateTax();
+        void showInfo();
 };
 
 int main()
@@ -211,6 +216,7 @@ int main()
     Customer c;
     Admin a;
     Currency cur;
+    TaxationDepartment taxationDep;
     // init();
     while (1)
     {
@@ -244,6 +250,10 @@ int main()
             aboutUs();
             break;
         case 6:
+            system("cls");
+            taxationDep.showInfo();
+            break;
+        case 7:
             system("cls");
             CursorPosition(40, 10);
             system("title Good Bye");
@@ -2896,5 +2906,17 @@ int Bank::calculateTotalAccounts(){
 }
 
 double TaxationDepartment::calculateTax(){
-    
+    double tax = (double)bank.totalAmountInBank * taxRate;
+    return tax;
+}
+
+void TaxationDepartment::showInfo(){
+    system("cls");
+    cout << "Bank Name: " << bank.name << endl;
+    cout << "Total number of accounts in bank: " << bank.totalAccounts << endl;
+    cout << "Total amount in bank: Rs. " << bank.totalAmountInBank << endl;
+    cout << "Tax Rate: " << taxRate*100 << " %" << endl;
+    cout << "Tax to be collected from bank: Rs. " << calculateTax() << endl;
+    cout << endl << "Press any key to continue..." << endl;
+    getch();
 }

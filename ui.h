@@ -81,19 +81,19 @@ int mainMenu()
     CursorPosition(32, 3);
     TextColor(11);
     cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
-    for (i = 1; i <= 7; i++)
+    for (i = 1; i <= 8; i++)
     {
         CursorPosition(31, 3 + i);
         printf("|");
     }
-    for (i = 1; i <= 7; i++)
+    for (i = 1; i <= 8; i++)
     {
         CursorPosition(91, 3 + i);
         printf("|");
     }
     for (i = 1; i <= 60; i++)
     {
-        CursorPosition(31 + i, 11);
+        CursorPosition(31 + i, 12);
         printf("-");
     }
     TextColor(15);
@@ -108,7 +108,9 @@ int mainMenu()
     CursorPosition(33, 9);
     cout << "5. About Us";
     CursorPosition(33, 10);
-    cout << "6. Exit";
+    cout << "6. Taxation Department";
+    CursorPosition(33, 11);
+    cout << "7. Exit";
     CursorPosition(32, 15);
     cout << "Enter your choice: ";
     fflush(stdin);
