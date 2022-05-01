@@ -194,6 +194,16 @@ public:
     void addCurrency(int, char[25], char[4], float);
 };
 
+class TaxationDepartment{
+    private:
+        const float taxRate;
+    public:
+        TaxationDepartment():taxRate(0.15){
+
+        }
+        double calculateTax();
+};
+
 int main()
 {
     // system("mode 134, 32");
@@ -2883,4 +2893,8 @@ int Bank::calculateTotalAccounts(){
     }
     fin.close();
     return count;
+}
+
+double TaxationDepartment::calculateTax(){
+    
 }
