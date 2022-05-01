@@ -12,19 +12,35 @@
 #include <iomanip>
 using namespace std;
 
-FILE* locBit;
-FILE* locBit1;
-FILE* locBit2;
-FILE* locBit3;
-FILE* locBit4;
-FILE* MainCRET;
+FILE *locBit;
+FILE *locBit1;
+FILE *locBit2;
+FILE *locBit3;
+FILE *locBit4;
+FILE *MainCRET;
 
 int mainMenu();
 void loginAsCustomer();
 void init();
-void fillData(char [256], char [30], char [256]);
+void fillData(char[256], char[30], char[256]);
 int sendMail(int);
 void bankPolicy();
+
+class Customer; // formal declaration for use in class: Bank
+class Bank
+{
+private:
+    const string name;
+    unsigned long long int totalAmountInBank;
+    int totalAccounts;
+public:
+    Bank() : name("FAST NUCES BANK")
+    {
+        totalAmountInBank = calculateTotalAmount();
+    }
+    unsigned long long int calculateTotalAmount();
+    int calculateTotalAccounts();
+};
 
 class User
 {
@@ -39,6 +55,7 @@ protected:
     char password[20];
     virtual int generateAccountNumber() = 0;
     void inputPassword(char[20]);
+
 public:
     virtual void createNewAccount() = 0;
     // virtual void viewMyInfo() = 0;
@@ -50,13 +67,13 @@ public:
     void setContactNumber();
     void setEmail();
     void setPassword();
-    char * getName();
+    char *getName();
     int getAccountNumber();
     char getGender();
     int getAge();
-    char * getCNIC();
-    char * getContactNumber();
-    char * getEmail();
+    char *getCNIC();
+    char *getContactNumber();
+    char *getEmail();
     virtual void storeData() = 0;
     void readData();
     void setAge();
@@ -77,6 +94,7 @@ class Customer : public User
 private:
     unsigned long long int amount;
     int generateAccountNumber();
+
 public:
     void createNewAccount();
     void depositAmount();
@@ -101,6 +119,7 @@ class Admin : public User
 {
 private:
     int generateAccountNumber();
+
 public:
     void storeData();
     void login();
@@ -125,15 +144,16 @@ public:
     void viewCustomerAccounts();
 };
 
-class SuperAdmin: public Admin{
-    public:
-        void addAdmin();
-        void deleteAdmin();
-        void portal();
-        int portalMenu();
-        void viewCurrentRevenue();
-        void viewAdmins();
-        void manageAdmins();
+class SuperAdmin : public Admin
+{
+public:
+    void addAdmin();
+    void deleteAdmin();
+    void portal();
+    int portalMenu();
+    void viewCurrentRevenue();
+    void viewAdmins();
+    void manageAdmins();
 };
 
 class Transaction
@@ -145,14 +165,15 @@ private:
     unsigned long long int amount;
     char transactionType[9];
     int generateTransactionID();
+
 public:
     void storeTransaction(int, char[40], unsigned long long int, char[9]);
     void viewTransactionHistoryAdmin();
     void viewTransactionHistoryCustomer(int);
-    char * getName();
+    char *getName();
     int getAccountNumber();
     unsigned long long int getAmount();
-    char * getTransactionType();
+    char *getTransactionType();
     int getTransactionID();
 };
 
@@ -164,14 +185,14 @@ private:
     char symbol[4];
     float rate;
     int generateCurrencyCode();
+
 public:
     void addCurrency();
     void updateCurrencyRate();
     void viewCurrencyRates();
     void setRate(float);
-    void addCurrency(int, char [25], char [4], float);
+    void addCurrency(int, char[25], char[4], float);
 };
-
 
 int main()
 {
@@ -307,7 +328,7 @@ void Customer::createNewAccount()
         strcpy(mailContent, "Dear User,\nWelcome to FAST-NUCES BANK. Your account is successfully registered\n");
         strcat(mailContent, "Your account information:\nName: ");
         strcat(mailContent, this->name);
-        strcat(mailContent,  "\nAccount Number: ");
+        strcat(mailContent, "\nAccount Number: ");
         strcat(mailContent, accNo);
         strcat(mailContent, "\nCNIC: ");
         strcat(mailContent, this->cnic);
@@ -572,7 +593,8 @@ void Customer::storeData()
     fout.close();
 }
 
-unsigned long long int Customer::getAmount(){
+unsigned long long int Customer::getAmount()
+{
     return amount;
 }
 
@@ -825,14 +847,20 @@ int Customer::portalMenu()
     TextColor(5);
     cout << "Enter your choice: ";
     fflush(stdin);
-    while(1){
+    while (1)
+    {
         ch = getch();
-        if(ch >= '1' && ch <= '7'){
+        if (ch >= '1' && ch <= '7')
+        {
             cout << ch;
             choice = ch - '0';
-        }else if(ch == 13){
+        }
+        else if (ch == 13)
+        {
             break;
-        }else if(ch == 8){
+        }
+        else if (ch == 8)
+        {
             cout << "\b \b";
         }
     }
@@ -1143,49 +1171,53 @@ void Admin::login()
         cout << "Enter account number: ";
         fflush(stdin);
         cin >> id;
-        if(id == 213195){
+        if (id == 213195)
+        {
             cout << "Enter your password: ";
             inputPassword(pass);
-            if(strcmp(pass, "sufiyaan") == 0){
+            if (strcmp(pass, "sufiyaan") == 0)
+            {
                 fin.close();
                 loadingAnimation();
                 superAdmin.portal();
             }
-        }else{
-        fin.read((char *)this, sizeof(*this));
-        while (fin.eof() == 0)
+        }
+        else
         {
-            if (id == this->accountNumber)
-            {
-                idFound = true;
-                cout << "Enter your password: ";
-                inputPassword(pass);
-                if (strcmp(password, pass) == 0)
-                {
-                    passFound = true;
-                    fin.close();
-                    loadingAnimation();
-                    Admin::portal();
-                }
-                else
-                {
-                    cout << "Wrong password" << endl;
-                    Sleep(1000);
-                }
-                break;
-            }
             fin.read((char *)this, sizeof(*this));
-        }
-        if (idFound == false)
-        {
-            cout << "This ID does not exists" << endl;
-        }
-        fin.close();
+            while (fin.eof() == 0)
+            {
+                if (id == this->accountNumber)
+                {
+                    idFound = true;
+                    cout << "Enter your password: ";
+                    inputPassword(pass);
+                    if (strcmp(password, pass) == 0)
+                    {
+                        passFound = true;
+                        fin.close();
+                        loadingAnimation();
+                        Admin::portal();
+                    }
+                    else
+                    {
+                        cout << "Wrong password" << endl;
+                        Sleep(1000);
+                    }
+                    break;
+                }
+                fin.read((char *)this, sizeof(*this));
+            }
+            if (idFound == false)
+            {
+                cout << "This ID does not exists" << endl;
+            }
+            fin.close();
         }
     }
 }
 
-void Admin::createNewAccount()  // this will only be accessed by SuperAdmin
+void Admin::createNewAccount() // this will only be accessed by SuperAdmin
 {
     this->accountNumber = generateAccountNumber();
     setName();
@@ -1331,7 +1363,7 @@ void Admin::portal()
         case 10:
             main();
             break;
-        case 11: 
+        case 11:
             generateReport();
             break;
         default:
@@ -1528,7 +1560,7 @@ void Transaction::viewTransactionHistoryAdmin()
     fin.close();
     TextColor(5);
     cout << "\nPress any key to continue...";
-    CursorPosition(0,0);
+    CursorPosition(0, 0);
     getch();
 }
 
@@ -1764,18 +1796,24 @@ void Currency::addCurrency()
     system("cls");
     cout << "Enter symbol (3 characters): ";
     fflush(stdin);
-    while(1){
+    while (1)
+    {
         ch = getch();
-        if(ch >= 'A' && ch <= 'Z' && i < 3){
+        if (ch >= 'A' && ch <= 'Z' && i < 3)
+        {
             cout << ch;
             symbol[i] = ch;
             i++;
-        }else if(ch >= 'a' && ch <= 'z' && i < 3){
+        }
+        else if (ch >= 'a' && ch <= 'z' && i < 3)
+        {
             ch = ch - 32;
             cout << ch;
             symbol[i] = ch;
             i++;
-        }else if(i == 3 && ch == 13){
+        }
+        else if (i == 3 && ch == 13)
+        {
             break;
         }
     }
@@ -1793,7 +1831,8 @@ void Currency::addCurrency()
     Sleep(1500);
 }
 
-char * User::getName(){
+char *User::getName()
+{
     return name;
 }
 
@@ -1877,13 +1916,16 @@ void Currency::setRate(float rate)
     }
 }
 
-void Admin::searchCustomer(){
+void Admin::searchCustomer()
+{
     int choice;
     cout << "1. Search by Account Number" << endl;
     cout << "2. Search by Name" << endl;
     cout << "3. Sort by amount (ASCENDING)" << endl;
     cout << "4. Sort by amount (DESCENDING)" << endl;
-    cout << "5. Go back" << endl << endl;;
+    cout << "5. Go back" << endl
+         << endl;
+    ;
     TextColor(10);
     cout << "Enter your choice: ";
     fflush(stdin);
@@ -1891,60 +1933,67 @@ void Admin::searchCustomer(){
     cin >> choice;
 
     system("cls");
-    switch(choice){
-        case 1:
-            searchByAccountNumber();
-            break;
-        case 2:
-            searchByName();
-            break;
-        case 3:
-            sortAscending();
-            break;
-        case 4:
-            sortDescending();
-            break;
-        case 5:
-            break;
-        default:
-            cout << "Wrong choice entered, please enter a correct choice" << endl;
-            Sleep(1500);
-            break;
+    switch (choice)
+    {
+    case 1:
+        searchByAccountNumber();
+        break;
+    case 2:
+        searchByName();
+        break;
+    case 3:
+        sortAscending();
+        break;
+    case 4:
+        sortDescending();
+        break;
+    case 5:
+        break;
+    default:
+        cout << "Wrong choice entered, please enter a correct choice" << endl;
+        Sleep(1500);
+        break;
     }
 }
 
-void Admin::searchByAccountNumber(){
+void Admin::searchByAccountNumber()
+{
     int accountNumberToSearch;
     ifstream fin;
     bool accountFound = false;
     Customer c;
     system("cls");
-    while(1){
+    while (1)
+    {
         cout << "Enter account number to search: ";
         fflush(stdin);
         cin >> accountNumberToSearch;
-        fin.open("./data/customer.bank", ios::in|ios::binary);
-        fin.read((char*)&c, sizeof(c));
-        while(fin.eof() == 0){
-            if(accountNumberToSearch == c.getAccountNumber()){
+        fin.open("./data/customer.bank", ios::in | ios::binary);
+        fin.read((char *)&c, sizeof(c));
+        while (fin.eof() == 0)
+        {
+            if (accountNumberToSearch == c.getAccountNumber())
+            {
                 accountFound = true;
                 c.viewMyInfo();
                 goto searchByAccountNumberEnd;
             }
-            fin.read((char*)&c, sizeof(c));
+            fin.read((char *)&c, sizeof(c));
         }
-        if(accountFound == false){
+        if (accountFound == false)
+        {
             system("cls");
             cout << "This account does not exists" << endl;
             Sleep(2000);
             goto searchByAccountNumberEnd;
         }
     }
-    searchByAccountNumberEnd:
-        fin.close();
+searchByAccountNumberEnd:
+    fin.close();
 }
 
-void Admin::searchByName(){
+void Admin::searchByName()
+{
     char name[40];
     bool found = false;
     int total = 0;
@@ -1955,11 +2004,14 @@ void Admin::searchByName(){
     fflush(stdin);
     gets(name);
     system("cls");
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    fin.read((char*)&c, sizeof(c));
-    while(1){
-        while(fin.eof() == 0){
-            if(strcmp(name, c.getName()) == 0){
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    fin.read((char *)&c, sizeof(c));
+    while (1)
+    {
+        while (fin.eof() == 0)
+        {
+            if (strcmp(name, c.getName()) == 0)
+            {
                 found = true;
                 system("color 0B");
                 system("title MY INFO");
@@ -1970,216 +2022,258 @@ void Admin::searchByName(){
                 cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
                 cout << "Contact Number: " << this->contactNumber << endl;
                 cout << "Email: " << this->email << endl;
-                cout << "CNIC: " << this->cnic << endl << endl;
+                cout << "CNIC: " << this->cnic << endl
+                     << endl;
                 total++;
                 cout << endl;
             }
-            fin.read((char*)&c, sizeof(c));
+            fin.read((char *)&c, sizeof(c));
         }
-        if(found == true){
+        if (found == true)
+        {
             cout << "There are currently " << total << " account(s) with this name" << endl;
             cout << "\nPress any key to continue..." << endl;
             getch();
-        }else{
+        }
+        else
+        {
             cout << "There are no account with this name" << endl;
             Sleep(2000);
         }
     }
-    searchByNameEnd:
-        fin.close();
+searchByNameEnd:
+    fin.close();
 }
 
-void Admin::sortAscending(){
+void Admin::sortAscending()
+{
     int size, i, j;
     size = 0;
     Customer *cust;
     Customer c, temp;
     ifstream fin;
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    fin.read((char*)&c, sizeof(c));
-    while(fin.eof() == 0){
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    fin.read((char *)&c, sizeof(c));
+    while (fin.eof() == 0)
+    {
         size++;
-        fin.read((char*)&c, sizeof(c));
+        fin.read((char *)&c, sizeof(c));
     }
     fin.close();
-    if(size != 0){
+    if (size != 0)
+    {
         cust = new Customer[size];
         i = 0;
-        fin.open("./data/customer.bank", ios::in|ios::binary);
-        fin.read((char*)&c, sizeof(c));
-        while(fin.eof() == 0){
+        fin.open("./data/customer.bank", ios::in | ios::binary);
+        fin.read((char *)&c, sizeof(c));
+        while (fin.eof() == 0)
+        {
             *(cust + i) = c;
             i++;
-            fin.read((char*)&c, sizeof(c));
+            fin.read((char *)&c, sizeof(c));
         }
         fin.close();
-        for(i=1;i<size;i++){
-            for(j=0;j<size-i;j++){
-                if(cust[j].getAmount() > cust[j+1].getAmount()){
+        for (i = 1; i < size; i++)
+        {
+            for (j = 0; j < size - i; j++)
+            {
+                if (cust[j].getAmount() > cust[j + 1].getAmount())
+                {
                     temp = cust[j];
-                    cust[j] = cust[j+1];
-                    cust[j+1] = temp;
+                    cust[j] = cust[j + 1];
+                    cust[j + 1] = temp;
                 }
             }
         }
-        for(i=0;i<size;i++){
+        for (i = 0; i < size; i++)
+        {
             cout << cust[i].getAccountNumber() << "      " << setw(40) << cust[i].getName() << "  " << cust[i].getAge() << "  " << (cust[i].getGender() == 'm' ? "Male" : "Female") << "  " << cust[i].getContactNumber() << "  " << cust[i].getCNIC() << "  " << cust[i].getEmail() << "  " << cust[i].getAmount() << endl;
         }
         cout << "\nPress any to continue..." << endl;
         getch();
-    }else{
+    }
+    else
+    {
         cout << "Empty" << endl;
     }
-    delete [] cust;
+    delete[] cust;
     cust = NULL;
 }
 
-int User::getAge(){
+int User::getAge()
+{
     return age;
 }
 
-char User::getGender(){
+char User::getGender()
+{
     return gender;
 }
 
-char * User::getContactNumber(){
+char *User::getContactNumber()
+{
     return contactNumber;
 }
 
-char * User::getCNIC(){
+char *User::getCNIC()
+{
     return cnic;
 }
 
-char * User::getEmail(){
+char *User::getEmail()
+{
     return email;
 }
 
-void Admin::sortDescending(){
+void Admin::sortDescending()
+{
     int size, i, j;
     size = 0;
     Customer *cust;
     Customer c, temp;
     ifstream fin;
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    fin.read((char*)&c, sizeof(c));
-    while(fin.eof() == 0){
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    fin.read((char *)&c, sizeof(c));
+    while (fin.eof() == 0)
+    {
         size++;
-        fin.read((char*)&c, sizeof(c));
+        fin.read((char *)&c, sizeof(c));
     }
     fin.close();
-    if(size != 0){
+    if (size != 0)
+    {
         cust = new Customer[size];
         i = 0;
-        fin.open("./data/customer.bank", ios::in|ios::binary);
-        fin.read((char*)&c, sizeof(c));
-        while(fin.eof() == 0){
+        fin.open("./data/customer.bank", ios::in | ios::binary);
+        fin.read((char *)&c, sizeof(c));
+        while (fin.eof() == 0)
+        {
             *(cust + i) = c;
             i++;
-            fin.read((char*)&c, sizeof(c));
+            fin.read((char *)&c, sizeof(c));
         }
         fin.close();
-        for(i=1;i<size;i++){
-            for(j=0;j<size-i;j++){
-                if(cust[j].getAmount() < cust[j+1].getAmount()){
+        for (i = 1; i < size; i++)
+        {
+            for (j = 0; j < size - i; j++)
+            {
+                if (cust[j].getAmount() < cust[j + 1].getAmount())
+                {
                     temp = cust[j];
-                    cust[j] = cust[j+1];
-                    cust[j+1] = temp;
+                    cust[j] = cust[j + 1];
+                    cust[j + 1] = temp;
                 }
             }
         }
-        for(i=0;i<size;i++){
+        for (i = 0; i < size; i++)
+        {
             cout << cust[i].getAccountNumber() << "      " << setw(40) << cust[i].getName() << "  " << cust[i].getAge() << "  " << (cust[i].getGender() == 'm' ? "Male" : "Female") << "  " << cust[i].getContactNumber() << "  " << cust[i].getCNIC() << "  " << cust[i].getEmail() << "  " << cust[i].getAmount() << endl;
         }
         cout << "\nPress any to continue..." << endl;
         getch();
-    }else{
+    }
+    else
+    {
         cout << "Empty" << endl;
     }
-    delete [] cust;
+    delete[] cust;
     cust = NULL;
 }
 
-void Customer::accountSetting(){
+void Customer::accountSetting()
+{
     int choice;
-    while(1){
+    while (1)
+    {
         system("cls");
         cout << "1. Update my email" << endl;
         cout << "2. Update my contact number" << endl;
         cout << "3. Change my password" << endl;
         cout << "4. Delete my account" << endl;
         cout << "5. Go back" << endl;
-        cout << endl << "Enter your choice: ";
+        cout << endl
+             << "Enter your choice: ";
         fflush(stdin);
         cin >> choice;
-        switch(choice){
-            case 1:
-                Customer::updateEmail(this->accountNumber);
-                break;
-            case 2:
-                Customer::updateContactNumber(this->accountNumber);
-                break;
-            case 3:
-                Customer::changePassword(this->accountNumber);
-                break;
-            case 4:
-                Customer::deleteAccount();
-                break;
-            case 5:
-                goto customerAccountSettingEnd;
-                break;
-            default:
-                cout << "Enter a valid choice" << endl;
-                break;
-        }
-    }
-    customerAccountSettingEnd:
-        system("cls");
-}
-
-void Customer::updateInfo(int accNo){
-    fstream file;
-    Customer c;
-    file.open("./data/customer.bank", ios::in|ios::out|ios::ate|ios::binary);
-    file.seekg(0);
-    file.read((char*)&c, sizeof(c));
-    while(file.eof() == 0){
-        if(c.accountNumber == accNo){
-            file.seekp(file.tellp() - sizeof(c));
-            file.write((char*)this, sizeof(*this));
+        switch (choice)
+        {
+        case 1:
+            Customer::updateEmail(this->accountNumber);
+            break;
+        case 2:
+            Customer::updateContactNumber(this->accountNumber);
+            break;
+        case 3:
+            Customer::changePassword(this->accountNumber);
+            break;
+        case 4:
+            Customer::deleteAccount();
+            break;
+        case 5:
+            goto customerAccountSettingEnd;
+            break;
+        default:
+            cout << "Enter a valid choice" << endl;
             break;
         }
-        file.read((char*)&c, sizeof(c));
+    }
+customerAccountSettingEnd:
+    system("cls");
+}
+
+void Customer::updateInfo(int accNo)
+{
+    fstream file;
+    Customer c;
+    file.open("./data/customer.bank", ios::in | ios::out | ios::ate | ios::binary);
+    file.seekg(0);
+    file.read((char *)&c, sizeof(c));
+    while (file.eof() == 0)
+    {
+        if (c.accountNumber == accNo)
+        {
+            file.seekp(file.tellp() - sizeof(c));
+            file.write((char *)this, sizeof(*this));
+            break;
+        }
+        file.read((char *)&c, sizeof(c));
     }
     file.close();
 }
 
-void Customer::updateEmail(int accNo){
+void Customer::updateEmail(int accNo)
+{
     setEmail();
     system("cls");
     cout << "Enter your password to confirm: ";
     char passToConfirm[20];
     inputPassword(passToConfirm);
-    if(strcmp(password, passToConfirm) == 0){
+    if (strcmp(password, passToConfirm) == 0)
+    {
         Customer::updateInfo(accNo);
     }
 }
 
-void Customer::updateContactNumber(int accNo){
+void Customer::updateContactNumber(int accNo)
+{
     setContactNumber();
     system("cls");
     cout << "Enter your password to confirm: ";
     char passToConfirm[20];
     inputPassword(passToConfirm);
-    if(strcmp(password, passToConfirm) == 0){
+    if (strcmp(password, passToConfirm) == 0)
+    {
         Customer::updateInfo(accNo);
     }
 }
 
-void Customer::changePassword(int accNo){
+void Customer::changePassword(int accNo)
+{
     char passToConfirm[20];
     cout << "Enter your password to confirm: ";
     inputPassword(passToConfirm);
-    if(strcmp(password, passToConfirm) == 0){
+    if (strcmp(password, passToConfirm) == 0)
+    {
         system("cls");
         system("title ENTER NEW PASSWORD");
         setPassword();
@@ -2187,83 +2281,96 @@ void Customer::changePassword(int accNo){
     }
 }
 
-void Admin::accountSetting(){
+void Admin::accountSetting()
+{
     int choice;
-    while(1){
+    while (1)
+    {
         system("cls");
         cout << "1. Update my email" << endl;
         cout << "2. Update my contact number" << endl;
         cout << "3. Change my password" << endl;
         cout << "4. Go back" << endl;
-        cout << endl << "Enter your choice: ";
+        cout << endl
+             << "Enter your choice: ";
         fflush(stdin);
         cin >> choice;
-        switch(choice){
-            case 1:
-                Admin::updateEmail(this->accountNumber);
-                break;
-            case 2:
-                Admin::updateContactNumber(this->accountNumber);
-                break;
-            case 3:
-                Admin::changePassword(this->accountNumber);
-                break;
-            case 4:
-                goto adminAccountSettingEnd;
-                break;
-            default:
-                cout << "Enter a valid choice" << endl;
-                break;
-        }
-    }
-    adminAccountSettingEnd:
-        system("cls");
-}
-
-void Admin::updateInfo(int accNo){
-    fstream file;
-    Admin a;
-    file.open("./data/admin.bank", ios::in|ios::out|ios::ate|ios::binary);
-    file.seekg(0);
-    file.read((char*)&a, sizeof(a));
-    while(file.eof() == 0){
-        if(a.accountNumber == accNo){
-            file.seekp(file.tellp() - sizeof(a));
-            file.write((char*)this, sizeof(*this));
+        switch (choice)
+        {
+        case 1:
+            Admin::updateEmail(this->accountNumber);
+            break;
+        case 2:
+            Admin::updateContactNumber(this->accountNumber);
+            break;
+        case 3:
+            Admin::changePassword(this->accountNumber);
+            break;
+        case 4:
+            goto adminAccountSettingEnd;
+            break;
+        default:
+            cout << "Enter a valid choice" << endl;
             break;
         }
-        file.read((char*)&a, sizeof(a));
+    }
+adminAccountSettingEnd:
+    system("cls");
+}
+
+void Admin::updateInfo(int accNo)
+{
+    fstream file;
+    Admin a;
+    file.open("./data/admin.bank", ios::in | ios::out | ios::ate | ios::binary);
+    file.seekg(0);
+    file.read((char *)&a, sizeof(a));
+    while (file.eof() == 0)
+    {
+        if (a.accountNumber == accNo)
+        {
+            file.seekp(file.tellp() - sizeof(a));
+            file.write((char *)this, sizeof(*this));
+            break;
+        }
+        file.read((char *)&a, sizeof(a));
     }
     file.close();
 }
 
-void Admin::updateEmail(int accNo){
+void Admin::updateEmail(int accNo)
+{
     setEmail();
     system("cls");
     cout << "Enter your password to confirm: ";
     char passToConfirm[20];
     inputPassword(passToConfirm);
-    if(strcmp(password, passToConfirm) == 0){
+    if (strcmp(password, passToConfirm) == 0)
+    {
         Admin::updateInfo(accNo);
     }
 }
 
-void Admin::updateContactNumber(int accNo){
+void Admin::updateContactNumber(int accNo)
+{
     setContactNumber();
     system("cls");
     cout << "Enter your password to confirm: ";
     char passToConfirm[20];
     inputPassword(passToConfirm);
-    if(strcmp(password, passToConfirm) == 0){
+    if (strcmp(password, passToConfirm) == 0)
+    {
         Admin::updateInfo(accNo);
     }
 }
 
-void Admin::changePassword(int accNo){
+void Admin::changePassword(int accNo)
+{
     char passToConfirm[20];
     cout << "Enter your password to confirm: ";
     inputPassword(passToConfirm);
-    if(strcmp(password, passToConfirm) == 0){
+    if (strcmp(password, passToConfirm) == 0)
+    {
         system("cls");
         system("title ENTER NEW PASSWORD");
         setPassword();
@@ -2271,97 +2378,105 @@ void Admin::changePassword(int accNo){
     }
 }
 
-void Admin::generateReport(){
+void Admin::generateReport()
+{
     ifstream fin;
     ofstream fout;
     Transaction t;
-    fin.open("./data/transaction.bank", ios::in|ios::binary);
+    fin.open("./data/transaction.bank", ios::in | ios::binary);
     fout.open("a.csv", ios::out);
     fout << "Name,Account_Number,Amount,Type" << endl;
-    fin.read((char*)&t, sizeof(t));
-    while(fin.eof() == 0){
+    fin.read((char *)&t, sizeof(t));
+    while (fin.eof() == 0)
+    {
         fout << t.getName() << "," << t.getAccountNumber() << "," << t.getAmount() << "," << t.getTransactionType() << endl;
-        fin.read((char*)&t, sizeof(t));
+        fin.read((char *)&t, sizeof(t));
     }
     fin.close();
     fout.close();
 }
 
-int Transaction::getAccountNumber(){
+int Transaction::getAccountNumber()
+{
     return accountNumber;
 }
 
-char * Transaction::getName(){
+char *Transaction::getName()
+{
     return customerName;
 }
 
-unsigned long long int Transaction::getAmount(){
+unsigned long long int Transaction::getAmount()
+{
     return amount;
 }
 
-char * Transaction::getTransactionType(){
+char *Transaction::getTransactionType()
+{
     return transactionType;
 }
 
 void init()
 {
-	locBit = fopen("./tmp/GmailUR.txt","w");
-	locBit1 =fopen("./tmp/Mail.txt","w");
-	locBit2 =fopen("./tmp/Message.txt","w");
-	locBit3 =fopen("./tmp/PassUR.txt","w");
-	locBit4 =fopen("./tmp/Subject.txt","w");	
-	MainCRET=fopen("./tmp/Mail.aysoat","w");
-	fprintf(MainCRET,"import smtplib\nurm=open('./tmp/GmailUR.txt','r')\nurp=open('./tmp/PassUR.txt','r')\nsocmail = urm.read()\npassword = urp.read()\nsub = open('./tmp/Subject.txt','r')\nsubject = sub.read()\nsandesh = open('./tmp/Message.txt','r')\nsmessage = sandesh.read()\nmailid = open('./tmp/Mail.txt','r')\nj = mailid.readline()\nEmail=j.split()\ns = smtplib.SMTP('smtp.gmail.com', 587)\ns.starttls()\ns.login(socmail, password)\nbody = ''\nding = 'Subject:{}{}'.format(subject, body)\nmessage = ding+smessage\n#print('Message Sent to',Email)\ns.sendmail(socmail, Email, smessage)\nprint('Done')\n\n");
-	fclose(MainCRET);
-//	return 0;
+    locBit = fopen("./tmp/GmailUR.txt", "w");
+    locBit1 = fopen("./tmp/Mail.txt", "w");
+    locBit2 = fopen("./tmp/Message.txt", "w");
+    locBit3 = fopen("./tmp/PassUR.txt", "w");
+    locBit4 = fopen("./tmp/Subject.txt", "w");
+    MainCRET = fopen("./tmp/Mail.aysoat", "w");
+    fprintf(MainCRET, "import smtplib\nurm=open('./tmp/GmailUR.txt','r')\nurp=open('./tmp/PassUR.txt','r')\nsocmail = urm.read()\npassword = urp.read()\nsub = open('./tmp/Subject.txt','r')\nsubject = sub.read()\nsandesh = open('./tmp/Message.txt','r')\nsmessage = sandesh.read()\nmailid = open('./tmp/Mail.txt','r')\nj = mailid.readline()\nEmail=j.split()\ns = smtplib.SMTP('smtp.gmail.com', 587)\ns.starttls()\ns.login(socmail, password)\nbody = ''\nding = 'Subject:{}{}'.format(subject, body)\nmessage = ding+smessage\n#print('Message Sent to',Email)\ns.sendmail(socmail, Email, smessage)\nprint('Done')\n\n");
+    fclose(MainCRET);
+    //	return 0;
 }
 
 void fillData(char SUBJECT[256], char SENDMAIL[30], char MESSAGE[256])
 {
-	init();
-	fprintf(locBit,"%s","fastnucesbank@gmail.com");
-	fprintf(locBit3,"%s","Hehe.123456");	
-	fprintf(locBit1,"%s",SENDMAIL);
-	fprintf(locBit4,"%s",SUBJECT);
-	fprintf(locBit2,"%s",MESSAGE);
-	fclose(locBit);
-	fclose(locBit1);
-	fclose(locBit2);
-	fclose(locBit3);
-	fclose(locBit4);
+    init();
+    fprintf(locBit, "%s", "fastnucesbank@gmail.com");
+    fprintf(locBit3, "%s", "Hehe.123456");
+    fprintf(locBit1, "%s", SENDMAIL);
+    fprintf(locBit4, "%s", SUBJECT);
+    fprintf(locBit2, "%s", MESSAGE);
+    fclose(locBit);
+    fclose(locBit1);
+    fclose(locBit2);
+    fclose(locBit3);
+    fclose(locBit4);
 }
 
 int sendMail(int returnVal)
 {
-system("python ./tmp/Mail.aysoat");
-switch(returnVal)
-{
-case 0:
-return 0;
-break;
-case -1:
-return -1;
-break;
-default:
-return 0;
-break;	  	  	
-}
-system("attrib -h -s ./tmp/Mail.aysoat");
-return 0;
+    system("python ./tmp/Mail.aysoat");
+    switch (returnVal)
+    {
+    case 0:
+        return 0;
+        break;
+    case -1:
+        return -1;
+        break;
+    default:
+        return 0;
+        break;
+    }
+    system("attrib -h -s ./tmp/Mail.aysoat");
+    return 0;
 }
 
-int Transaction::getTransactionID(){
+int Transaction::getTransactionID()
+{
     return transactionID;
 }
 
-void Currency::addCurrency(int code, char n[25], char s[4], float rate){
+void Currency::addCurrency(int code, char n[25], char s[4], float rate)
+{
     this->code = code;
     strcpy(name, n);
     strcpy(symbol, s);
     this->rate = rate;
     ofstream fout;
-    fout.open("./data/currency.bank", ios::app|ios::binary);
-    fout.write((char*)this, sizeof(*this));
+    fout.open("./data/currency.bank", ios::app | ios::binary);
+    fout.write((char *)this, sizeof(*this));
     fout.close();
 }
 
@@ -2411,7 +2526,8 @@ void bankPolicy()
     system("color 0F");
 }
 
-void SuperAdmin::portal(){
+void SuperAdmin::portal()
+{
     system("cls");
     int adminPortalChoice, accNo;
     accNo = this->accountNumber;
@@ -2474,7 +2590,7 @@ void SuperAdmin::portal(){
         case 10:
             viewCurrentRevenue();
             break;
-        case 11: 
+        case 11:
             main();
             break;
         default:
@@ -2490,7 +2606,8 @@ void SuperAdmin::portal(){
     }
 }
 
-int SuperAdmin::portalMenu(){
+int SuperAdmin::portalMenu()
+{
     int choice;
     system("color 1F");
     int i;
@@ -2550,7 +2667,8 @@ int SuperAdmin::portalMenu(){
     return choice;
 }
 
-int Admin::generateAccountNumber(){
+int Admin::generateAccountNumber()
+{
     ifstream fin;
     int num;
     bool isFound = false;
@@ -2585,47 +2703,62 @@ int Admin::generateAccountNumber(){
     return num;
 }
 
-void SuperAdmin::manageAdmins(){
+void SuperAdmin::manageAdmins()
+{
     int choice;
-    while(1){
+    while (1)
+    {
         system("cls");
         cout << "1. View admins" << endl;
         cout << "2. Add new admin" << endl;
         cout << "3. Delete admin" << endl;
         cout << "4. Go Back" << endl;
-        cout << endl << "Enter your choice: ";
+        cout << endl
+             << "Enter your choice: ";
         cin >> choice;
-        if(choice == 1){
+        if (choice == 1)
+        {
             viewAdmins();
-        }else if(choice == 2){
+        }
+        else if (choice == 2)
+        {
             addAdmin();
-        }else if(choice == 3){
+        }
+        else if (choice == 3)
+        {
             deleteAdmin();
-        }else if(choice == 4){
+        }
+        else if (choice == 4)
+        {
             SuperAdmin::portal();
-        }else{
+        }
+        else
+        {
             cout << "Wrong choice entered, enter a valid choice";
             Sleep(1500);
         }
     }
 }
 
-void SuperAdmin::addAdmin(){
+void SuperAdmin::addAdmin()
+{
     Admin temp;
     system("cls");
     temp.createNewAccount();
 }
 
-void SuperAdmin::viewAdmins(){
+void SuperAdmin::viewAdmins()
+{
     Admin temp;
     ifstream fin;
     fin.open("data/admin.bank", ios::in | ios::binary);
-    if(!fin){
+    if (!fin)
+    {
         perror("Error");
         Sleep(2000);
         exit(1);
     }
-    fin.read((char*)&temp, sizeof(temp));
+    fin.read((char *)&temp, sizeof(temp));
     while (fin.eof() == 0)
     {
         cout << temp.getAccountNumber() << "      " << setw(40) << temp.getName() << "  " << temp.getAge() << "  " << (temp.getGender() == 'm' ? "Male" : "Female") << "  " << temp.getContactNumber() << "  " << temp.getCNIC() << "  " << temp.getEmail() << endl;
@@ -2633,11 +2766,13 @@ void SuperAdmin::viewAdmins(){
     }
     fin.close();
     TextColor(13);
-    cout << endl << "Press any key to continue..." << endl;
+    cout << endl
+         << "Press any key to continue..." << endl;
     getch();
 }
 
-void SuperAdmin::deleteAdmin(){
+void SuperAdmin::deleteAdmin()
+{
     bool found = false;
     Admin temp;
     ifstream fin;
@@ -2648,36 +2783,45 @@ void SuperAdmin::deleteAdmin(){
     cout << "Enter account number to delete: ";
     cin >> accToDelete;
     fin.open("data/admin.bank", ios::in | ios::binary);
-    if(!fin){
+    if (!fin)
+    {
         perror("Error");
         Sleep(2000);
         exit(1);
     }
-    fin.read((char*)&temp, sizeof(temp));
-    while(fin.eof() == 0){
-        if(accToDelete == temp.getAccountNumber()){
+    fin.read((char *)&temp, sizeof(temp));
+    while (fin.eof() == 0)
+    {
+        if (accToDelete == temp.getAccountNumber())
+        {
             found = true;
             break;
         }
-        fin.read((char*)&temp, sizeof(temp));
+        fin.read((char *)&temp, sizeof(temp));
     }
     fin.close();
-    if(found == true){
+    if (found == true)
+    {
         fin.open("data/admin.bank", ios::in | ios::binary);
         fout.open("data/temp.bank", ios::out | ios::binary);
-        if(!fin){
-        perror("Error");
-        Sleep(2000);
-        exit(1);
+        if (!fin)
+        {
+            perror("Error");
+            Sleep(2000);
+            exit(1);
         }
-        fin.read((char*)&temp, sizeof(temp));
-        while(fin.eof() == 0){
-            if(temp.getAccountNumber() != accToDelete){
-                fout.write((char*)&temp, sizeof(temp));
-            }   
-            fin.read((char*)&temp, sizeof(temp));
+        fin.read((char *)&temp, sizeof(temp));
+        while (fin.eof() == 0)
+        {
+            if (temp.getAccountNumber() != accToDelete)
+            {
+                fout.write((char *)&temp, sizeof(temp));
+            }
+            fin.read((char *)&temp, sizeof(temp));
         }
-    }else{
+    }
+    else
+    {
         cout << "This account does not exists" << endl;
         Sleep(2000);
     }
@@ -2690,27 +2834,53 @@ void SuperAdmin::deleteAdmin(){
     SuperAdmin::portal();
 }
 
-void SuperAdmin::viewCurrentRevenue(){
-    Customer temp;
-    int count = 0;
-    ifstream fin;
-    unsigned long long int total = 0;
-    fin.open("data/customer.bank", ios::in | ios::binary);
-    if(!fin){
-        perror("Error");
-        Sleep(1500);
-        exit(1);
-    }
-    fin.read((char*)&temp, sizeof(temp));
-    while(fin.eof() == 0){
-        count++;
-        total += temp.getAmount();
-        fin.read((char*)&temp, sizeof(temp));
-    }
-    fin.close();
+void SuperAdmin::viewCurrentRevenue()
+{
+    Bank bank;
+    int count = bank.calculateTotalAccounts();
+    unsigned long long int total = bank.calculateTotalAmount();
     system("cls");
     cout << "Total number of accounts: " << count << endl;
     cout << "Total Amount in bank: Rs. " << total << endl;
     cout << endl << "Press any key to continue..." << endl;
     getch();
+}
+
+unsigned long long int Bank::calculateTotalAmount()
+{
+    ifstream fin;
+    Customer temp;
+    unsigned long long int total = 0;
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    if (!fin)
+    {
+        perror("Error");
+        exit(1);
+    }
+    fin.read((char *)&temp, sizeof(temp));
+    while (fin.eof() == 0)
+    {
+        total += temp.getAmount();
+        fin.read((char *)&temp, sizeof(temp));
+    }
+    fin.close();
+    return total;
+}
+
+int Bank::calculateTotalAccounts(){
+    int count = 0;
+    ifstream fin;
+    Customer temp;
+    fin.open("./data/customer.bank", ios::in|ios::binary);
+    if(!fin){
+        perror("Error");
+        exit(1);
+    }
+    fin.read((char*)&temp, sizeof(temp));
+    while(fin.eof() == 0){
+        count++;
+        fin.read((char*)&temp, sizeof(temp));
+    }
+    fin.close();
+    return count;
 }
