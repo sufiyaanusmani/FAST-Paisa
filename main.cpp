@@ -2054,13 +2054,13 @@ void Admin::searchByName()
                 system("color 0B");
                 system("title MY INFO");
                 cout << "Name: ";
-                cout << this->name << endl;
-                cout << "Account No: " << this->accountNumber << endl;
-                cout << "Age: " << this->age << endl;
-                cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
-                cout << "Contact Number: " << this->contactNumber << endl;
-                cout << "Email: " << this->email << endl;
-                cout << "CNIC: " << this->cnic << endl
+                cout << c.getName() << endl;
+                cout << "Account No: " << c.getAccountNumber() << endl;
+                cout << "Age: " << c.getAge() << endl;
+                cout << "Gender: " << (c.getGender() == 'm' ? "Male" : "Female") << endl;
+                cout << "Contact Number: " << c.getContactNumber() << endl;
+                cout << "Email: " << c.getEmail() << endl;
+                cout << "CNIC: " << c.getCNIC() << endl
                      << endl;
                 total++;
                 cout << endl;
@@ -2072,11 +2072,13 @@ void Admin::searchByName()
             cout << "There are currently " << total << " account(s) with this name" << endl;
             cout << "\nPress any key to continue..." << endl;
             getch();
+            break;
         }
         else
         {
             cout << "There are no account with this name" << endl;
             Sleep(2000);
+            break;
         }
     }
 searchByNameEnd:
