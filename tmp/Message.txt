@@ -1,11 +1,2 @@
-Dear User,
-Welcome to FAST-NUCES BANK. Your account is successfully registered
-Your account information:
-Name: 
-Account Number: 100872
-CNIC: 4554444444444
-
-In case of any queries, please contact us at fastnucesbank@gmail.com
-
-Regards,
-FAST-NUCES BANK
+Dear Customer,
+Rs. 100 has been withdrawn successfully from your account
