@@ -34,6 +34,7 @@ private:
     const string name;
     unsigned long long int totalAmountInBank;
     int totalAccounts;
+
 public:
     Bank() : name("FAST NUCES BANK")
     {
@@ -197,16 +198,18 @@ public:
     void addCurrency(int, char[25], char[4], float);
 };
 
-class TaxationDepartment{
-    private:
-        const float taxRate;
-        Bank bank;
-    public:
-        TaxationDepartment():taxRate(0.15){
+class TaxationDepartment
+{
+private:
+    const float taxRate;
+    Bank bank;
 
-        }
-        double calculateTax();
-        void showInfo();
+public:
+    TaxationDepartment() : taxRate(0.15)
+    {
+    }
+    double calculateTax();
+    void showInfo();
 };
 
 int main()
@@ -893,68 +896,76 @@ void Customer::depositAmount()
     Transaction t;
     char mailContent[256], e[30];
     char transactionid[7], amt[20], bal[20];
-    unsigned long long int amountToDeposit = 0, newAmount;
+    long long int amountToDeposit = 0;
+    unsigned long long int newAmount;
     int accNo = this->accountNumber;
     char n[40];
     strcpy(n, name);
     char type[9];
     strcpy(type, "Deposit");
-    cout << "Enter amount to deposit  (-1 to go back): ";
-    cin >> amountToDeposit;
-    if (amountToDeposit == -1)
+    while (1)
     {
-        goto amountToDepositEnd;
-    }
-    else if (amountToDeposit < 0)
-    {
-        cout << "Amount can not be negative" << endl;
-    }
-    else
-    {
-        fstream file;
-        file.open("./data/customer.bank", ios::in | ios::out | ios::ate | ios::binary);
-        file.seekg(0);
-        file.read((char *)this, sizeof(*this));
-        while (file.eof() == 0)
+        system("cls");
+        cout << "Enter amount to deposit  (-1 to go back): ";
+        fflush(stdin);
+        cin >> amountToDeposit;
+        if (amountToDeposit == -1)
         {
-            if (this->accountNumber == accNo)
-            {
-                this->amount = this->amount + amountToDeposit;
-                newAmount = this->amount;
-                strcpy(e, this->email);
-                file.seekp(file.tellp() - sizeof(*this));
-                file.write((char *)this, sizeof(*this));
-            }
-            file.read((char *)this, sizeof(*this));
+            goto amountToDepositEnd;
         }
-        file.close();
-        // SetColor();
-        cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
-        t.storeTransaction(accNo, n, amountToDeposit, "Deposit");
-        strcpy(mailContent, "Trx ID: ");
-        std::sprintf(transactionid, "%d", t.getTransactionID());
-        transactionid[6] = '\0';
-        strcat(mailContent, transactionid);
-        strcat(mailContent, ". You have successfully deposited Rs. ");
-        std::sprintf(amt, "%llu", amountToDeposit);
-        amt[strlen(amt)] = '\0';
-        strcat(mailContent, amt);
-        strcat(mailContent, " and your new balance is Rs. ");
-        std::sprintf(bal, "%llu", newAmount);
-        bal[strlen(bal)] = '\0';
-        strcat(mailContent, bal);
-        strcat(mailContent, ". The fee for this transaction is 0.00");
+        else if (amountToDeposit < 0)
+        {
+            cout << "Amount can not be negative" << endl;
+            Sleep(1500);
+        }
+        else
+        {
+            fstream file;
+            file.open("./data/customer.bank", ios::in | ios::out | ios::ate | ios::binary);
+            file.seekg(0);
+            file.read((char *)this, sizeof(*this));
+            while (file.eof() == 0)
+            {
+                if (this->accountNumber == accNo)
+                {
+                    this->amount = this->amount + amountToDeposit;
+                    newAmount = this->amount;
+                    strcpy(e, this->email);
+                    file.seekp(file.tellp() - sizeof(*this));
+                    file.write((char *)this, sizeof(*this));
+                }
+                file.read((char *)this, sizeof(*this));
+            }
+            file.close();
+            // SetColor();
+            cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
+            t.storeTransaction(accNo, n, amountToDeposit, "Deposit");
+            strcpy(mailContent, "Trx ID: ");
+            std::sprintf(transactionid, "%d", t.getTransactionID());
+            transactionid[6] = '\0';
+            strcat(mailContent, transactionid);
+            strcat(mailContent, ". You have successfully deposited Rs. ");
+            std::sprintf(amt, "%llu", amountToDeposit);
+            amt[strlen(amt)] = '\0';
+            strcat(mailContent, amt);
+            strcat(mailContent, " and your new balance is Rs. ");
+            std::sprintf(bal, "%llu", newAmount);
+            bal[strlen(bal)] = '\0';
+            strcat(mailContent, bal);
+            strcat(mailContent, ". The fee for this transaction is 0.00");
 
-        // strcpy(mailContent, "Trx ID: ");
-        // strcat(mailContent, transactionid);
-        strcpy(mailContent, "Dear Customer,\nRs. ");
-        strcat(mailContent, amt);
-        strcat(mailContent, " has been deposited successfully to your account");
-        fillData("Amount Deposited", e, mailContent);
-        // puts(mailContent);
-        // getch();
-        sendMail(0);
-        Sleep(2000);
+            // strcpy(mailContent, "Trx ID: ");
+            // strcat(mailContent, transactionid);
+            strcpy(mailContent, "Dear Customer,\nRs. ");
+            strcat(mailContent, amt);
+            strcat(mailContent, " has been deposited successfully to your account");
+            fillData("Amount Deposited", e, mailContent);
+            // puts(mailContent);
+            // getch();
+            sendMail(0);
+            Sleep(2000);
+            break;
+        }
     }
 amountToDepositEnd:
     system("cls");
@@ -962,7 +973,7 @@ amountToDepositEnd:
 
 void Customer::withdrawAmount()
 {
-    unsigned long long int amountToWithdraw;
+    long long int amountToWithdraw;
     char mailContent[256], amt[20], e[30];
     int accNo = this->accountNumber;
     Transaction t;
@@ -1026,7 +1037,8 @@ void Customer::transferAmount()
     char n[40];
     strcpy(n, name);
     int receiverAccount;
-    unsigned long long int amountToTransfer, senderAmount;
+    long long int amountToTransfer;
+    unsigned long long int senderAmount;
     senderAmount = this->amount;
     bool receiverFound = false;
     while (1)
@@ -1038,10 +1050,16 @@ void Customer::transferAmount()
         if (receiverAccount == senderAccount)
         {
             cout << "You can not transfer to yourself" << endl;
+            Sleep(1500);
         }
         else if (receiverAccount == -1)
         {
             goto transferAmountEnd;
+        }
+        else if (receiverAccount < 0)
+        {
+            cout << "Account number can not be negative" << endl;
+            Sleep(1500);
         }
         else
         {
@@ -1066,7 +1084,7 @@ void Customer::transferAmount()
         cout << "Enter amount to transfer: ";
         fflush(stdin);
         cin >> amountToTransfer;
-        if (amountToTransfer <= senderAmount)
+        if (amountToTransfer <= senderAmount && amountToTransfer >= 0)
         {
             fstream file;
             file.open("./data/customer.bank", ios::in | ios::out | ios::ate | ios::binary);
@@ -2862,7 +2880,8 @@ void SuperAdmin::viewCurrentRevenue()
     system("cls");
     cout << "Total number of accounts: " << count << endl;
     cout << "Total Amount in bank: Rs. " << total << endl;
-    cout << endl << "Press any key to continue..." << endl;
+    cout << endl
+         << "Press any key to continue..." << endl;
     getch();
 }
 
@@ -2887,36 +2906,42 @@ unsigned long long int Bank::calculateTotalAmount()
     return total;
 }
 
-int Bank::calculateTotalAccounts(){
+int Bank::calculateTotalAccounts()
+{
     int count = 0;
     ifstream fin;
     Customer temp;
-    fin.open("./data/customer.bank", ios::in|ios::binary);
-    if(!fin){
+    fin.open("./data/customer.bank", ios::in | ios::binary);
+    if (!fin)
+    {
         perror("Error");
         exit(1);
     }
-    fin.read((char*)&temp, sizeof(temp));
-    while(fin.eof() == 0){
+    fin.read((char *)&temp, sizeof(temp));
+    while (fin.eof() == 0)
+    {
         count++;
-        fin.read((char*)&temp, sizeof(temp));
+        fin.read((char *)&temp, sizeof(temp));
     }
     fin.close();
     return count;
 }
 
-double TaxationDepartment::calculateTax(){
+double TaxationDepartment::calculateTax()
+{
     double tax = (double)bank.totalAmountInBank * taxRate;
     return tax;
 }
 
-void TaxationDepartment::showInfo(){
+void TaxationDepartment::showInfo()
+{
     system("cls");
     cout << "Bank Name: " << bank.name << endl;
     cout << "Total number of accounts in bank: " << bank.totalAccounts << endl;
     cout << "Total amount in bank: Rs. " << bank.totalAmountInBank << endl;
-    cout << "Tax Rate: " << taxRate*100 << " %" << endl;
+    cout << "Tax Rate: " << taxRate * 100 << " %" << endl;
     cout << "Tax to be collected from bank: Rs. " << calculateTax() << endl;
-    cout << endl << "Press any key to continue..." << endl;
+    cout << endl
+         << "Press any key to continue..." << endl;
     getch();
 }
