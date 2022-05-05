@@ -5,6 +5,7 @@
 #include <conio.h>
 #include <stdio.h>
 #include <time.h>
+#include <cwchar>
 using namespace std;
 
 void CursorPosition(int x, int y)
@@ -68,6 +69,42 @@ void currentDateAndTime()
     cout << ctime(&t);
 }
 
+void FontSize(int x, int y){
+
+CONSOLE_FONT_INFOEX cfi;
+cfi.cbSize = sizeof(cfi);
+cfi.nFont = 0;
+cfi.dwFontSize.X = x;                   // Width of each character in the font
+cfi.dwFontSize.Y = y;                  // Height
+cfi.FontFamily = FF_DONTCARE;
+cfi.FontWeight = 700;                   //For normal: FW_NORMAL
+std::wcscpy(cfi.FaceName, L"Courier"); // Choose your font
+SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), FALSE, &cfi);
+}
+
+void box(){
+	CursorPosition(40,7);
+	TextColor(1);
+	for(int i=0;i<40;i++)
+	    cout<<"-";
+    TextColor(2);
+    CursorPosition(44,13);
+	cout<<"ThankYou for using Our Service:)";
+	TextColor(1);
+	for(int i=0;i<11;i++){
+		CursorPosition(39,8+i);
+	    cout<<"|\n";
+	}
+	CursorPosition(40,19);
+	for(int i=0;i<40;i++)
+	   cout<<"-";
+	for(int i=0;i<11;i++){
+	CursorPosition(80,8+i);
+    cout<<"|\n";
+	}
+	cout<<endl;
+}
+
 int mainMenu()
 {
     int choice, i;
@@ -79,6 +116,7 @@ int mainMenu()
     TextColor(10);
     currentDateAndTime();
     CursorPosition(32, 3);
+    FontSize(0,21);
     TextColor(11);
     cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
     for (i = 1; i <= 8; i++)
@@ -117,7 +155,7 @@ int mainMenu()
     i = 0;
     while(1){
         ch = getch();
-        if(ch >= '1' && ch <= '6' && i == 0){
+        if(ch >= '1' && ch <= '7' && i == 0){
             cout << ch;
             choice = ch - '0';
             i++;

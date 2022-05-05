@@ -10,6 +10,7 @@
 #include <windows.h>
 #include <ctype.h>
 #include <iomanip>
+#include <cwchar>
 using namespace std;
 
 FILE *locBit;
@@ -24,6 +25,7 @@ void loginAsCustomer();
 void init();
 void fillData(char[256], char[30], char[256]);
 int sendMail(int);
+void aboutUs();
 void bankPolicy();
 
 class Customer; // formal declaration for use in class: Bank
@@ -260,8 +262,9 @@ int main()
             system("cls");
             CursorPosition(40, 10);
             system("title Good Bye");
-            cout << "Thankyou for using our service, :)";
+            box();
             Sleep(2000);
+            TextColor(7);
             exit(0);
             break;
         default:
@@ -329,6 +332,7 @@ void Customer::createNewAccount()
     TextColor(10);
     cout << "Rs. " << this->amount << endl
          << endl;
+    TextColor(1);
     cout << "\nAre your sure you want to create your account: [y/n]: ";
     std::sprintf(accNo, "%llu", accountNumber);
     accNo[6] = '\0';
@@ -343,11 +347,15 @@ void Customer::createNewAccount()
             break;
         }
     }
+    cout << endl;
     system("color 0F");
     if (choice == 'y' || choice == 'Y')
     {
         Customer::storeData();
         cout << "Account created successfully\n";
+        TextColor(1);
+        cout << "\nYou are redirected to the mainmenu\n";
+        TextColor(0);
         strcpy(mailContent, "Dear User,\nWelcome to FAST-NUCES BANK. Your account is successfully registered\n");
         strcat(mailContent, "Your account information:\nName: ");
         strcat(mailContent, this->name);
@@ -358,7 +366,7 @@ void Customer::createNewAccount()
         strcat(mailContent, "\n\nIn case of any queries, please contact us at fastnucesbank@gmail.com\n\nRegards,\nFAST-NUCES BANK");
         fillData("Welcome to FAST-NUCES Bank", this->email, mailContent);
         sendMail(0);
-        Sleep(1000);
+        loadingAnimation();
     }
 }
 
@@ -459,7 +467,9 @@ void User::setAge()
     this->age = ((a[0] - 48) * 10) + (a[1] - 48);
     if (this->age < 18)
     {
-        cout << "Age must be greater than or equal to 18" << endl;
+        TextColor(4);
+        cout << "\n\t\t\t\t\tAge must be greater than or equal to 18" << endl;
+        TextColor(7);
         setAge();
     }
 }
@@ -654,8 +664,10 @@ void Customer::login()
     else
     {
         cout << "Enter account number: ";
+        TextColor(1);
         fflush(stdin);
         cin >> id;
+        TextColor(7);
         fin.read((char *)this, sizeof(*this));
         while (fin.eof() == 0)
         {
@@ -673,7 +685,9 @@ void Customer::login()
                 }
                 else
                 {
-                    cout << "Wrong password" << endl;
+                    TextColor(4);
+                    cout << "\n\t\t\t\t\tWrong password" << endl;
+                    TextColor(7);
                     Sleep(1000);
                 }
                 break;
@@ -682,7 +696,14 @@ void Customer::login()
         }
         if (idFound == false)
         {
+            cout << "\n\t\t\t\t\t\t";
+            TextColor(4);
             cout << "This ID does not exists" << endl;
+            Sleep(1000);
+            TextColor(1);
+            cout << "You are redirected to the main menu...";
+            Sleep(1000);
+            loadingAnimation();
         }
         fin.close();
     }
@@ -724,18 +745,42 @@ void Customer::viewMyInfo()
     system("color 0B");
     system("cls");
     system("title MY INFO");
+    TextColor(7);
     cout << "Name: ";
+    TextColor(2);
     cout << this->name << endl;
-    cout << "Account No: " << this->accountNumber << endl;
-    cout << "Age: " << this->age << endl;
-    cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
-    cout << "Contact Number: " << this->contactNumber << endl;
-    cout << "Email: " << this->email << endl;
-    cout << "CNIC: " << this->cnic << endl
+    TextColor(7);
+    cout << "Account No: ";
+    TextColor(2);
+    cout << this->accountNumber << endl;
+    TextColor(7);
+    cout << "Age: ";
+    TextColor(2);
+    cout << this->age << endl;
+    TextColor(7);
+    cout << "Gender: ";
+    TextColor(2);
+    cout << (this->gender == 'm' ? "Male" : "Female") << endl;
+    TextColor(7);
+    cout << "Contact Number: ";
+    TextColor(2);
+    cout << this->contactNumber << endl;
+    TextColor(7);
+    cout << "Email: ";
+    TextColor(2);
+    cout << this->email << endl;
+    TextColor(7);
+    cout << "CNIC: ";
+    TextColor(2);
+    cout << this->cnic << endl
          << endl;
-    cout << "Current Balance: " << this->amount << endl;
+    TextColor(7);
+    cout << "Current Balance: ";
+    TextColor(2);
+    cout << this->amount << endl;
+    TextColor(1);
 
-    cout << "Press any key to go to your portal\n";
+    cout << "\n\t\t\t\t\tPress any key to go to your portal\n";
     getch();
     system("color 0F");
 }
@@ -906,7 +951,10 @@ void Customer::depositAmount()
     while (1)
     {
         system("cls");
-        cout << "Enter amount to deposit  (-1 to go back): ";
+        cout << "Enter amount to deposit  ";
+        TextColor(1);
+        cout << "(-1 to go back) : Rs. ";
+        TextColor(7);
         fflush(stdin);
         cin >> amountToDeposit;
         if (amountToDeposit == -1)
@@ -915,8 +963,10 @@ void Customer::depositAmount()
         }
         else if (amountToDeposit < 0)
         {
-            cout << "Amount can not be negative" << endl;
+            TextColor(4);
+            cout << "\n\t\t\t\t\tAmount can not be negative" << endl;
             Sleep(1500);
+            TextColor(2000);
         }
         else
         {
@@ -938,7 +988,9 @@ void Customer::depositAmount()
             }
             file.close();
             // SetColor();
-            cout << "\nRs. " << amountToDeposit << " deposited successfully" << endl;
+            TextColor(2);
+            cout << "\n\t\t\t\t\tRs. " << amountToDeposit << " deposited successfully" << endl;
+            TextColor(0);
             t.storeTransaction(accNo, n, amountToDeposit, "Deposit");
             strcpy(mailContent, "Trx ID: ");
             std::sprintf(transactionid, "%d", t.getTransactionID());
@@ -969,6 +1021,7 @@ void Customer::depositAmount()
     }
 amountToDepositEnd:
     system("cls");
+    TextColor(7);
 }
 
 void Customer::withdrawAmount()
@@ -979,7 +1032,11 @@ void Customer::withdrawAmount()
     Transaction t;
     char n[40];
     strcpy(n, name);
-    cout << "Enter amount to withdraw (-1 to go back): ";
+    cout << "Enter amount to withdraw  ";
+    TextColor(1);
+    cout << "(-1 to go back) : Rs. ";
+    TextColor(7);
+    fflush(stdin);
     cin >> amountToWithdraw;
     if (amountToWithdraw == -1)
     {
@@ -987,12 +1044,16 @@ void Customer::withdrawAmount()
     }
     else if (amountToWithdraw < 0)
     {
-        cout << "Amount can not be negative";
+        TextColor(4);
+        cout << "\n\t\t\t\t\tAmount can not be negative" << endl;
+        TextColor(7);
         Sleep(1500);
     }
     else if (amountToWithdraw > this->amount)
     {
-        cout << "You don't have enough balance" << endl;
+        TextColor(4);
+        cout << "\n\t\t\t\t\tYou don't have enough balance" << endl;
+        TextColor(7);
         Sleep(1500);
     }
     else
@@ -1014,7 +1075,9 @@ void Customer::withdrawAmount()
         }
         file.close();
         // SetColor();
-        cout << "\nRs. " << amountToWithdraw << " withdrawn successfully" << endl;
+        TextColor(2);
+        cout << "\n\t\t\t\t\tRs. " << amountToWithdraw << " withdrawn successfully" << endl;
+        TextColor(0);
         t.storeTransaction(accNo, n, amountToWithdraw, "Withdraw");
         std::sprintf(amt, "%llu", amountToWithdraw);
         strcpy(mailContent, "Dear Customer,\nRs. ");
@@ -1026,6 +1089,7 @@ void Customer::withdrawAmount()
     }
 amountToWithdrawEnd:
     system("cls");
+    TextColor(7);
 }
 
 void Customer::transferAmount()
@@ -1043,14 +1107,19 @@ void Customer::transferAmount()
     bool receiverFound = false;
     while (1)
     {
-        cout << "Enter receiver's account number (-1 to go back): ";
+        cout << "Enter receiver's account number  ";
+        TextColor(1);
+        cout << "(-1 to go back): ";
+        TextColor(7);
         fflush(stdin);
         cin >> receiverAccount;
         system("cls");
         if (receiverAccount == senderAccount)
         {
-            cout << "You can not transfer to yourself" << endl;
+            TextColor(4);
+            cout << "\n\t\t\t\t\tYou can not transfer to yourself" << endl;
             Sleep(1500);
+            TextColor(7);
         }
         else if (receiverAccount == -1)
         {
@@ -1081,7 +1150,8 @@ void Customer::transferAmount()
     fin.close();
     if (receiverFound == true)
     {
-        cout << "Enter amount to transfer: ";
+        cout << "Enter amount to transfer: Rs. ";
+        TextColor(1);
         fflush(stdin);
         cin >> amountToTransfer;
         if (amountToTransfer <= senderAmount && amountToTransfer >= 0)
@@ -1107,19 +1177,25 @@ void Customer::transferAmount()
                 file.read((char *)this, sizeof(*this));
             }
             file.close();
+            TextColor(2);
             cout << "Rs. " << amountToTransfer << " transferred successfully to " << receiverName << endl;
             t.storeTransaction(senderAccount, n, amountToTransfer, "Transfer");
             Sleep(2000);
+            TextColor(7);
         }
         else
         {
-            cout << "You don't have enough balance" << endl;
+            TextColor(4);
+            cout << "\n\t\t\t\t\tYou don't have enough balance" << endl;
+            TextColor(7);
             Sleep(1500);
         }
     }
     else
     {
-        cout << "This account does not exists" << endl;
+        TextColor(4);
+        cout << "\n\t\t\t\t\tThis account does not exists" << endl;
+        TextColor(7);
         Sleep(1500);
     }
 transferAmountEnd:
@@ -1131,6 +1207,7 @@ void Customer::deleteAccount()
     int accNo = this->accountNumber;
     char ch, choice;
     system("cls");
+    TextColor(4);
     cout << "Are you sure you want to delete your account? [y/n]: ";
     while (1)
     {
@@ -1171,7 +1248,8 @@ void Customer::deleteAccount()
         fout.close();
         remove("./data/customer.bank");
         rename("./data/temp.bank", "./data/customer.bank");
-        cout << "Account deleted successfully" << endl;
+        TextColor(2);
+        cout << "\n\t\t\t\t\tAccount deleted successfully" << endl;
         Sleep(2500);
         main();
     }
@@ -1208,9 +1286,11 @@ void Admin::login()
     {
         cout << "Enter account number: ";
         fflush(stdin);
+        TextColor(1);
         cin >> id;
         if (id == 213195)
         {
+            TextColor(7);
             cout << "Enter your password: ";
             inputPassword(pass);
             if (strcmp(pass, "sufiyaan") == 0)
@@ -1239,7 +1319,9 @@ void Admin::login()
                     }
                     else
                     {
-                        cout << "Wrong password" << endl;
+                        TextColor(4);
+                        cout << "\n\t\t\t\t\tWrong password" << endl;
+                        TextColor(7);
                         Sleep(1000);
                     }
                     break;
@@ -1248,7 +1330,14 @@ void Admin::login()
             }
             if (idFound == false)
             {
+                cout << "\n\t\t\t\t\t\t";
+                TextColor(4);
                 cout << "This ID does not exists" << endl;
+                Sleep(1000);
+                TextColor(1);
+                cout << "\nYou are redirected to the mainmenu";
+                Sleep(1000);
+                loadingAnimation();
             }
             fin.close();
         }
@@ -1481,15 +1570,36 @@ void Admin::viewMyInfo()
     system("color 0B");
     system("cls");
     system("title MY INFO");
+    TextColor(7);
     cout << "Name: ";
+    TextColor(2);
     cout << this->name << endl;
-    cout << "Account No: " << this->accountNumber << endl;
-    cout << "Age: " << this->age << endl;
-    cout << "Gender: " << (this->gender == 'm' ? "Male" : "Female") << endl;
-    cout << "Contact Number: " << this->contactNumber << endl;
-    cout << "Email: " << this->email << endl;
-    cout << "CNIC: " << this->cnic << endl
+    TextColor(7);
+    cout << "Account No: ";
+    TextColor(2);
+    cout << this->accountNumber << endl;
+    TextColor(7);
+    cout << "Age: ";
+    TextColor(2);
+    cout << this->age << endl;
+    TextColor(7);
+    cout << "Gender: ";
+    TextColor(2);
+    cout << (this->gender == 'm' ? "Male" : "Female") << endl;
+    TextColor(7);
+    cout << "Contact Number: ";
+    TextColor(2);
+    cout << this->contactNumber << endl;
+    TextColor(7);
+    cout << "Email: ";
+    TextColor(2);
+    cout << this->email << endl;
+    TextColor(7);
+    cout << "CNIC: ";
+    TextColor(2);
+    cout << this->cnic << endl
          << endl;
+    TextColor(1);
 
     cout << "Press any key to go to your portal\n";
     getch();
@@ -1498,6 +1608,7 @@ void Admin::viewMyInfo()
 
 void Admin::viewCustomerAccounts()
 {
+    FontSize(0, 14);
     ifstream fin;
     Customer c;
     fin.open("./data/customer.bank", ios::in | ios::binary);
@@ -1507,18 +1618,23 @@ void Admin::viewCustomerAccounts()
         exit(1);
     }
     fin.read((char *)&c, sizeof(c));
-    TextColor(4);
-    cout << "Account No  " << setw(40) << "  Name  " << endl;
+    TextColor(1);
+    cout << "Account No  " << setw(28) << "  Name  " << setw(7) << "Age" << setw(3) << " Gender "
+         << "Phone#       "
+         << " CNIC#" << setw(31) << "email" << setw(17) << "balance"
+         << "\n\n";
     TextColor(15);
     while (fin.eof() == 0)
     {
-        cout << c.getAccountNumber() << "      " << setw(40) << c.getName() << "  " << c.getAge() << "  " << (c.getGender() == 'm' ? "Male" : "Female") << "  " << c.getContactNumber() << "  " << c.getCNIC() << "  " << setw(30) << c.getEmail() << "  " << c.getAmount() << endl;
+        cout << c.getAccountNumber() << "      " << setw(30) << c.getName() << "  " << c.getAge() << "   " << (c.getGender() == 'm' ? "Male" : "Female") << "  " << c.getContactNumber() << "  " << c.getCNIC() << "  " << setw(30) << c.getEmail() << "  " << c.getAmount() << "\n"
+             << endl;
         fin.read((char *)&c, sizeof(c));
     }
     fin.close();
     TextColor(13);
     cout << "Press any key to continue..." << endl;
     getch();
+    FontSize(0, 21);
 }
 
 int Transaction::generateTransactionID()
@@ -1578,6 +1694,7 @@ void Transaction::storeTransaction(int accountNumber, char name[40], unsigned lo
 
 void Transaction::viewTransactionHistoryAdmin()
 {
+    FontSize(0, 15);
     ifstream fin;
     fin.open("./data/transaction.bank", ios::in | ios::binary);
     if (!fin)
@@ -1586,7 +1703,7 @@ void Transaction::viewTransactionHistoryAdmin()
         Sleep(2000);
         exit(1);
     }
-    TextColor(4);
+    TextColor(1);
     cout << "Trx ID                  Name  Acc No      Amount  Transaction Type" << endl;
     TextColor(15);
     fin.read((char *)this, sizeof(*this));
@@ -1600,10 +1717,12 @@ void Transaction::viewTransactionHistoryAdmin()
     cout << "\nPress any key to continue...";
     CursorPosition(0, 0);
     getch();
+    FontSize(0, 21);
 }
 
 void Transaction::viewTransactionHistoryCustomer(int accNo)
 {
+    FontSize(0, 15);
     ifstream fin;
     fin.open("./data/transaction.bank", ios::in | ios::binary);
     if (!fin)
@@ -1612,20 +1731,23 @@ void Transaction::viewTransactionHistoryCustomer(int accNo)
         Sleep(2000);
         exit(1);
     }
-    cout << "Transaction ID  Amount  Transaction Type" << endl;
+    cout << "Trx ID       Amount             Transaction Type" << endl;
+    TextColor(7);
     fin.read((char *)this, sizeof(*this));
     while (fin.eof() == 0)
     {
         if (this->accountNumber == accNo)
         {
-            cout << this->transactionID << "  "
-                 << "  " << this->amount << "  " << this->transactionType << endl;
+            cout << this->transactionID << "  " << setw(20) << setw(10) << this->amount << setw(25) << this->transactionType << endl;
         }
         fin.read((char *)this, sizeof(*this));
     }
     fin.close();
-    cout << "Press any key to continue..." << endl;
+    TextColor(1);
+    cout << "\nPress any key to continue..." << endl;
     getch();
+    FontSize(0, 21);
+    TextColor(7);
 }
 
 int User::getAccountNumber()
@@ -1666,7 +1788,9 @@ void Admin::deleteAccount()
 
     if (accountFound == true)
     {
-        cout << "Are you sure you want to delete this account? [y/n]: ";
+        TextColor(4);
+        cout << "\n\t\t\t\t\tAre you sure you want to delete this account? [y/n]: ";
+        TextColor(7);
         while (1)
         {
             ch = getch();
@@ -1703,13 +1827,17 @@ void Admin::deleteAccount()
             fout.close();
             remove("./data/customer.bank");
             rename("./data/temp.bank", "./data/customer.bank");
-            cout << "Account deleted successfully" << endl;
-            Sleep(2500);
+            TextColor(2);
+            cout << "\n\t\t\t\t\tAccount deleted successfully" << endl;
+            TextColor(7);
+            Sleep(2000);
         }
     }
     else
     {
-        cout << "This account does not exists" << endl;
+        TextColor(4);
+        cout << "\n\t\t\t\t\tThis account does not exists" << endl;
+        TextColor(7);
         Sleep(2000);
     }
 }
@@ -1829,10 +1957,13 @@ void Currency::addCurrency()
     ofstream fout;
     this->code = generateCurrencyCode();
     cout << "Enter currency name: ";
+    TextColor(1);
     fflush(stdin);
     gets(name);
     system("cls");
+    TextColor(7);
     cout << "Enter symbol (3 characters): ";
+    TextColor(1);
     fflush(stdin);
     while (1)
     {
@@ -1857,7 +1988,9 @@ void Currency::addCurrency()
     }
     symbol[3] = '\0';
     system("cls");
+    TextColor(7);
     cout << "Enter rate of " << name << ": ";
+    TextColor(1);
     fflush(stdin);
     float r;
     cin >> r;
@@ -1865,8 +1998,10 @@ void Currency::addCurrency()
     fout.open("./data/currency.bank", ios::app | ios::binary);
     fout.write((char *)this, sizeof(*this));
     fout.close();
-    cout << "Currency added successfully" << endl;
+    TextColor(2);
+    cout << "\n\t\t\t\t\tCurrency added successfully" << endl;
     Sleep(1500);
+    TextColor(7);
 }
 
 char *User::getName()
@@ -1876,18 +2011,25 @@ char *User::getName()
 
 void Currency::viewCurrencyRates()
 {
+    FontSize(0, 15);
     ifstream fin;
     fin.open("./data/currency.bank", ios::in | ios::binary);
     fin.read((char *)this, sizeof(*this));
+    system("color F1");
+    cout << "Code             Name    Symbol     Rate" << endl;
+    TextColor(3);
     while (fin.eof() == 0)
     {
-        cout << this->code << " " << this->name << " " << this->symbol << " " << this->rate << endl;
+        cout << this->code << setw(20) << this->name << "     " << this->symbol << "     " << this->rate << endl;
         fin.read((char *)this, sizeof(*this));
     }
     fin.close();
+    TextColor(1);
     cout << endl
          << "Press any key to continue...";
     getch();
+    TextColor(7);
+    FontSize(0, 21);
 }
 
 void Currency::updateCurrencyRate()
@@ -1932,12 +2074,16 @@ void Currency::updateCurrencyRate()
         }
         file.close();
         system("cls");
+        TextColor(2);
         cout << "Rate update successfully" << endl;
+        TextColor(7);
     }
     else
     {
+        TextColor(4);
         system("cls");
         cout << "This currency does not exists, enter valid code" << endl;
+        TextColor(7);
     }
     Sleep(1500);
 }
@@ -2021,8 +2167,10 @@ void Admin::searchByAccountNumber()
         if (accountFound == false)
         {
             system("cls");
-            cout << "This account does not exists" << endl;
+            TextColor(4);
+            cout << "\n\t\t\t\t\\tThis account does not exists" << endl;
             Sleep(2000);
+            TextColor(7);
             goto searchByAccountNumberEnd;
         }
     }
@@ -2039,9 +2187,11 @@ void Admin::searchByName()
     Customer c;
     system("cls");
     cout << "Enter full name: ";
+    TextColor(2);
     fflush(stdin);
     gets(name);
     system("cls");
+    TextColor(7);
     fin.open("./data/customer.bank", ios::in | ios::binary);
     fin.read((char *)&c, sizeof(c));
     while (1)
@@ -2051,16 +2201,34 @@ void Admin::searchByName()
             if (strcmp(name, c.getName()) == 0)
             {
                 found = true;
-                system("color 0B");
                 system("title MY INFO");
+                TextColor(7);
                 cout << "Name: ";
-                cout << c.getName() << endl;
-                cout << "Account No: " << c.getAccountNumber() << endl;
-                cout << "Age: " << c.getAge() << endl;
-                cout << "Gender: " << (c.getGender() == 'm' ? "Male" : "Female") << endl;
-                cout << "Contact Number: " << c.getContactNumber() << endl;
-                cout << "Email: " << c.getEmail() << endl;
-                cout << "CNIC: " << c.getCNIC() << endl
+                TextColor(2);
+                cout << this->name << endl;
+                TextColor(7);
+                cout << "Account No: ";
+                TextColor(2);
+                cout << this->accountNumber << endl;
+                TextColor(7);
+                cout << "Age: ";
+                TextColor(2);
+                cout << this->age << endl;
+                TextColor(7);
+                cout << "Gender: ";
+                TextColor(2);
+                cout << (this->gender == 'm' ? "Male" : "Female") << endl;
+                TextColor(7);
+                cout << "Contact Number: ";
+                TextColor(2);
+                cout << this->contactNumber << endl;
+                TextColor(7);
+                cout << "Email: ";
+                TextColor(2);
+                cout << this->email << endl;
+                cout << "CNIC: ";
+                TextColor(2);
+                cout << this->cnic << endl
                      << endl;
                 total++;
                 cout << endl;
@@ -2069,15 +2237,19 @@ void Admin::searchByName()
         }
         if (found == true)
         {
+            TextColor(1);
             cout << "There are currently " << total << " account(s) with this name" << endl;
+            TextColor(7);
             cout << "\nPress any key to continue..." << endl;
             getch();
             break;
         }
         else
         {
-            cout << "There are no account with this name" << endl;
+            TextColor(4);
+            cout << "\n\t\t\t\t\tThere are no account with this name" << endl;
             Sleep(2000);
+            TextColor(7);
             break;
         }
     }
@@ -2231,8 +2403,10 @@ void Customer::accountSetting()
         cout << "3. Change my password" << endl;
         cout << "4. Delete my account" << endl;
         cout << "5. Go back" << endl;
+        TextColor(1);
         cout << endl
              << "Enter your choice: ";
+        TextColor(7);
         fflush(stdin);
         cin >> choice;
         switch (choice)
@@ -2253,7 +2427,10 @@ void Customer::accountSetting()
             goto customerAccountSettingEnd;
             break;
         default:
+            TextColor(4);
             cout << "Enter a valid choice" << endl;
+            Sleep(1000);
+            TextColor(7);
             break;
         }
     }
@@ -2331,8 +2508,10 @@ void Admin::accountSetting()
         cout << "2. Update my contact number" << endl;
         cout << "3. Change my password" << endl;
         cout << "4. Go back" << endl;
+        TextColor(1);
         cout << endl
              << "Enter your choice: ";
+        TextColor(7);
         fflush(stdin);
         cin >> choice;
         switch (choice)
@@ -2350,7 +2529,10 @@ void Admin::accountSetting()
             goto adminAccountSettingEnd;
             break;
         default:
+            TextColor(4);
             cout << "Enter a valid choice" << endl;
+            Sleep(1000);
+            TextColor(7);
             break;
         }
     }
