@@ -1,2 +1,11 @@
-Dear Customer,
-Rs. 500000000000000000 has been withdrawn successfully from your account
+Dear User,
+Welcome to FAST-NUCES BANK. Your account is successfully registered
+Your account information:
+Name: Ahsan Ashraf
+Account Number: 108943
+CNIC: 4231059657463
+
+In case of any queries, please contact us at fastnucesbank@gmail.com
+
+Regards,
+FAST-NUCES BANK
