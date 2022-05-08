@@ -1706,7 +1706,7 @@ void Transaction::viewTransactionHistoryAdmin()
         Sleep(2000);
         exit(1);
     }
-    TextColor(1);
+    TextColor(4);
     cout << "Trx ID                  Name  Acc No      Amount  Transaction Type" << endl;
     TextColor(15);
     fin.read((char *)this, sizeof(*this));
@@ -2019,7 +2019,7 @@ void Currency::viewCurrencyRates()
     fin.open("./data/currency.bank", ios::in | ios::binary);
     fin.read((char *)this, sizeof(*this));
     system("color F1");
-    cout << "Code             Name    Symbol     Rate" << endl;
+    cout << "Code              Name     Symbol  Rate" << endl;
     TextColor(3);
     while (fin.eof() == 0)
     {
