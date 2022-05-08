@@ -1,9 +1,9 @@
 Dear User,
 Welcome to FAST-NUCES BANK. Your account is successfully registered
 Your account information:
-Name: Ahsan Ashraf
-Account Number: 108943
-CNIC: 4231059657463
+Name: Sufiyaan Usmani
+Account Number: 104286
+CNIC: 4210103948344
 
 In case of any queries, please contact us at fastnucesbank@gmail.com
 

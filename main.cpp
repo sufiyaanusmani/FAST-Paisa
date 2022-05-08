@@ -379,7 +379,9 @@ int Customer::generateAccountNumber()
     fin.open("./data/customer.bank", ios::in | ios::binary);
     if (!fin)
     {
-        cout << "File does not exists" << endl;
+        perror("Error");
+        Sleep(2000);
+        exit(1);
     }
     else
     {
@@ -1308,6 +1310,7 @@ void Admin::login()
                 if (id == this->accountNumber)
                 {
                     idFound = true;
+                    TextColor(7);
                     cout << "Enter your password: ";
                     inputPassword(pass);
                     if (strcmp(password, pass) == 0)
@@ -2844,19 +2847,19 @@ int SuperAdmin::portalMenu()
     CursorPosition(32, 5);
     TextColor(4);
     cout << "\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2 FAST-NUCES BANK \xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2\xB2";
-    for (i = 1; i <= 21; i++)
+    for (i = 1; i <= 22; i++)
     {
         CursorPosition(31, 5 + i);
         cout << "|";
     }
-    for (i = 1; i <= 21; i++)
+    for (i = 1; i <= 22; i++)
     {
         CursorPosition(91, 5 + i);
         cout << "|";
     }
     for (i = 1; i <= 60; i++)
     {
-        CursorPosition(31 + i, 27);
+        CursorPosition(31 + i, 28);
         cout << "-";
     }
     TextColor(15);
