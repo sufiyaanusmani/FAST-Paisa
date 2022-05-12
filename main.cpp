@@ -163,6 +163,7 @@ public:
     void viewCurrentRevenue();
     void viewAdmins();
     void manageAdmins();
+    void viewMyInfo();
 };
 
 class Transaction
@@ -2757,7 +2758,7 @@ void SuperAdmin::portal()
             system("title MY INFO");
             system("color 0B");
             system("cls");
-            Admin::viewMyInfo();
+            SuperAdmin::viewMyInfo();
             break;
         case 2:
             system("cls");
@@ -3140,4 +3141,44 @@ void Currency::viewCurrencyRates() const{
     getch();
     TextColor(7);
     FontSize(0, 21);
+}
+
+void SuperAdmin::viewMyInfo(){
+    system("color 0B");
+    system("cls");
+    system("title MY INFO");
+    TextColor(7);
+    cout << "Name: ";
+    TextColor(2);
+    cout << "Sufiyaan Usmani" << endl;
+    TextColor(7);
+    cout << "Account No: ";
+    TextColor(2);
+    cout << "213195" << endl;
+    TextColor(7);
+    cout << "Age: ";
+    TextColor(2);
+    cout << "18" << endl;
+    TextColor(7);
+    cout << "Gender: ";
+    TextColor(2);
+    cout << "Male" << endl;
+    TextColor(7);
+    cout << "Contact Number: ";
+    TextColor(2);
+    cout << "03363778582" << endl;
+    TextColor(7);
+    cout << "Email: ";
+    TextColor(2);
+    cout << "k213195@nu.edu.pk" << endl;
+    TextColor(7);
+    cout << "CNIC: ";
+    TextColor(2);
+    cout << "4210101922456" << endl
+         << endl;
+    TextColor(1);
+
+    cout << "Press any key to go to your portal\n";
+    getch();
+    system("color 0F");
 }
