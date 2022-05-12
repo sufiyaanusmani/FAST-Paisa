@@ -45,6 +45,7 @@ public:
     }
     static unsigned long long int calculateTotalAmount();
     static int calculateTotalAccounts();
+    static void incrementAccountCount();
     friend class TaxationDepartment;
 };
 
@@ -358,6 +359,7 @@ void Customer::createNewAccount()
     {
         Customer::storeData();
         cout << "Account created successfully\n";
+        Bank::incrementAccountCount();
         TextColor(1);
         cout << "\nYou are redirected to the mainmenu\n";
         TextColor(0);
@@ -2802,8 +2804,7 @@ void SuperAdmin::portal()
             break;
         case 10:
             system("cls");
-            cout << "Total amount in bank: Rs. " << Bank::calculateTotalAmount() << endl;
-            cout << "Press any key to continue..." << endl;
+            viewCurrentRevenue();
             getch();
             break;
         case 11:
@@ -3053,7 +3054,7 @@ void SuperAdmin::deleteAdmin()
 void SuperAdmin::viewCurrentRevenue()
 {
     Bank bank;
-    int count = bank.calculateTotalAccounts();
+    int count = Bank::calculateTotalAccounts();
     unsigned long long int total = bank.calculateTotalAmount();
     system("cls");
     cout << "Total number of accounts: " << count << endl;
@@ -3184,4 +3185,8 @@ void SuperAdmin::viewMyInfo(){
     cout << "Press any key to go to your portal\n";
     getch();
     system("color 0F");
+}
+
+void Bank::incrementAccountCount(){
+    totalAccounts++;
 }
