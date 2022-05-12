@@ -198,7 +198,7 @@ private:
 public:
     void addCurrency();
     void updateCurrencyRate();
-    void viewCurrencyRates();
+    void viewCurrencyRates() const;
     void setRate(float);
     void addCurrency(int, char[25], char[4], float);
     friend ostream & operator<<(ostream &, const Currency &);
@@ -2018,25 +2018,7 @@ char *User::getName()
 
 ostream & operator<<(ostream &os, const Currency &c)
 {
-    FontSize(0, 15);
-    ifstream fin;
-    fin.open("./data/currency.bank", ios::in | ios::binary);
-    fin.read((char *)&c, sizeof(c));
-    system("color F1");
-    cout << "Code              Name     Symbol  Rate" << endl;
-    TextColor(3);
-    while (fin.eof() == 0)
-    {
-        os << c.code << setw(20) << c.name << "     " << c.symbol << "     " << c.rate << endl;
-        fin.read((char *)&c, sizeof(c));
-    }
-    fin.close();
-    TextColor(1);
-    cout << endl
-         << "Press any key to continue...";
-    getch();
-    TextColor(7);
-    FontSize(0, 21);
+    c.viewCurrencyRates();
     return os;
 }
 
@@ -3138,7 +3120,7 @@ void TaxationDepartment::showInfo()
     getch();
 }
 
-void Currency::viewCurrencyRates(){
+void Currency::viewCurrencyRates() const{
     FontSize(0, 15);
     ifstream fin;
     fin.open("./data/currency.bank", ios::in | ios::binary);
