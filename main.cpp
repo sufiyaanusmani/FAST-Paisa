@@ -2801,7 +2801,10 @@ void SuperAdmin::portal()
             manageAdmins();
             break;
         case 10:
-            viewCurrentRevenue();
+            system("cls");
+            cout << "Total amount in bank: Rs. " << Bank::calculateTotalAmount() << endl;
+            cout << "Press any key to continue..." << endl;
+            getch();
             break;
         case 11:
             main();
