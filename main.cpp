@@ -34,8 +34,8 @@ class Bank
 {
 private:
     const string name;
-    unsigned long long int totalAmountInBank;
-    int totalAccounts;
+    static unsigned long long int totalAmountInBank;
+    static int totalAccounts;
 
 public:
     Bank() : name("FAST NUCES BANK")
@@ -43,10 +43,13 @@ public:
         totalAmountInBank = calculateTotalAmount();
         totalAccounts = calculateTotalAccounts();
     }
-    unsigned long long int calculateTotalAmount();
-    int calculateTotalAccounts();
+    static unsigned long long int calculateTotalAmount();
+    static int calculateTotalAccounts();
     friend class TaxationDepartment;
 };
+
+unsigned long long int Bank::totalAmountInBank = 0;
+int Bank::totalAccounts = 0;
 
 class User
 {
@@ -198,6 +201,7 @@ public:
     void viewCurrencyRates();
     void setRate(float);
     void addCurrency(int, char[25], char[4], float);
+    friend ostream & operator<<(ostream &, const Currency &);
 };
 
 class TaxationDepartment
@@ -247,7 +251,7 @@ int main()
         case 4:
             system("cls");
             system("title Today's Currency Rates");
-            cur.viewCurrencyRates();
+            cout << cur;
             break;
         case 5:
             system("cls");
@@ -2012,19 +2016,19 @@ char *User::getName()
     return name;
 }
 
-void Currency::viewCurrencyRates()
+ostream & operator<<(ostream &os, const Currency &c)
 {
     FontSize(0, 15);
     ifstream fin;
     fin.open("./data/currency.bank", ios::in | ios::binary);
-    fin.read((char *)this, sizeof(*this));
+    fin.read((char *)&c, sizeof(c));
     system("color F1");
     cout << "Code              Name     Symbol  Rate" << endl;
     TextColor(3);
     while (fin.eof() == 0)
     {
-        cout << this->code << setw(20) << this->name << "     " << this->symbol << "     " << this->rate << endl;
-        fin.read((char *)this, sizeof(*this));
+        os << c.code << setw(20) << c.name << "     " << c.symbol << "     " << c.rate << endl;
+        fin.read((char *)&c, sizeof(c));
     }
     fin.close();
     TextColor(1);
@@ -2033,6 +2037,7 @@ void Currency::viewCurrencyRates()
     getch();
     TextColor(7);
     FontSize(0, 21);
+    return os;
 }
 
 void Currency::updateCurrencyRate()
@@ -3131,4 +3136,26 @@ void TaxationDepartment::showInfo()
     cout << endl
          << "Press any key to continue..." << endl;
     getch();
+}
+
+void Currency::viewCurrencyRates(){
+    FontSize(0, 15);
+    ifstream fin;
+    fin.open("./data/currency.bank", ios::in | ios::binary);
+    fin.read((char *)this, sizeof(*this));
+    system("color F1");
+    cout << "Code              Name     Symbol  Rate" << endl;
+    TextColor(3);
+    while (fin.eof() == 0)
+    {
+        cout << this->code << setw(20) << this->name << "     " << this->symbol << "     " << this->rate << endl;
+        fin.read((char *)this, sizeof(*this));
+    }
+    fin.close();
+    TextColor(1);
+    cout << endl
+         << "Press any key to continue...";
+    getch();
+    TextColor(7);
+    FontSize(0, 21);
 }
