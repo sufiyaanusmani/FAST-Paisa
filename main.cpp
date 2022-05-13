@@ -46,6 +46,8 @@ public:
     static unsigned long long int calculateTotalAmount();
     static int calculateTotalAccounts();
     static void incrementAccountCount();
+    static void decrementAccountCount();
+    static void updateData();
     friend class TaxationDepartment;
 };
 
@@ -232,6 +234,7 @@ int main()
     while (1)
     {
         system("cls");
+        Bank::updateData();
         mainMenuChoice = mainMenu();
         switch (mainMenuChoice)
         {
@@ -1259,6 +1262,7 @@ void Customer::deleteAccount()
         rename("./data/temp.bank", "./data/customer.bank");
         TextColor(2);
         cout << "\n\t\t\t\t\tAccount deleted successfully" << endl;
+        Bank::decrementAccountCount();
         Sleep(2500);
         main();
     }
@@ -1628,7 +1632,7 @@ void Admin::viewCustomerAccounts()
         exit(1);
     }
     fin.read((char *)&c, sizeof(c));
-    TextColor(1);
+    TextColor(4);
     cout << "Account No  " << setw(28) << "  Name  " << setw(7) << "Age" << setw(3) << " Gender "
          << "Phone#       "
          << " CNIC#" << setw(31) << "email" << setw(17) << "balance"
@@ -1839,6 +1843,7 @@ void Admin::deleteAccount()
             rename("./data/temp.bank", "./data/customer.bank");
             TextColor(2);
             cout << "\n\t\t\t\t\tAccount deleted successfully" << endl;
+            Bank::decrementAccountCount();
             TextColor(7);
             Sleep(2000);
         }
@@ -3189,4 +3194,13 @@ void SuperAdmin::viewMyInfo(){
 
 void Bank::incrementAccountCount(){
     totalAccounts++;
+}
+
+void Bank::updateData(){
+    totalAmountInBank = calculateTotalAmount();
+    totalAccounts = calculateTotalAccounts();
+}
+
+void Bank::decrementAccountCount(){
+    totalAccounts--;
 }
