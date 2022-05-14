@@ -2930,6 +2930,7 @@ void SuperAdmin::manageAdmins()
     int choice;
     while (1)
     {
+        TextColor(15);
         system("cls");
         cout << "1. View admins" << endl;
         cout << "2. Add new admin" << endl;
@@ -3049,10 +3050,12 @@ void SuperAdmin::deleteAdmin()
     }
     fin.close();
     fout.close();
+    if(found == true){
     remove("./data/admin.bank");
     rename("./data/temp.bank", "./data/admin.bank");
     cout << "Account deleted successfully" << endl;
     Sleep(2500);
+    }
     SuperAdmin::portal();
 }
 
