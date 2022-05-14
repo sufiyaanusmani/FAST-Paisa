@@ -205,7 +205,7 @@ public:
     void viewCurrencyRates() const;
     void setRate(float);
     void addCurrency(int, char[25], char[4], float);
-    friend ostream & operator<<(ostream &, const Currency &);
+    friend ostream &operator<<(ostream &, const Currency &);
 };
 
 class TaxationDepartment
@@ -1839,13 +1839,16 @@ void Admin::deleteAccount()
             }
             fin.close();
             fout.close();
-            remove("./data/customer.bank");
-            rename("./data/temp.bank", "./data/customer.bank");
-            TextColor(2);
-            cout << "\n\t\t\t\t\tAccount deleted successfully" << endl;
-            Bank::decrementAccountCount();
-            TextColor(7);
-            Sleep(2000);
+            if (accountFound == true)
+            {
+                remove("./data/customer.bank");
+                rename("./data/temp.bank", "./data/customer.bank");
+                TextColor(2);
+                cout << "\n\t\t\t\t\tAccount deleted successfully" << endl;
+                Bank::decrementAccountCount();
+                TextColor(7);
+                Sleep(2000);
+            }
         }
     }
     else
@@ -2024,7 +2027,7 @@ char *User::getName()
     return name;
 }
 
-ostream & operator<<(ostream &os, const Currency &c)
+ostream &operator<<(ostream &os, const Currency &c)
 {
     c.viewCurrencyRates();
     return os;
@@ -3050,11 +3053,12 @@ void SuperAdmin::deleteAdmin()
     }
     fin.close();
     fout.close();
-    if(found == true){
-    remove("./data/admin.bank");
-    rename("./data/temp.bank", "./data/admin.bank");
-    cout << "Account deleted successfully" << endl;
-    Sleep(2500);
+    if (found == true)
+    {
+        remove("./data/admin.bank");
+        rename("./data/temp.bank", "./data/admin.bank");
+        cout << "Account deleted successfully" << endl;
+        Sleep(2500);
     }
     SuperAdmin::portal();
 }
@@ -3133,7 +3137,8 @@ void TaxationDepartment::showInfo()
     getch();
 }
 
-void Currency::viewCurrencyRates() const{
+void Currency::viewCurrencyRates() const
+{
     FontSize(0, 15);
     ifstream fin;
     fin.open("./data/currency.bank", ios::in | ios::binary);
@@ -3155,7 +3160,8 @@ void Currency::viewCurrencyRates() const{
     FontSize(0, 21);
 }
 
-void SuperAdmin::viewMyInfo(){
+void SuperAdmin::viewMyInfo()
+{
     system("color 0B");
     system("cls");
     system("title MY INFO");
@@ -3195,15 +3201,18 @@ void SuperAdmin::viewMyInfo(){
     system("color 0F");
 }
 
-void Bank::incrementAccountCount(){
+void Bank::incrementAccountCount()
+{
     totalAccounts++;
 }
 
-void Bank::updateData(){
+void Bank::updateData()
+{
     totalAmountInBank = calculateTotalAmount();
     totalAccounts = calculateTotalAccounts();
 }
 
-void Bank::decrementAccountCount(){
+void Bank::decrementAccountCount()
+{
     totalAccounts--;
 }
