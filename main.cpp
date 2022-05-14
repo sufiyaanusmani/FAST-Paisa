@@ -2053,6 +2053,11 @@ void Currency::updateCurrencyRate()
     ifstream fin;
     float r1;
     fin.open("./data/currency.bank", ios::in | ios::binary);
+    if(!fin){
+        perror("Error");
+        Sleep(1500);
+        exit(1);
+    }
     fin.read((char *)this, sizeof(*this));
     while (fin.eof() == 0)
     {
@@ -2070,6 +2075,7 @@ void Currency::updateCurrencyRate()
         cin >> r1;
         file.open("./data/currency.bank", ios::in | ios::out | ios::ate | ios::binary);
         file.seekg(0);
+        file.read((char *)this, sizeof(*this));
         while (file.eof() == 0)
         {
             if (this->code == code1)
@@ -2077,7 +2083,6 @@ void Currency::updateCurrencyRate()
                 setRate(r1);
                 file.seekp(file.tellp() - sizeof(*this));
                 file.write((char *)this, sizeof(*this));
-                found = true;
             }
             file.read((char *)this, sizeof(*this));
         }
