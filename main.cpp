@@ -1108,6 +1108,8 @@ void Customer::transferAmount()
 {
     int senderAccount = this->accountNumber;
     char receiverName[40];
+    char mailContent[256], amt[20], e[30];
+    strcpy(e, this->email);
     ifstream fin;
     Transaction t;
     char n[40];
@@ -1192,6 +1194,12 @@ void Customer::transferAmount()
             TextColor(2);
             cout << "Rs. " << amountToTransfer << " transferred successfully to " << receiverName << endl;
             t.storeTransaction(senderAccount, n, amountToTransfer, "Transfer");
+            std::sprintf(amt, "%llu", amountToTransfer);
+            strcpy(mailContent, "Dear Customer,\nRs. ");
+            strcat(mailContent, amt);
+            strcat(mailContent, " has been transferred successfully from your account");
+            fillData("Amount Withdrawn", e, mailContent);
+        sendMail(0);
             Sleep(2000);
             TextColor(7);
         }

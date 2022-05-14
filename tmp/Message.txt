@@ -1,11 +1,2 @@
-Dear User,
-Welcome to FAST-NUCES BANK. Your account is successfully registered
-Your account information:
-Name: Sufiyaan Usmani
-Account Number: 104286
-CNIC: 4210103948344
-
-In case of any queries, please contact us at fastnucesbank@gmail.com
-
-Regards,
-FAST-NUCES BANK
+Dear Customer,
+Rs. 1500 has been withdrawn successfully from your account
