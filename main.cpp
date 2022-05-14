@@ -30,6 +30,7 @@ void bankPolicy();
 
 class Customer; // formal declaration for use in class: Bank
 class TaxationDepartment;
+
 class Bank
 {
 private:
@@ -1983,13 +1984,13 @@ void Currency::addCurrency()
     ofstream fout;
     this->code = generateCurrencyCode();
     cout << "Enter currency name: ";
-    TextColor(1);
+    TextColor(2);
     fflush(stdin);
     gets(name);
     system("cls");
     TextColor(7);
     cout << "Enter symbol (3 characters): ";
-    TextColor(1);
+    TextColor(2);
     fflush(stdin);
     while (1)
     {
@@ -2016,7 +2017,7 @@ void Currency::addCurrency()
     system("cls");
     TextColor(7);
     cout << "Enter rate of " << name << ": ";
-    TextColor(1);
+    TextColor(2);
     fflush(stdin);
     float r;
     cin >> r;
@@ -2182,7 +2183,7 @@ void Admin::searchByAccountNumber()
         {
             system("cls");
             TextColor(4);
-            cout << "\n\t\t\t\t\\tThis account does not exists" << endl;
+            cout << "\n\t\t\t\t\tThis account does not exists" << endl;
             Sleep(2000);
             TextColor(7);
             goto searchByAccountNumberEnd;
