@@ -38,7 +38,7 @@ private:
     static int totalAccounts;
 
 public:
-    Bank() : name("FAST NUCES BANK")
+    Bank() : name("FAST PAISA BANK")
     {
         totalAmountInBank = calculateTotalAmount();
         totalAccounts = calculateTotalAccounts();
