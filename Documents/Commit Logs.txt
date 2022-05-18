@@ -1,0 +1,622 @@
+commit 85d2ccc3a9d07726e98f0944c3047a5e48f3ceda
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon May 16 00:09:59 2022 +0500
+
+    updated documentation
+
+commit 80ecce15bb82de5ad8a85ef161e7f3ac42f78fe9
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 21:54:02 2022 +0500
+
+    updated main.exe
+
+commit b070fef7944bd4075afa75fade50fcfec845e794
+Merge: 8c9f2c8 d4d5617
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 21:52:24 2022 +0500
+
+    fixed ui
+
+commit 8c9f2c88a9f1c498766ba0732e054911572edaf6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 21:42:04 2022 +0500
+
+    fixed bugs in updating currency
+
+commit d4d561721370045f20fb305a4e40c79d84c901a9
+Author: ahsanashraf148 <ahsanashraf148@gmail.com>
+Date:   Sat May 14 21:26:40 2022 +0500
+
+    changed little bit of UI and added one more currency in currency bank.
+
+commit 75d09891e683dcf66356bc5a1784223487943e39
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 19:35:45 2022 +0500
+
+    updated documentation
+
+commit a88b828bc214dcc28a5d6042a829bd8e15ca5628
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 19:29:07 2022 +0500
+
+    added documentation and user manual
+
+commit 5d1a62f46426f6d8d052a07a215183a3a1b4086e
+Author: Sufiyaan Usmani <87177102+sufiyaanusmani@users.noreply.github.com>
+Date:   Sat May 14 19:18:42 2022 +0500
+
+    Rename LICENSE to LICENSE.md
+
+commit 5ac55f3497c1812d55d2ccd1a84f0e54b215a1a8
+Merge: a22ed3a 0ffbdac
+Author: Sufiyaan Usmani <87177102+sufiyaanusmani@users.noreply.github.com>
+Date:   Sat May 14 19:16:46 2022 +0500
+
+    Merge pull request #10 from sufiyaanusmani/add-license-1
+    
+    Create LICENSE
+
+commit 0ffbdac1652c968860d65a8c3495e0fdf06126d3
+Author: Sufiyaan Usmani <87177102+sufiyaanusmani@users.noreply.github.com>
+Date:   Sat May 14 19:16:34 2022 +0500
+
+    Create LICENSE
+
+commit a22ed3a2ae45e1e0c45d3ba454e5dc00b9a97a6e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 19:02:55 2022 +0500
+
+    added sending email in transfer amount
+
+commit 8a4bc4f556f27131fe49c52d1419cf4f280ed70e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 18:55:23 2022 +0500
+
+    updated bank name
+
+commit 7fc703c949ad5aa4ef1d53f1ba181961a900969e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 08:06:53 2022 +0500
+
+    issue #9 resolved
+
+commit 24ebf4705d281c6315ba93e7a95207f9eb5b25ef
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat May 14 07:59:43 2022 +0500
+
+    issue #8 resolved
+
+commit 4bca97fe716d25e248b4284c6c32dce834a6e5c6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri May 13 11:32:41 2022 +0500
+
+    added static functions in class:Bank
+
+commit 49ac0cf1d69faf2242516f8cb7dbbda5edbc236f
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu May 12 23:08:18 2022 +0500
+
+    minor changes in static functions
+
+commit cf994a5bf2d2a19710dccfd434458b1672ff7a73
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu May 12 22:44:17 2022 +0500
+
+    minor changes
+
+commit f44ccd16e2d7b25ce8ee38a39fe4d744332fc79b
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu May 12 22:32:49 2022 +0500
+
+    added SuperAdmin::viewMyInfo()
+
+commit 45cc86486afa6aad94b533cfe00ce50368970b5e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu May 12 22:25:52 2022 +0500
+
+    updated Currency::viewCurrencyRates() as const function
+
+commit 1f45239137c60e7bb3177585ecee8367386d8abe
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu May 12 22:14:02 2022 +0500
+
+    added static variables and operator overloading
+
+commit f1b314d396e22054fae115ba7ab18bb5f0861eac
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu May 12 21:39:14 2022 +0500
+
+    added documents
+
+commit 59a553dbc3b1e3509ef9eef58b0e630053c0c156
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun May 8 19:10:12 2022 +0500
+
+    fixed minor bugs in UI
+
+commit d0304eca40ddd262ebb7eb0fd1a3cf34ef163dc0
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun May 8 19:04:27 2022 +0500
+
+    fixed minor bugs
+
+commit 532d94400873ff57c2178eac647cdad158d08e36
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun May 8 18:43:37 2022 +0500
+
+    minor change
+
+commit 5ae5a0df5e39e0f884a8d001c8289973ee821c2d
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri May 6 01:09:33 2022 +0500
+
+    issue #7 resolved
+
+commit 1512de5fca65cab568968e06dd6b136ae2fea82b
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon May 2 23:27:05 2022 +0500
+
+    issue #6 solved
+
+commit 84191580da95192a77d0f624ad3823fabe97b739
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon May 2 14:47:08 2022 +0500
+
+    issue #3 resolved
+
+commit 074044f280106d379b81da4b8ce85387f0cd1dd6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon May 2 14:33:55 2022 +0500
+
+    major bug fixes in withdraw, deposit, and transfer
+
+commit 99b2a291280eed2c1f2644eaa00fb60fbc0472dc
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun May 1 23:44:47 2022 +0500
+
+    completed class: TaxationDepartment
+
+commit 5545699ec275d6603a98ac70e4b8c8724b701836
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun May 1 23:27:16 2022 +0500
+
+    added class: TaxationDepartment which will be friend class of class: Bank
+
+commit 1add5e5d29ff334fab11aca68e07c1ed7ed2eae9
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun May 1 23:10:56 2022 +0500
+
+    added another class: Bank. The class will store name of bank, total amount in bank, and total number of accounts
+
+commit f4ab08e045a275f072fc81dd300864c9279d8016
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Apr 29 18:14:32 2022 +0500
+
+    added option for SuperAdmin to view Bank Revenue
+
+commit 5d2cc73591bcb28947677c37655622095b9ac337
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Apr 29 15:58:44 2022 +0500
+
+    updated admins
+
+commit e9a8aa85c2d65a371c06fd9979ca51993cf25e10
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Apr 29 09:06:13 2022 +0500
+
+    added about us
+
+commit 9dc5de45f53c5fcea764e2dd3d2c12ec95ec24bc
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Apr 29 08:53:39 2022 +0500
+
+    added functions for SuperAdmin to view, add, and delete admins
+
+commit 68d793e2ce98c967c16013b12bc4caccb3f641a0
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Apr 29 08:19:00 2022 +0500
+
+    added SuperAdmin will more access to the system. Also added some of its member functions
+
+commit af17f3962c74ab6ebbecb7f08e903b1d1aed32a6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Apr 28 21:11:22 2022 +0500
+
+    deleted all the files related to Data Science
+
+commit 44bbb837c89f36f0ab4b712e623cb80192907793
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Apr 24 21:11:39 2022 +0500
+
+    minor bug fix
+
+commit 40fd38225319943e64b6c211328c00b84cf68e15
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Mar 31 10:14:57 2022 +0500
+
+    improved ui
+
+commit 083e78fdef7ff46975744058f2e6ecffc2828921
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Mar 31 09:47:32 2022 +0500
+
+    added bank policy
+
+commit b19e1d6d1c4f220730fa5c0ca81a08e5c24fdf39
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Mar 25 00:05:51 2022 +0500
+
+    fixed bugs in adding new currency and added currencies
+
+commit 6391dc994c259bf9e4258964c0849e2fde4db715
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Mar 24 22:39:28 2022 +0500
+
+    improved UI for Transaction::viewTransactionHistoryAdmin()
+
+commit bfc51b3c7d2d0f7409d6d3f929050e3f7f2ad0f6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Mar 24 22:19:36 2022 +0500
+
+    removed viewCustomerAccounts function from Customer class and added it into Admin class
+
+commit 87dadaf7a2c616df79b0825b6a699ade2f274ade
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Mar 23 20:54:32 2022 +0500
+
+    improved ui
+
+commit 1e82be10547c53f67567b3a21cddaf6d4d9309e1
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Mar 23 20:33:00 2022 +0500
+
+    minor bug fix on sending email
+
+commit c7ca44ed58c20183d0e57938b9a7b35dae3241d1
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Mar 23 01:52:26 2022 +0500
+
+    major bug fix on sending email
+
+commit 3d3e93d4dd752fc83ab7c25079d9393bd53e20f7
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Tue Mar 22 08:53:54 2022 +0500
+
+    added function to send email when account is created
+
+commit f9ec0733e469aab92f0b506be1ada0781f5f7d96
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Mar 20 18:15:12 2022 +0500
+
+    minor bug fixes
+
+commit 7fd9343836a996400ab09b3a8e2fe5c2c8e5f353
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Mar 20 02:12:28 2022 +0500
+
+    added code for Data Science but the code is giving some errors which needs to be fixed
+
+commit a351943b2ac15c9d1e2d1803d323e2d1e2a67a92
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Mar 20 01:32:14 2022 +0500
+
+    added function for Data Science, not completed
+
+commit 1fa805a7554039f18cec6ee2ae8fdd5451cd7593
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Mar 20 01:10:10 2022 +0500
+
+    added option for admin to update his/her info
+
+commit a888b91ae01f2ab0284a6a4a9e380e4a6bcc41ce
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Mar 20 01:00:58 2022 +0500
+
+    added function for customer to change password: void Customer::changePassword(int)
+
+commit 03cbebc59085b0a4858cbba00b7bbe0c5c59bd3d
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Mar 19 14:24:00 2022 +0500
+
+    added function to update customer contact number: void Customer::updateContactEmail(). need to be improved
+
+commit d23460b6d332b8a16e3168fae935b6cf540f495f
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Mar 19 13:22:56 2022 +0500
+
+    fixed minor bugs in admin portal and added functions for customer to update email but still needs improvement
+
+commit 76ecd7ce0cc5eac76c464815b5c3b04a3703599e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Mar 18 20:14:01 2022 +0500
+
+    added function to sort customers by descending order. signature: void Admin::sortDescending()
+
+commit f71444fe583fe82ca68d541b79086918da15ca84
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Mar 18 20:10:22 2022 +0500
+
+    added function to sort customer by ascending order. signature: void Admin::sortAscending(). added all getters for class: User
+
+commit e4f49ea65c012e569557d89c13800ee50c4432a1
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Mar 17 13:00:15 2022 +0500
+
+    added method to search customer by name. function signature: Admin::searchByName()
+
+commit e411611e6c89334b609885958e64d754123e5b2c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Mar 17 12:31:15 2022 +0500
+
+    added method to search customer by name. Complete function signature: void Admin::searchCustomer(). Added another function to searchCustomer: void Admin::searchByAccountNumber()
+
+commit 65de3f951613851b15fb133f286849e8b2d3bd76
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Tue Mar 15 11:37:24 2022 +0500
+
+    added function to update currency rates
+
+commit c8a571c8f4c3da717d19fa349493f1a2253a8f19
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Tue Mar 15 11:22:30 2022 +0500
+
+    added function to view currency rates
+
+commit 2880fd9fd995cc6393e3a8c5196cf4e3185ae51d
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Tue Mar 15 09:53:37 2022 +0500
+
+    added function to add new currency
+
+commit 85dac4f03243e4af38f2b1af12b45fc4915e4ca4
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Mar 14 23:51:18 2022 +0500
+
+    added code as member of class: Currency
+
+commit a137f48e7f91361f8c7cd78772e3a773c7e9b03f
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Mar 14 23:40:59 2022 +0500
+
+    added class: Currency
+
+commit ab7f0dba385151ae028ca580c68365a750f76819
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Mar 14 23:28:31 2022 +0500
+
+    added option for admin to create customer database backup
+
+commit c5873d2c55fb69778fa6320b9a1700b545e6be54
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Mar 14 21:11:44 2022 +0500
+
+    minor update
+
+commit 34fd3413f9c7b4fbbd4cdf276924de0c842dfcdf
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Mar 11 17:05:12 2022 +0500
+
+    minor change
+
+commit 2c38c9fa7f9fd7bd2ccbe0e0b85efdb6c71d2b5f
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Feb 27 01:29:14 2022 +0500
+
+    added data set
+
+commit 8d9a94e281dd0ecf89e98bdb633cc8d8da96e24c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 26 20:39:11 2022 +0500
+
+    added deleteAccount for admin
+
+commit 29fd359897f99437d5bd1ee8caa4faf16ced9c16
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 23:30:11 2022 +0500
+
+    fixed major bug in storing transactions
+
+commit 9014b7ceeee4b7ab5ca50caea857dcb8424ad65c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 22:03:31 2022 +0500
+
+    added view transaction history for admin
+
+commit b781a605ca8b899c6e18ae124828424636c7b46a
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 21:48:42 2022 +0500
+
+    fixed bugs in Customer::transferAmount()
+
+commit f73a55a5f0057ab7295385a72f5f73190474de11
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 16:23:08 2022 +0500
+
+    added Transaction class and added function to storde transaction data
+
+commit 08c5a75418741010b1dec9be21ac32a24e1a9f4c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 12:57:31 2022 +0500
+
+    minor bug fix
+
+commit ee39c1fcc8c6e12432a65b4cbf04978f1e0ee589
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 12:51:53 2022 +0500
+
+    added option to view all accounts by admin but its UI still needs to added
+
+commit 1a0d39b74ada9a8d17a6ae7a0f97eed856cef6e6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 24 12:20:08 2022 +0500
+
+    added Admin::viewMyInfo()
+
+commit 9488a753a82ff49a0f2738b1e95529ad72088778
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Feb 23 14:59:18 2022 +0500
+
+    added project proposal
+
+commit e882ef1254075e5379451d32bdd252c0cbb03557
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Feb 23 14:03:35 2022 +0500
+
+    fixed bugs in admin portal
+
+commit 1e9ec198c9402b41af6750ce48cb972778dd9c00
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Feb 23 12:59:29 2022 +0500
+
+    added added admin portal
+
+commit 2abc0e5b6ca348040ad3467bb7d9ea640ad6be02
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Feb 23 08:10:33 2022 +0500
+
+    added an admin
+
+commit 701075f106b29a3a9082a9cf050890f70a4afb19
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Wed Feb 23 07:58:27 2022 +0500
+
+    added admin class
+
+commit b14e771ab74a0640fa9d73d6d6a8301659e107a6
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Tue Feb 22 18:31:53 2022 +0500
+
+    added deleteAccount() for customer
+
+commit 6e88a7404d805b6394ee87353701d84d63424625
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Feb 21 17:54:51 2022 +0500
+
+    added transfer ammount option: transferAmount()
+
+commit 04b037be2995ac48fff4107e833c32058925faab
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Feb 21 12:30:48 2022 +0500
+
+    fixed major bug of filing
+
+commit 4c90a570e709047c4b3379994694e4e32b61d15e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Mon Feb 21 08:11:04 2022 +0500
+
+    added option to withdraw money withdrawAmount()
+
+commit 833f199abb83bcb80c3ddb5a83516bd2205c4890
+Merge: f79ef19 e22bb2c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Feb 20 00:52:05 2022 +0500
+
+    Merge branch 'test'
+
+commit e22bb2c14d157543196d56f642a9b2702e4c254a
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sun Feb 20 00:51:50 2022 +0500
+
+    added option to deposit money depositMoney()
+
+commit f79ef1980a418d829826c110ed333044d3abd86f
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 20:15:23 2022 +0500
+
+    fixed bug in setting age
+
+commit 79c6582b6c4c0ad8d738524cabf3d691f7c2ae3b
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 19:56:22 2022 +0500
+
+    fixed bug of filing
+
+commit 38e34727ac2e89068759b7cace72633d545ee38b
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 19:39:34 2022 +0500
+
+    updated .gitignore
+
+commit 729d7f27846b43fc635c2e5574497f43727fabc2
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 19:29:43 2022 +0500
+
+    fixed bugs in customer portal
+
+commit a108ec5327fd09d4f60d9c1b034ac5603dea8e4d
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 19:11:15 2022 +0500
+
+    added customer portal
+
+commit 1ffb6fc8ca1e51f68e1a71834228080b6d3283f1
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 17:27:50 2022 +0500
+
+    added ui.h for user interface
+
+commit abdda323a14a0bba5c78427a85543892185ec6ed
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 17:02:22 2022 +0500
+
+    added main menu's user interface
+
+commit d487d44e8084a8770a6bf5689d38080e121ae467
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 16:46:23 2022 +0500
+
+    added login system for customer
+
+commit 859e2043219785a9fb271cabcaa14d35ec29f90c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 16:00:37 2022 +0500
+
+    added .gitignore and meeting points
+
+commit c5d6b105d771a577671f3efe5767c81ade69b16e
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 12:00:20 2022 +0500
+
+    fixed bugs in setters
+
+commit cab6bcf2aa3dd7f820be37b3b44cc05f8000fa6c
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 11:39:31 2022 +0500
+
+    removed account status attribute for customer
+
+commit 15cb53ead92aacf0839faa9d8f8f2b31b39e76ed
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Sat Feb 19 00:09:39 2022 +0500
+
+    added project brief description
+
+commit f64d1901bb7e14ab7717b3b65f98103b30170983
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Feb 18 22:20:16 2022 +0500
+
+    removed bank.cpp and integrated its content in bank.h
+
+commit 215df155804461e66cc5d45db9f63720085f0ab4
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Feb 18 22:03:43 2022 +0500
+
+    added all setters for User Class
+
+commit 3a5c6ec1f298ca88329d6c0a44300b843066158f
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Feb 18 02:29:36 2022 +0500
+
+    added classes and have written some member functions(incomplete)
+
+commit 49a0b2bb9fdff608d12ac455dc073cd8722e73aa
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Thu Feb 17 23:46:52 2022 +0500
+
+    added main.cpp
+
+commit bad28beb1e1fd111fdf528d8fe25334774c56b23
+Author: Sufiyaan Usmani <k213195@nu.edu.pk>
+Date:   Fri Feb 4 21:07:50 2022 +0500
+
+    initial commit

@@ -71,9 +71,6 @@ protected:
 
 public:
     virtual void createNewAccount() = 0;
-    // virtual void viewMyInfo() = 0;
-    // virtual void viewTransactionHistory() = 0;
-    // virtual void deleteAccount() = 0;
     void setName();
     void setGender();
     void setCNIC();
