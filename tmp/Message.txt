@@ -1,2 +1,11 @@
-Dear Customer,
-Rs. 1500 has been withdrawn successfully from your account
+Dear User,
+Welcome to FAST-NUCES BANK. Your account is successfully registered
+Your account information:
+Name: Muhammad Sudais
+Account Number: 100658
+CNIC: 4210123434321
+
+In case of any queries, please contact us at fastnucesbank@gmail.com
+
+Regards,
+FAST-NUCES BANK
