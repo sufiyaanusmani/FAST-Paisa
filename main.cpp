@@ -2213,34 +2213,34 @@ void Admin::searchByName()
             if (strcmp(name, c.getName()) == 0)
             {
                 found = true;
-                system("title MY INFO");
+                system("title SEARCH");
                 TextColor(7);
                 cout << "Name: ";
                 TextColor(2);
-                cout << this->name << endl;
+                cout << c.getName() << endl;
                 TextColor(7);
                 cout << "Account No: ";
                 TextColor(2);
-                cout << this->accountNumber << endl;
+                cout << c.getAccountNumber() << endl;
                 TextColor(7);
                 cout << "Age: ";
                 TextColor(2);
-                cout << this->age << endl;
+                cout << c.getAge() << endl;
                 TextColor(7);
                 cout << "Gender: ";
                 TextColor(2);
-                cout << (this->gender == 'm' ? "Male" : "Female") << endl;
+                cout << (c.getGender() == 'm' ? "Male" : "Female") << endl;
                 TextColor(7);
                 cout << "Contact Number: ";
                 TextColor(2);
-                cout << this->contactNumber << endl;
+                cout << c.getContactNumber() << endl;
                 TextColor(7);
                 cout << "Email: ";
                 TextColor(2);
-                cout << this->email << endl;
+                cout << c.getEmail() << endl;
                 cout << "CNIC: ";
                 TextColor(2);
-                cout << this->cnic << endl
+                cout << c.getCNIC() << endl
                      << endl;
                 total++;
                 cout << endl;
@@ -2272,6 +2272,7 @@ searchByNameEnd:
 void Admin::sortAscending()
 {
     int size, i, j;
+    FontSize(0, 18);
     size = 0;
     Customer *cust;
     Customer c, temp;
